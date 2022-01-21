@@ -1,19 +1,22 @@
 from db import db
-import sys
 
 def get_user_prescriptions(user_id):
-    sql = ("SELECT prescription_id, visible FROM UserPrescriptions WHERE user_id = :user_id")
-    fetched_prescripions = db.session.execute(sql, {"user_id": user_id}).fetchall()
+    sql =  "SELECT prescription_id, visible \
+            FROM UserPrescriptions \
+            WHERE user_id = :user_id"
 
+    fetched_prescripions = db.session.execute(sql, {"user_id": user_id}).fetchall()
     prescription_lists_as_json = make_prescription_list(fetched_prescripions)
     return prescription_lists_as_json
 
 #TODO - refactor
 def make_prescription_list(fetched_prescripions):
+    sql =  "SELECT name, amount_per_day \
+            FROM Prescriptions \
+            WHERE id = :prescription_id"
+
     current_prescriptions = []
     history_prescriptions = []
-    sql = "SELECT name, amount_per_day FROM Prescriptions WHERE id = :prescription_id"
-
     # fetched_prescripions has tuple values of (prescription_id, visible)
     for currPrescreption in fetched_prescripions:
         prescription_id = currPrescreption[0]

@@ -70,7 +70,7 @@
       <button>log out</button>
       <div class="row-md-8"></div>
         <h4>Doctor info</h4>
-        <p>Jonne the Doctor, 050502012</p>
+        <p>{{ doctorInfo[0] }}, {{ doctorInfo[1] }}</p>
         <div>
           <form action="/send" method="POST">
             Send message to your doctor: <br>
@@ -85,7 +85,7 @@
         <div id="sentMessages" class="collapse">
           <ul class="list-group">
           {% for message in sentMessages %}
-            <li class="list-group-item">{{ message.content }} {{ message.sent_at }} TO: {{ doctorName }}</li>
+            <li class="list-group-item">{{ message.content }} {{ message.sent_at }} TO: {{ doctorInfo[0] }}</li>
           {% endfor %}
           </ul>
         </div>
@@ -95,7 +95,7 @@
         <div id="receivedMessages" class="collapse">
           <ul class="list-group">
             {% for message in receivedMessages %}
-              <li class="list-group-item">{{ message.content }} {{ message.sent_at }} FROM: {{ doctorName }}</li>
+              <li class="list-group-item">{{ message.content }} {{ message.sent_at }} FROM: {{ doctorInfo[0] }}</li>
             {% endfor %}
           </ul>
         </div>

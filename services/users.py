@@ -17,6 +17,10 @@ def get_userInfo(user_id):
     }
 
 def get_userInfo_by_key(user_id, key):
-    sql = ("SELECT value FROM UserInfo WHERE user_id = :user_id AND key = :key")
+    sql =  "SELECT value \
+            FROM UserInfo \
+            WHERE user_id = :user_id \
+            AND key = :key"
+            
     value = db.session.execute(sql, {"user_id": user_id, "key": key}, ).fetchone()[0]
     return value

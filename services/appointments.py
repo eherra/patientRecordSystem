@@ -1,12 +1,14 @@
 from db import db
 from services import users
-
-APPOINTMENT_TIME_FORMAT = '%d-%m-%Y %H:%M'
+from constant import TIME_FORMAT
 
 def get_appointments_info(user_id):
-    sql = ("SELECT appointment_type, doctor_id, time_at FROM Appointments WHERE patient_id = :user_id")
-    fetched_appointments = db.session.execute(sql, {"user_id": user_id}).fetchall()
+    sql =  "SELECT  appointment_type, doctor_id, TO_CHAR(time_at, :time_format) AS time_at \
+            FROM    Appointments \
+            WHERE   patient_id = :user_id"
 
+    fetched_appointments = db.session.execute(sql, {"user_id": user_id, 
+                                                    "time_format": TIME_FORMAT}).fetchall()
     return format_appointment_data(fetched_appointments)
 
 def format_appointment_data(fetched_appointments):
@@ -17,7 +19,7 @@ def format_appointment_data(fetched_appointments):
         formatted_appointments.append({
             'doctor_name': doctor_name,
             'appointment_type': appointment[0],
-            'time': appointment[2].strftime(APPOINTMENT_TIME_FORMAT)
+            'time': appointment[2]
         })
 
     return formatted_appointments

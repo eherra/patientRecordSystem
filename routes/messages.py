@@ -1,12 +1,10 @@
 from app import app
-from flask import redirect, render_template, request
-from db import db
+from flask import redirect, request
+from services import messages
 
-#TODO - hard coded sender and receiver
+#TODO - hard coded sender and receiver -> get userId from sesion
 @app.route("/send", methods=["POST"])
 def send():
     content = request.form["content"]
-    sql = "INSERT INTO messages (user1_id, user2_id, content, sent_at) VALUES (1, 2, :content, NOW())"
-    db.session.execute(sql, {"content": content})
-    db.session.commit()
+    messages.add_new_message(content, 1, 2)
     return redirect("/")
