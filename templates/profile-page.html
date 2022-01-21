@@ -40,8 +40,8 @@
 					{% endfor %}
 				</tbody>
 			</table>
+		  <!--- PRESCRIPTIONS --->
       <div> 
-		<!--- PRESCRIPTIONS --->
         <h4>List of your prescriptions</h4>
         <h5>Current prescriptions</h5>
 
@@ -97,7 +97,7 @@
             {% for message in receivedMessages %}
               <li class="list-group-item">{{ message.content }} {{ message.sent_at }} FROM: {{ doctorName }}</li>
             {% endfor %}
-            </ul>
+          </ul>
         </div>
       </div>
 		</div>

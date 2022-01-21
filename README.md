@@ -20,7 +20,6 @@ Patient record system for hospitals in order to keep track of their patients app
     - [ ] name
     - [ ] email
     - [ ] phonenumber
-    - [ ] born
     - [ ] address
 
 <b>User (patients) available to do:</b>

@@ -1,4 +1,3 @@
-from app import app
 from db import db
 
 def get_userInfo(user_id):
