@@ -1,0 +1,104 @@
+<!doctype html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<div class="container-fluid">
+	<div class="row">
+
+    <!--- LEFT PART --->
+		<div class="col-md-3">
+			<h4>Hello {{user_info.name}}!</h4>
+			<h5>Personal info</h5>
+			<div>{{user_info.phone}}</div>
+			<div>{{user_info.email}}</div>
+			<div>{{user_info.address}}</div>
+			<div>{{user_info.city}}, {{user_info.country}}</div>
+		</div>
+
+    <!--- MIDDLE PART --->
+		<div class="col-md-5">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Appointment Type</th>
+						<th>Date</th>
+						<th>Doctor name</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for appointment in appointments_list %}
+					<tr>
+						<td>1</td>
+						<td>{{ appointment.appointment_type }}</td>
+						<td>{{ appointment.time }}</td>
+						<td>{{ appointment.doctor_name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+      <div> 
+		<!--- PRESCRIPTIONS --->
+        <h4>List of your prescriptions</h4>
+        <h5>Current prescriptions</h5>
+
+        <!--- Current prescriptionss rendering --->
+        <ol>
+          {% for prescription in current_prescriptions %}
+          <li class="list-item">{{ prescription.name }} - Amount per day: {{ prescription.amount_per_day }}</li>
+          {% endfor %}
+        </ol>
+
+        <!--- History prescriptionss rendering --->
+        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#demo">history of prescriptions</button>
+        <div id="demo" class="collapse">
+          <ul class="list-group">
+            {% for prescription in history_prescriptions %}
+            <li class="list-group-item">{{ prescription.name }} - Amount per day: {{ prescription.amount_per_day }}</li>
+          	{% endfor %}
+          </ul>
+        </div>
+      </div> 
+		</div>
+
+    <!--- RIGHT PART --->
+		<div class="col-md-4">
+      <button>profile settings</button>
+      <button>log out</button>
+      <div class="row-md-8"></div>
+        <h4>Doctor info</h4>
+        <p>Jonne the Doctor, 050502012</p>
+        <div>
+          <form action="/send" method="POST">
+            Send message to your doctor: <br>
+            <textarea name="content" rows="3" cols="40"></textarea>
+            <br>
+            <input type="submit" value="Send">
+          </form>
+        </div>
+
+        <!--- Sent messages rendering --->
+        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#sentMessages">Sent messages history</button>
+        <div id="sentMessages" class="collapse">
+          <ul class="list-group">
+          {% for message in sentMessages %}
+            <li class="list-group-item">{{ message.content }} {{ message.sent_at }} TO: {{ doctorName }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+
+        <!--- Received messages rendering --->
+	  	  <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#receivedMessages">Received messages history</button>
+        <div id="receivedMessages" class="collapse">
+          <ul class="list-group">
+            {% for message in receivedMessages %}
+              <li class="list-group-item">{{ message.content }} {{ message.sent_at }} FROM: {{ doctorName }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+      </div>
+		</div>
+	</div>
