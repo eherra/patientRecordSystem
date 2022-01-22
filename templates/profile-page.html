@@ -3,7 +3,7 @@
 <div class="container-fluid">
 	<div class="row">
 
-    <!--- LEFT PART --->
+    <!--- PROFILE DETAILS, LEFT PART OF PAGE --->
     {% include 'components/profile-card.html' %}
 
     <!--- MIDDLE PART --->
@@ -41,7 +41,7 @@
         </ol>
 
         <!--- History prescriptionss rendering --->
-        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#demo">history of prescriptions</button>
+        <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#demo">history of prescriptions</button>
         <div id="demo" class="collapse">
           <ul class="list-group">
             {% for prescription in history_prescriptions %}
@@ -54,7 +54,7 @@
 
     <!--- RIGHT PART --->
 		<div class="col-md-4">
-      <button>profile settings</button>
+      <a href="/settings"><button>profile settings</button></a>
       <button>log out</button>
       <div class="row-md-8"></div>
         <h4>Doctor info</h4>
@@ -69,7 +69,7 @@
         </div>
 
         <!--- Sent messages rendering --->
-        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#sentMessages">Sent messages history</button>
+        <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#sentMessages">Sent messages history</button>
         <div id="sentMessages" class="collapse">
           <ul class="list-group">
           {% for message in sentMessages %}
@@ -79,7 +79,7 @@
         </div>
 
         <!--- Received messages rendering --->
-	  	  <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#receivedMessages">Received messages history</button>
+	  	  <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#receivedMessages">Received messages history</button>
         <div id="receivedMessages" class="collapse">
           <ul class="list-group">
             {% for message in receivedMessages %}

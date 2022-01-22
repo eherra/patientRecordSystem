@@ -14,6 +14,7 @@ def get_appointments_info(user_id):
 def format_appointment_data(fetched_appointments):
     formatted_appointments = []
 
+    # fetched_appointments has a list of tuple values (appointment_type, doctor_id, time_at)
     for appointment in fetched_appointments:
         doctor_name = users.get_userInfo_by_key(appointment[1], NAME_DB_KEY)
         formatted_appointments.append({

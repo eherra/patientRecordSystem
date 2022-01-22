@@ -5,6 +5,14 @@
 
 Patient record system for hospitals in order to keep track of their patients appointments, prescriptions and symptoms stories. 
 
+### TODO
+- input validations
+- proper error handeling
+- refactoring
+- heroku and config heroku db
+- login and session addition
+- features listed below
+
 <b>Admin (doctors) available to do:</b>
 - [ ] write symptom stories of patients
     - [ ] delete symptom stories 
@@ -32,8 +40,10 @@ Patient record system for hospitals in order to keep track of their patients app
     - [x] see sent history
     - [x] see received history
 - [ ] agree/decline appointment times
-- [ ] edit profile details
-    - [ ] name
-    - [ ] email
-    - [ ] phonenumber
-    - [ ] address
+- [x] edit profile details
+    - [x] name
+    - [x] email
+    - [x] phonenumber
+    - [x] address
+        - [x] city
+        - [x] country
