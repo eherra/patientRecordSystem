@@ -1,22 +1,10 @@
-<!doctype html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+{% extends "base.html" %}
+{% block content %}
 <div class="container-fluid">
 	<div class="row">
 
     <!--- LEFT PART --->
-		<div class="col-md-3">
-			<h4>Hello {{user_info.name}}!</h4>
-			<h5>Personal info</h5>
-			<div>{{user_info.phone}}</div>
-			<div>{{user_info.email}}</div>
-			<div>{{user_info.address}}</div>
-			<div>{{user_info.city}}, {{user_info.country}}</div>
-		</div>
+    {% include 'components/profile-card.html' %}
 
     <!--- MIDDLE PART --->
 		<div class="col-md-5">
@@ -102,3 +90,4 @@
       </div>
 		</div>
 	</div>
+{% endblock %}
