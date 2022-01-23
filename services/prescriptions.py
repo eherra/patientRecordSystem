@@ -7,6 +7,13 @@ USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
 SINGLE_PRESCRIPTION_QUERY = "SELECT name, amount_per_day \
                              FROM   Prescriptions \
                              WHERE  id = :prescription_id"
+                
+GET_ALL_PRESCRIPTIONS_QUERY = "SELECT name, amount_per_day \
+                               FROM Prescriptions"
+
+# get all which user doesnt have?
+def get_all_prescriptions():
+    return db.session.execute(GET_ALL_PRESCRIPTIONS_QUERY).fetchall()
 
 def get_user_prescriptions(user_id):
     fetched_prescripions = db.session.execute(USER_PRESCRIPTIONS_QUERY, {"user_id": user_id}).fetchall()
@@ -14,7 +21,7 @@ def get_user_prescriptions(user_id):
 
 def format_precription_lists(fetched_prescripions):
     current_prescriptions, history_prescriptions = [], []
-    # fetched_prescripions has list of tuple values (prescription_id, visible)
+    # fetched_prescriptions has list of tuple values (prescription_id, visible)
     for prescription in fetched_prescripions:
         prescription_info = get_prescription_info_by_id(prescription[0])
 

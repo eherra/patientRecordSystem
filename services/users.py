@@ -2,14 +2,14 @@ from db import db
 from constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, COUNTRY_DB_KEY, CITY_DB_KEY
 
 GET_USERINFO_BY_KEY_QUERY = "SELECT value \
-                         FROM   UserInfo \
-                         WHERE  user_id = :user_id \
-                         AND    key = :key"
+                             FROM   UserInfo \
+                             WHERE  user_id = :user_id \
+                             AND    key = :key"
 
 UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE UserInfo \
-                         SET    value = :new_value \
-                         WHERE  user_id = :user_id \
-                         AND    key = :key"
+                                SET    value = :new_value \
+                                WHERE  user_id = :user_id \
+                                AND    key = :key"
 
 def get_userInfo(user_id):
     return {
@@ -48,7 +48,7 @@ def update_settings_values(name, phone, email, address, city, country):
 
 ## TODO - move to validation module
 def is_valid_input(input):
-    return input and len(input) < 200
+    return input and len(input) < 50 and not input.isspace()
 
 def update_userInfo_by_key(user_id, key, new_value):
     db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"user_id": user_id,

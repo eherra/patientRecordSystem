@@ -2,6 +2,9 @@
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 
 Patient record system for hospitals in order to keep track of their patients appointments, prescriptions and symptoms stories. 
 
@@ -14,9 +17,9 @@ Patient record system for hospitals in order to keep track of their patients app
 - features listed below
 
 <b>Admin (doctors) available to do:</b>
-- [ ] write symptom stories of patients
-    - [ ] delete symptom stories 
-    - [ ] edit symptom stories 
+- [x] write symptom stories of patients
+    - [x] delete symptom stories 
+    - [x] edit symptom stories 
 - [ ] determine prescription for patients
     - [ ] delete prescriptions from patient
     - [ ] add new prescriptions to prescriptions db table
@@ -24,11 +27,11 @@ Patient record system for hospitals in order to keep track of their patients app
 - [ ] see their own list of patients
 - [ ] send message to their patients
 - [ ] read messages
-- [ ] edit profile details
-    - [ ] name
-    - [ ] email
-    - [ ] phonenumber
-    - [ ] address
+- [x] edit profile details
+    - [x] name
+    - [x] email
+    - [x] phonenumber
+    - [x] address
 
 <b>User (patients) available to do:</b>
 - [ ] see their own records
@@ -37,9 +40,8 @@ Patient record system for hospitals in order to keep track of their patients app
 - [ ] see their doctor's information (contact - email/phone)
 - [x] send message to their doctor
 - [x] read messages
-    - [x] see sent history
+    - [x] see sent historys
     - [x] see received history
-- [ ] agree/decline appointment times
 - [x] edit profile details
     - [x] name
     - [x] email

@@ -1,6 +1,7 @@
 from db import db
 from constant import TIME_FORMAT
 
+# TODO - add ORDER BY sent_at 
 SENT_MESSAGES_QUERY = "SELECT content, TO_CHAR(sent_at, :time_format) AS sent_at \
                        FROM   messages \
                        WHERE  user1_id = :user_id"
@@ -23,6 +24,7 @@ def get_received_messages(user_id):
                                                                     "time_format": TIME_FORMAT}).fetchall()
     return receivedMessages
 
+## TODO - add validation for content
 def add_new_message(content, sender_user_id, receiver_user_id):
     db.session.execute(ADD_NEW_MESSAGE_QUERY, {"content": content, 
                                                "sender_user_id": sender_user_id, 
