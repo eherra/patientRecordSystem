@@ -19,8 +19,8 @@
 				</thead>
 				<tbody>
 					{% for appointment in appointments_list %}
-					<tr>
-						<td>1</td>
+					<tr >
+						<td><a href="/appointment/{{appointment.id}}/patient/{{appointment.patient_id}}"><button type="button" class="btn btn-dark btn-sm">View</button></a></td>
 						<td>{{ appointment.appointment_type }}</td>
 						<td>{{ appointment.time }}</td>
 						<td>{{ appointment.doctor_name }}</td>
@@ -28,7 +28,7 @@
 					{% endfor %}
 				</tbody>
 			</table>
-      
+
 		  <!--- PRESCRIPTIONS --->
       <div> 
         <h4>List of your prescriptions</h4>

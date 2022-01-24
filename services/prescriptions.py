@@ -4,16 +4,26 @@ USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
                             FROM   UserPrescriptions \
                             WHERE  user_id = :user_id"
 
-SINGLE_PRESCRIPTION_QUERY = "SELECT name, amount_per_day \
+SINGLE_PRESCRIPTION_QUERY = "SELECT id, name, amount_per_day \
                              FROM   Prescriptions \
                              WHERE  id = :prescription_id"
                 
-GET_ALL_PRESCRIPTIONS_QUERY = "SELECT name, amount_per_day \
-                               FROM Prescriptions"
+GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY = "SELECT id, name, amount_per_day \
+                                          FROM Prescriptions \
+                                          WHERE id NOT IN \
+                                                  (SELECT prescription_id \
+                                                   FROM   UserPrescriptions \
+                                                   WHERE  user_id = :user_id \
+                                                   AND    visible = TRUE)"
 
-# get all which user doesnt have?
-def get_all_prescriptions():
-    return db.session.execute(GET_ALL_PRESCRIPTIONS_QUERY).fetchall()
+UPDATE_USER_PRESCRIPTION = "UPDATE UserPrescriptions \
+                            SET    visible = :visible \
+                            WHERE  user_id = :user_id \
+                            AND    prescription_id = :prescription_id"
+
+def get_all_not_signed_prescription(user_id):
+    """Fetching all prescriptions which User doesn't have yet signed to"""
+    return db.session.execute(GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY, {"user_id": user_id}).fetchall()
 
 def get_user_prescriptions(user_id):
     fetched_prescripions = db.session.execute(USER_PRESCRIPTIONS_QUERY, {"user_id": user_id}).fetchall()
@@ -37,3 +47,11 @@ def format_precription_lists(fetched_prescripions):
 
 def get_prescription_info_by_id(prescription_id):
     return db.session.execute(SINGLE_PRESCRIPTION_QUERY, {"prescription_id": prescription_id}).fetchone()
+
+def update_prescription_from_user(user_id, prescription_id, bool_value):
+    """Changing UserPrescription "visible" value to given parameter (bool_value) """
+    db.session.execute(UPDATE_USER_PRESCRIPTION, {"user_id": user_id, 
+                                                  "prescription_id": prescription_id,
+                                                  "visible": bool_value})
+    db.session.commit()
+

@@ -3,7 +3,7 @@ from services import users
 from constant import TIME_FORMAT, NAME_DB_KEY
 
 # TODO - add ORDER BY time_at 
-APPOINTMENTS_INFO_QUERY = "SELECT doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time_at \
+APPOINTMENTS_INFO_QUERY = "SELECT id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time_at \
                            FROM   Appointments \
                            WHERE  patient_id = :user_id"
 
@@ -27,11 +27,13 @@ def format_appointment_data(fetched_appointments):
 
     # fetched_appointments has a list of tuple values (doctor_id, appointment_type, time_at)
     for appointment in fetched_appointments:
-        doctor_name = users.get_userInfo_by_key(appointment[0], NAME_DB_KEY)
+        doctor_name = users.get_userInfo_by_key(appointment[2], NAME_DB_KEY)
         formatted_appointments.append({
+            "id": appointment[0],
+            "patient_id": appointment[1],
             'doctor_name': doctor_name,
-            'appointment_type': appointment[1],
-            'time': appointment[2]
+            'appointment_type': appointment[3],
+            'time': appointment[4]
         })
 
     return formatted_appointments

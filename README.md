@@ -21,7 +21,7 @@ Patient record system for hospitals in order to keep track of their patients app
     - [x] delete symptom stories 
     - [x] edit symptom stories 
 - [ ] determine prescription for patients
-    - [ ] delete prescriptions from patient
+    - [x] delete prescriptions from patient
     - [ ] add new prescriptions to prescriptions db table
 - [ ] book appointments for a patient
 - [ ] see their own list of patients
@@ -32,6 +32,8 @@ Patient record system for hospitals in order to keep track of their patients app
     - [x] email
     - [x] phonenumber
     - [x] address
+        - [x] city
+        - [x] country
 
 <b>User (patients) available to do:</b>
 - [ ] see their own records
