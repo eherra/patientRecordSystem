@@ -20,9 +20,10 @@ Patient record system for hospitals in order to keep track of their patients app
 - [x] write symptom stories of patients
     - [x] delete symptom stories 
     - [x] edit symptom stories 
-- [ ] determine prescription for patients
+- [x] determine prescription for patients
+    - [x] add prescriptions to patient
     - [x] delete prescriptions from patient
-    - [ ] add new prescriptions to prescriptions db table
+        - [x] add new prescriptions to prescriptions db table
 - [ ] book appointments for a patient
 - [ ] see their own list of patients
 - [ ] send message to their patients

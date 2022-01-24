@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+
+        <!--- PROFILE DETAILS, LEFT PART OF PAGE --->
+        {% include 'components/profile-card.html' %}
+
+        <!--- MIDDLE PART --->
+        <div class="col-md-5">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Appointment Type</th>
+                        <th>Date</th>
+                        <th>Patient name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments_list %}
+                    <tr>
+                        <td><a href="/appointment/{{appointment.id}}/patient/{{appointment.patient_id}}"><button
+                                    type="button" class="btn btn-dark btn-sm">View</button></a></td>
+                        <td>{{ appointment.appointment_type }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.patient_name }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!--- ADD APPOINTMENT --->
+            <div>
+                <h5>Book appointment</h5>
+                <label>Choose patient:</label>
+                <form action="/book-appointment" method="POST">
+                    <select class="custom-select">
+                        <option selected value="1">Patient1</option>
+                        <option value="2">Patient2</option>
+                        <option value="3">Patient3</option>
+                    </select>
+                    <div class="form-group">
+                        <label for="appointment_type">Appointment type:</label>
+                        <input type="text" name="appointment_type" class="form-control"
+                            placeholder="Enter appointment type">
+                    </div>
+                    <h3>ADD DATEPICKER HERE</h3>
+                </form>
+            </div>
+
+            <!--- ADD PRESCRIPTIONS --->
+            <h3>Create new prescription</h3>
+            <form action="/add-prescription" method="POST">
+                <div class="form-group">
+                    <label for="prescription">Prescription name:</label>
+                    <input type="text" name="prescription_name" class="form-control"
+                        placeholder="Enter prescription name">
+                </div>
+                <div class="form-group">
+                    <label>Amount per day:</label>
+                    <select class="custom-select" name="amount_per_day">
+                        <option selected value="1">1</option>
+                        {% for index in range(2,9) %}
+                        <option value="{{ index }}">{{ index }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-dark btn-sm" type="submit">Add prescription</button>
+            </form>
+        </div>
+
+        <!--- RIGHT PART --->
+        <div class="col-md-4">
+            <a href="/settings"><button>profile settings</button></a>
+            <button>log out</button>
+            <div class="row-md-8"></div>
+            <div>
+                <h5>Send message to your patients</h5>
+                <label>Choose patient:</label>
+                <form action="/send-message" method="POST">
+                    <select class="custom-select">
+                        <option selected value="1">Patient1</option>
+                        <option value="2">Patient2</option>
+                        <option value="3">Patient3</option>
+                    </select>
+                    <textarea name="content" rows="3" cols="40"></textarea>
+                    <br>
+                    <input class="btn btn-dark btn-sm" type="submit" value="Send message">
+                </form>
+            </div>
+
+            <!--- Sent messages rendering --->
+            <h5><u>Message history</u></h5>
+            <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#sentMessages">Sent
+                messages</button>
+            <div id="sentMessages" class="collapse">
+                <ul class="list-group">
+                    {% for message in sentMessages %}
+                    <li class="list-group-item">{{ message.content }} {{ message.sent_at }} TO: TEST</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!--- Received messages rendering --->
+            <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse"
+                data-target="#receivedMessages">Received messages</button>
+            <div id="receivedMessages" class="collapse">
+                <ul class="list-group">
+                    {% for message in receivedMessages %}
+                    <li class="list-group-item">{{ message.content }} {{ message.sent_at }} FROM: TEST</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

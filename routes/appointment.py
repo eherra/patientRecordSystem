@@ -2,26 +2,22 @@ from pickle import FALSE
 from app import app
 from flask import redirect, request, render_template
 from services import users, prescriptions, appointments
-import sys
 
 # TODO - only admin (doctor) can enter this page
 @app.route("/appointment/<int:appli_id>/patient/<int:patient_id>")
 def appointment(appli_id, patient_id):
     patient_info = users.get_userInfo(patient_id)
-    print(patient_info, file=sys.stdout)
 
-    all_prescriptions = prescriptions.get_all_not_signed_prescription(patient_id)
-    print(all_prescriptions, file=sys.stdout)
+    # prescriptions which patient doenst have signed to
+    not_signed_prescriptions = prescriptions.get_all_not_signed_prescription(patient_id)
 
     signed_prescriptions = prescriptions.get_user_prescriptions(patient_id)
-    print(signed_prescriptions['current_prescriptions'], file=sys.stdout)
 
     appointment = appointments.get_appointment_info_by(appli_id, patient_id)
-    print(appointment, file=sys.stdout)
 
     return render_template("appointment-page.html",
                             patient_info=patient_info,
-                            all_prescriptions=all_prescriptions,
+                            all_prescriptions=not_signed_prescriptions,
                             current_prescriptions=signed_prescriptions['current_prescriptions'],
                             appointment=appointment)
 
