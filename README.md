@@ -25,6 +25,7 @@ Patient record system for hospitals in order to keep track of their patients app
     - [x] delete prescriptions from patient
         - [x] add new prescriptions to prescriptions db table
 - [x] book appointments for a patient
+    - [ ] remove apppointments
 - [x] see their own list of appointments
 - [ ] send message to their patients
 - [ ] read messages

@@ -2,6 +2,8 @@ from app import app
 from flask import render_template, request, redirect
 from services import prescriptions, users, appointments, messages
 from constant import NAME_DB_KEY, PHONE_DB_KEY
+from datetime import datetime
+import sys
 
 #TODO - hardcoded userID values on method calls -> get ID from session
 @app.route("/profile")
@@ -62,10 +64,14 @@ def render_doctor_profile():
     # Fetching appointments info 
     appointments_info = appointments.get_doctor_appointments_info(user_id)
 
+    time_now = datetime.now().strftime("%Y-%m-%dT%H:%M")
+    print(time_now, file=sys.stdout)
+
     return render_template("doctor-profile-page.html",
                             user_id=user_id,
                             sentMessages=sent_messages, 
                             receivedMessages=received_messages,
                             user_info=user_info,
                             appointments_list=appointments_info,
+                            time_now=time_now,
                             avatar_url="/static/photos/doctorAvatar.png")

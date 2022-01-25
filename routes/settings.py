@@ -6,7 +6,7 @@ from services import users
 def settings():
     return render_template("settings-page.html")
 
-@app.route("/update-settings", methods=["POST"])
+@app.route("/settings/update", methods=["POST"])
 def update_settings():
     users.update_settings_values(request.form["name"], request.form["phone"], request.form["email"], 
                                  request.form["address"], request.form["city"], request.form["country"])

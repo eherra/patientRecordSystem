@@ -34,3 +34,9 @@ def book_appointment(doctor_id):
     appointments.add_new_appointment(request.form["patient_id"], doctor_id,
                                      request.form["appointment_type"], request.form["appointment_date"])
     return redirect("/profile")
+
+# TODO - only admin can call these
+@app.route("/appointment/<int:appli_id>/delete")
+def delete_appointment(appli_id):
+    appointments.delete_appointment(appli_id)
+    return redirect("/profile")

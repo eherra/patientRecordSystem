@@ -25,6 +25,8 @@ UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE Appointments \
 CREATE_NEW_APPOINTMENT_QUERY = "INSERT INTO Appointments (patient_id, doctor_id, appointment_type, time_at) \
                                 VALUES (:patient_id, :doctor_id, :appointment_type, (TIMESTAMP :time_at));"
 
+DELETE_APPOINTMENT_QUERY = "DELETE FROM appointments WHERE id=:id"
+
 def get_patient_appointments_info(user_id):
     fetched_appointments = db.session.execute(APPOINTMENTS_INFO_BY_PATIENT_QUERY, {"user_id": user_id, 
                                                                                    "time_format": TIME_FORMAT}).fetchall()
@@ -82,6 +84,11 @@ def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
                                                           "appointment_type": appointment_type,
                                                           "time_at": formatted_time_at})
         db.session.commit()
+
+## TODO - proper error handling
+def delete_appointment(appli_id):
+    db.session.execute(DELETE_APPOINTMENT_QUERY, {"id": appli_id})
+    db.session.commit()
 
 ## TODO - move to validation module
 def is_valid_symptom_input(input):

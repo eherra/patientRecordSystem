@@ -6,11 +6,20 @@
         <!--- PATIENT INFO --->
         <div class="col-4">
             <h5>Patient info</h5>
-            <div>{{patient_info.name}}</div>
+            <div>
+                {{patient_info.name}}
+                <img src="/static/photos/sickAvatar.png" alt="Avatar" style="
+                    vertical-align: middle;
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 50%;"
+                    />
+            </div>
             <div>{{patient_info.phone}}</div>
             <div>{{patient_info.email}}</div>
             <div>{{patient_info.address}}</div>
             <div>{{patient_info.city}}, {{patient_info.country}}</div>
+            
         </div>
 
         <!--- APPOINTMENT TYPE --->
@@ -18,6 +27,7 @@
             <h5>Appointment type</h5>
             <div>{{appointment.appointment_type}}</div>
             <div>Appointment at: {{appointment.time_at}}</div>
+            <a href="/appointment/{{appointment.id}}/delete"><button type="button" class="btn btn-dark btn-sm">Delete appointment</button></a>
         </div>
         <div class="col-4">
             <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="185.56306"
