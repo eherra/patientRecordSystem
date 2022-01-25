@@ -32,51 +32,71 @@
 
             <!--- ADD APPOINTMENT --->
             <div>
-                <h5>Book appointment</h5>
-                <label>Choose patient:</label>
-                <form action="/book-appointment" method="POST">
-                    <select class="custom-select">
-                        <option selected value="1">Patient1</option>
-                        <option value="2">Patient2</option>
-                        <option value="3">Patient3</option>
-                    </select>
-                    <div class="form-group">
-                        <label for="appointment_type">Appointment type:</label>
-                        <input type="text" name="appointment_type" class="form-control"
-                            placeholder="Enter appointment type">
+                <h5><u>Book appointment</u></h5>
+                <form action="/appointment/book/{{user_id}}" method="POST">
+                    <div class="form-row">
+                        <div class="col-md-7 mb-3">
+                            <label for="appointment_type">Appointment type:</label>
+                            <input type="text" name="appointment_type" class="form-control"
+                                placeholder="Enter appointment type">
+                        </div>
+                        <div class="col-md-5 mb-3">
+                            <label for="patient">For patient:</label>
+                            <select class="custom-select" id="patient" name="patient_id">
+                                <option selected value="1">Patient1</option>
+                                <option value="2">Patient2</option>
+                                <option value="3">Patient3</option>
+                            </select>
+                        </div>
                     </div>
-                    <h3>ADD DATEPICKER HERE</h3>
+                    <div class="form-row">
+                        <div class="col-md-5 mb-3">
+                            <label for="dateTime">Appointment date:</label>
+                            <input class="form-control" type="datetime-local" name="appointment_date" id="dateTime">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label>fix</label>
+                            <button class="btn btn-dark btn-sm form-control" id="appointment_submit" type="submit">Add
+                                appointment <i class="far fa-calendar-check"></i></button>
+                        </div>
+                    </div>
                 </form>
             </div>
+            <br>
 
             <!--- ADD PRESCRIPTIONS --->
-            <h3>Create new prescription</h3>
+            <h5><u>Create new prescription</u></h5>
             <form action="/add-prescription" method="POST">
-                <div class="form-group">
-                    <label for="prescription">Prescription name:</label>
-                    <input type="text" name="prescription_name" class="form-control"
-                        placeholder="Enter prescription name">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="prescription">Prescription name:</label>
+                        <input type="text" id="prescription" name="prescription_name" class="form-control"
+                            placeholder="Enter prescription name">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label>Per day:</label>
+                        <select class="custom-select" name="amount_per_day">
+                            <option selected value="1">1</option>
+                            {% for index in range(2,9) %}
+                            <option value="{{ index }}">{{ index }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>fix</label>
+                        <button class="btn btn-dark btn-sm form-control" type="submit">Create prescription</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Amount per day:</label>
-                    <select class="custom-select" name="amount_per_day">
-                        <option selected value="1">1</option>
-                        {% for index in range(2,9) %}
-                        <option value="{{ index }}">{{ index }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <button class="btn btn-dark btn-sm" type="submit">Add prescription</button>
             </form>
         </div>
 
         <!--- RIGHT PART --->
         <div class="col-md-4">
-            <a href="/settings"><button>profile settings</button></a>
-            <button>log out</button>
+            <a href="/settings"><button>profile settings <i class="fas fa-cog"></i></button></a>
+            <button>log out <i class="fas fa-sign-out-alt"></i></button>
             <div class="row-md-8"></div>
             <div>
-                <h5>Send message to your patients</h5>
+                <h5><u>Send message to your patients</u></h5>
                 <label>Choose patient:</label>
                 <form action="/send-message" method="POST">
                     <select class="custom-select">
@@ -84,16 +104,18 @@
                         <option value="2">Patient2</option>
                         <option value="3">Patient3</option>
                     </select>
-                    <textarea name="content" rows="3" cols="40"></textarea>
+                    <textarea name="content" rows="3" cols="40" placeholder="Enter message"></textarea>
                     <br>
-                    <input class="btn btn-dark btn-sm" type="submit" value="Send message">
+                    <button class="btn btn-dark btn-sm" type="submit">Send message <i
+                            class="far fa-paper-plane"></i></button>
                 </form>
             </div>
+            <br>
 
             <!--- Sent messages rendering --->
             <h5><u>Message history</u></h5>
             <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#sentMessages">Sent
-                messages</button>
+                messages <i class="fas fa-angle-down fa-flip-horizontal"></i></button>
             <div id="sentMessages" class="collapse">
                 <ul class="list-group">
                     {% for message in sentMessages %}
@@ -104,7 +126,7 @@
 
             <!--- Received messages rendering --->
             <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse"
-                data-target="#receivedMessages">Received messages</button>
+                data-target="#receivedMessages">Received messages <i class="fas fa-angle-down"></i></button>
             <div id="receivedMessages" class="collapse">
                 <ul class="list-group">
                     {% for message in receivedMessages %}

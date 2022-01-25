@@ -4,7 +4,7 @@ from services import messages
 
 #TODO - hard coded sender and receiver -> get userId from sesion
 @app.route("/send-message", methods=["POST"])
-def send():
+def send_message():
     content = request.form["content"]
     messages.add_new_message(content, 1, 2)
-    return redirect("/")
+    return redirect("/profile")

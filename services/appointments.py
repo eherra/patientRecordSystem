@@ -1,6 +1,7 @@
 from db import db
 from services import users
 from constant import TIME_FORMAT, NAME_DB_KEY
+import sys
 
 # TODO - add ORDER BY time_at 
 APPOINTMENTS_INFO_BY_PATIENT_QUERY = "SELECT id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time_at \
@@ -20,6 +21,9 @@ UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE Appointments \
                                 SET    symptom = :new_symptom \
                                 WHERE  patient_id = :user_id \
                                 AND    id = :appointment_id"
+
+CREATE_NEW_APPOINTMENT_QUERY = "INSERT INTO Appointments (patient_id, doctor_id, appointment_type, time_at) \
+                                VALUES (:patient_id, :doctor_id, :appointment_type, (TIMESTAMP :time_at));"
 
 def get_patient_appointments_info(user_id):
     fetched_appointments = db.session.execute(APPOINTMENTS_INFO_BY_PATIENT_QUERY, {"user_id": user_id, 
@@ -69,6 +73,23 @@ def update_appointment_symptom(user_id, appointment_id, new_symptom):
                                                           "new_symptom": new_symptom})
         db.session.commit()
 
+## TODO - proper error handling
+def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
+    formatted_time_at = time_at.replace("T", " ")
+    if is_valid_appointment_type_input(appointment_type) and is_valid_date(formatted_time_at):
+        db.session.execute(CREATE_NEW_APPOINTMENT_QUERY, {"patient_id": patient_id, 
+                                                          "doctor_id": doctor_id,
+                                                          "appointment_type": appointment_type,
+                                                          "time_at": formatted_time_at})
+        db.session.commit()
+
 ## TODO - move to validation module
 def is_valid_symptom_input(input):
     return input and len(input) < 200 and not input.isspace()
+
+## TODO - add correct date check
+def is_valid_date(input):
+    return input and not input.isspace()
+
+def is_valid_appointment_type_input(input):
+    return input and len(input) < 30 and not input.isspace()

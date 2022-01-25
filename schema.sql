@@ -18,7 +18,7 @@ CREATE TABLE Appointments (
     doctor_id INTEGER REFERENCES Users,
     time_at TIMESTAMP,
     appointment_type TEXT, 
-    symptom TEXT
+    symptom TEXT DEFAULT ''
 );
 
 CREATE TABLE Prescriptions (

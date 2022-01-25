@@ -8,4 +8,11 @@ from services import prescriptions
 def add_prescription():
     prescriptions.create_new_prescription(request.form["prescription_name"], 
                                           request.form["amount_per_day"])
-    return redirect("/doctor-profile")
+    return redirect("/profile")
+
+# TODO - only admin can call these
+@app.route("/appointment/<int:appli_id>/prescription/<int:prescription_id>/patient/<int:user_id>", methods=["POST"])
+def update_prescription(appli_id, prescription_id, user_id):
+    isVisible = request.form["isVisible"] == "True"
+    prescriptions.update_prescription_from_user(user_id, prescription_id, isVisible)
+    return redirect(f"/appointment/{appli_id}/patient/{user_id}")
