@@ -59,8 +59,8 @@ def update_prescription_from_user(user_id, prescription_id, bool_value):
     """Changing UserPrescription "visible" value to given parameter (bool_value)
        If update rowcount = 0, no connection made on UserPrescription table for the user for the prescription before"""
     isSuccess = db.session.execute(UPDATE_USER_PRESCRIPTION, {"user_id": user_id, 
-                                                          "prescription_id": prescription_id,
-                                                          "visible": bool_value})
+                                                              "prescription_id": prescription_id,
+                                                              "visible": bool_value})
     if not isSuccess.rowcount:
         add_new_prescription_to(user_id, prescription_id)
 
