@@ -3,13 +3,15 @@ from constant import TIME_FORMAT, NAME_DB_KEY
 from services import users
 
 # TODO - add ORDER BY sent_at 
-SENT_MESSAGES_QUERY = "SELECT user2_id, content, TO_CHAR(sent_at, :time_format) AS sent_at \
-                       FROM   messages \
-                       WHERE  user1_id = :user_id"
+SENT_MESSAGES_QUERY = "SELECT   user2_id, content, TO_CHAR(sent_at, :time_format) \
+                       FROM     messages \
+                       WHERE    user1_id = :user_id \
+                       ORDER BY sent_at DESC"
 
-RECEIVED_MESSAGES_QUERY = "SELECT user1_id, content, TO_CHAR(sent_at, :time_format) AS sent_at \
-                           FROM   messages \
-                           WHERE  user2_id = :user_id"
+RECEIVED_MESSAGES_QUERY = "SELECT   user1_id, content, TO_CHAR(sent_at, :time_format) \
+                           FROM     messages \
+                           WHERE    user2_id = :user_id \
+                           ORDER BY sent_at DESC"
 
 ADD_NEW_MESSAGE_QUERY = "INSERT INTO messages (user1_id, user2_id, content, sent_at) \
                          VALUES (:sender_user_id, :receiver_user_id, :content, NOW())"

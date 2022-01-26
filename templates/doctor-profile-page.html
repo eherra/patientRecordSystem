@@ -25,7 +25,7 @@
                             <label for="patient">For patient:</label>
                             <select class="custom-select" id="patient" name="patient_id">
                                 {% for patient in doctor_patients %}
-                                    <option value="{{patient.user_id}}">{{patient.name}}</option>
+                                <option value="{{patient.user_id}}">{{patient.name}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -33,7 +33,8 @@
                     <div class="form-row">
                         <div class="col-md-5 mb-3">
                             <label for="dateTime">Appointment date:</label>
-                            <input class="form-control" type="datetime-local" min="{{time_now}}" name="appointment_date" id="dateTime">
+                            <input class="form-control" type="datetime-local" min="{{time_now}}" name="appointment_date"
+                                id="dateTime">
                         </div>
                         <div class="col-md-4 mb-2">
                             <label>fix</label>
@@ -70,12 +71,14 @@
                 </div>
             </form>
         </div>
-        
 
         <!--- RIGHT PART --->
         <div class="col-md-4">
-            <!--- Log out, profile settings buttons --->
-            {% include 'components/nav-buttons.html' %}
+            <button style="float: right; margin-top: 1em;" href="/logout">
+                log out <i class="fas fa-sign-out-alt"></i>
+            </button>
+            <br>
+            <br>
 
             <div class="row-md-8"></div>
             <div>
@@ -87,8 +90,10 @@
                         <option value="{{patient.user_id}}">{{patient.name}}</option>
                         {% endfor %}
                     </select>
-                    <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40" placeholder="Enter message..."></textarea>
-                    <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i class="far fa-paper-plane"></i></button>
+                    <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
+                        placeholder="Enter message..."></textarea>
+                    <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
+                            class="far fa-paper-plane"></i></button>
                 </form>
             </div>
             <br>

@@ -1,16 +1,18 @@
 from db import db
 from services import users
 from constant import TIME_FORMAT, NAME_DB_KEY
+from datetime import datetime
 import sys
 
-# TODO - add ORDER BY time_at 
-APPOINTMENTS_INFO_BY_PATIENT_QUERY = "SELECT id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time_at \
-                                      FROM   Appointments \
-                                      WHERE  patient_id = :user_id"
+PATIENT_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
+                                       FROM     Appointments \
+                                       WHERE    patient_id = :user_id \
+                                       ORDER BY time_at DESC"
 
-APPOINTMENTS_INFO_BY_DOCTOR_QUERY = "SELECT id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time_at \
-                                     FROM   Appointments \
-                                     WHERE  doctor_id = :user_id"
+DOCTOR_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
+                                      FROM     Appointments \
+                                      WHERE    doctor_id = :user_id \
+                                      ORDER BY time_at DESC"
 
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
                                  FROM   Appointments \
@@ -23,17 +25,19 @@ UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE Appointments \
                                 AND    id = :appointment_id"
 
 CREATE_NEW_APPOINTMENT_QUERY = "INSERT INTO Appointments (patient_id, doctor_id, appointment_type, time_at) \
-                                VALUES (:patient_id, :doctor_id, :appointment_type, (TIMESTAMP :time_at));"
+                                VALUES (:patient_id, :doctor_id, :appointment_type, (TIMESTAMP :time_at))"
 
-DELETE_APPOINTMENT_QUERY = "DELETE FROM appointments WHERE id=:id"
+DELETE_APPOINTMENT_QUERY = "DELETE \
+                            FROM Appointments \
+                            WHERE id = :appointment_id"
 
 def get_patient_appointments_info(user_id):
-    fetched_appointments = db.session.execute(APPOINTMENTS_INFO_BY_PATIENT_QUERY, {"user_id": user_id, 
+    fetched_appointments = db.session.execute(PATIENT_ALL_APPOINTMENTS_INFO_QUERY, {"user_id": user_id, 
                                                                                    "time_format": TIME_FORMAT}).fetchall()
     return format_appointment_data(fetched_appointments)
 
 def get_doctor_appointments_info(user_id):
-    fetched_appointments = db.session.execute(APPOINTMENTS_INFO_BY_DOCTOR_QUERY, {"user_id": user_id, 
+    fetched_appointments = db.session.execute(DOCTOR_ALL_APPOINTMENTS_INFO_QUERY, {"user_id": user_id, 
                                                                                   "time_format": TIME_FORMAT}).fetchall()
     return format_appointment_data(fetched_appointments)
 
@@ -50,7 +54,8 @@ def format_appointment_data(fetched_appointments):
             'doctor_name': doctor_name,
             "patient_name": patient_name,
             'appointment_type': appointment[3],
-            'time': appointment[4]
+            'time': appointment[4],
+            'bg_color': get_bg_color_according_date_past(appointment[4])
         })
 
     return formatted_appointments
@@ -68,9 +73,9 @@ def get_appointment_info_by(user_id, appointment_id):
     }
 
 ## TODO - proper error handling
-def update_appointment_symptom(user_id, appointment_id, new_symptom):
+def update_appointment_symptom(user_id, appo_id, new_symptom):
     if is_valid_symptom_input(new_symptom):
-        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"appointment_id": appointment_id,
+        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"appointment_id": appo_id,
                                                           "user_id": user_id,
                                                           "new_symptom": new_symptom})
         db.session.commit()
@@ -86,13 +91,21 @@ def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
         db.session.commit()
 
 ## TODO - proper error handling
-def delete_appointment(appli_id):
-    db.session.execute(DELETE_APPOINTMENT_QUERY, {"id": appli_id})
+def delete_appointment(appo_id):
+    db.session.execute(DELETE_APPOINTMENT_QUERY, {"appointment_id": appo_id})
     db.session.commit()
 
 ## TODO - move to validation module
 def is_valid_symptom_input(input):
     return input and len(input) < 200 and not input.isspace()
+
+def get_bg_color_according_date_past(date):
+    """Checks if parameter (date) has past and return hex-color according to it"""
+    date_formatted = datetime.strptime(date, "%d-%m-%Y %H:%M")
+    if date_formatted > datetime.now():
+        return "#B2D2A4"
+    else:
+        return "#B8B8B8"
 
 ## TODO - add correct date check
 def is_valid_date(input):

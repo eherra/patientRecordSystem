@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, redirect
 from services import prescriptions, users, appointments, messages
-from constant import NAME_DB_KEY, PHONE_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
+from constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from datetime import datetime
 import sys
 
@@ -9,7 +9,7 @@ import sys
 @app.route("/profile")
 def profile():
     # check if is_doctor value in session
-    if True:
+    if False:
         return render_doctor_profile()
     else:
         return render_patient_profile()
@@ -45,7 +45,8 @@ def render_patient_profile():
                             history_prescriptions=prescription_lists['history_prescriptions'],
                             user_info=user_info,
                             appointments_list=appointments_info, 
-                            avatar_url="/static/photos/patientAvatar.png")
+                            avatar_url=PATIENT_AVATAR_URL,
+                            doctor_avatar_url=DOCTOR_AVATAR_URL)
 
 #TODO - hardcoded userID values on method calls -> get ID from session
 def render_doctor_profile():
@@ -77,4 +78,4 @@ def render_doctor_profile():
                             user_info=user_info,
                             appointments_list=appointments_info,
                             time_now=time_now,
-                            avatar_url="/static/photos/doctorAvatar.png")
+                            avatar_url=DOCTOR_AVATAR_URL)

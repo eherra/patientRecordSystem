@@ -1,5 +1,5 @@
 <!--- Sent messages rendering --->
-<h5><u>Message history</u></h5>
+<h4><u>Message history</u></h4>
 
 <!--- Sent messages rendering --->
 <button type="button" class="btn btn-dark" data-toggle="collapse"
@@ -9,7 +9,7 @@
         {% for message in sent_messages %}
         <div class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1">To: {{ message.toOrfrom }}</h6>
+              <h6 class="mb-1"><u>To: {{ message.toOrfrom }}</u></h6>
               <small>{{ message.sent_at }}</small>
             </div>
             <p class="mb-1">{{ message.content }}</p>
@@ -26,7 +26,7 @@
         {% for message in received_messages %}
         <div class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-1">From: {{ message.toOrfrom }}</h6>
+              <h6 class="mb-1"><u>From: {{ message.toOrfrom }}</u></h6>
               <small>{{ message.sent_at }}</small>
             </div>
             <p class="mb-1">{{ message.content }}</p>

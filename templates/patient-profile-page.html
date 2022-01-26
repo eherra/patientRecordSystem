@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+  .phone {
+    font-size: 14px;
+    font-weight: 500
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: 800
+  }
+</style>
 <div class="container-fluid">
   <div class="row">
 
@@ -13,43 +24,71 @@
 
       <!--- PRESCRIPTIONS --->
       <div>
-        <h4>List of your prescriptions</h4>
+        <h4><u>Prescriptions</u></h4>
         <h5>Current prescriptions</h5>
 
         <!--- Current prescriptionss rendering --->
-        <ol>
+        <div class="list-group">
           {% for prescription in current_prescriptions %}
-          <li class="list-item">{{ prescription.name }} - Amount per day: {{ prescription.amount_per_day }}</li>
+          <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-1"><u>{{ prescription.name }}</u></h6>
+              <small>Amount per day: <span class="badge badge-info badge-pill">{{ prescription.amount_per_day
+                  }}</span></small>
+            </div>
+          </div>
           {% endfor %}
-        </ol>
-
+        </div>
+        <br>
         <!--- History prescriptionss rendering --->
-        <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#demo">history of
-          prescriptions</button>
-        <div id="demo" class="collapse">
-          <ul class="list-group">
+        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#historyPrescriptions">Past
+          prescriptions <i class="fas fa-angle-down"></i></button>
+        <div id="historyPrescriptions" class="collapse">
+          <div class="list-group">
             {% for prescription in history_prescriptions %}
-            <li class="list-group-item">{{ prescription.name }} - Amount per day: {{ prescription.amount_per_day }}</li>
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-1"><u>{{ prescription.name }}</u></h6>
+                <small>Amount per day: <span class="badge badge-info badge-pill">{{ prescription.amount_per_day
+                    }}</span></small>
+              </div>
+            </div>
             {% endfor %}
-          </ul>
+          </div>
         </div>
       </div>
     </div>
 
     <!--- RIGHT PART --->
     <div class="col-md-4">
-      <!--- Log out, profile settings buttons --->
-      {% include 'components/nav-buttons.html' %}
+      <button style="float: right; margin-top: 1em;" href="/logout">
+        log out <i class="fas fa-sign-out-alt"></i>
+      </button>
+      <br>
+      <br>
 
       <div class="row-md-8"></div>
-      <h4>Doctor info</h4>
-      <p>{{ doctor_info.name }}, {{ doctor_info.phone }}</p>
+      <h4><u>Doctor info</u></h4>
+      <div class="doctorInfo">
+        <span class="name">{{ doctor_info.name }}</span>
+        <img src="{{doctor_avatar_url}}" alt="Avatar" style="
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;" />
+        <br>
+        <span class="phone">Urgent matters: {{ doctor_info.phone }}</span>
+        <br>
+        <br>
+      </div>
+
       <div>
         <form action="/send-message" method="POST">
-            <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
-            <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40" placeholder="Enter message..."></textarea>
-            <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
-            <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i class="far fa-paper-plane"></i></button>
+          <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
+          <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
+            placeholder="Enter message..."></textarea>
+          <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
+          <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
+              class="far fa-paper-plane"></i></button>
         </form>
       </div>
       <br>

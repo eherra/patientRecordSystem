@@ -4,8 +4,8 @@ from services import users, prescriptions, appointments
 import sys
 
 # TODO - only admin (doctor) can enter this page
-@app.route("/appointment/<int:appli_id>/patient/<int:patient_id>")
-def appointment(appli_id, patient_id):
+@app.route("/appointment/<int:appo_id>/patient/<int:patient_id>")
+def appointment(appo_id, patient_id):
     patient_info = users.get_user_info(patient_id)
 
     # prescriptions which patient doenst have signed to
@@ -13,7 +13,7 @@ def appointment(appli_id, patient_id):
 
     signed_prescriptions = prescriptions.get_user_prescriptions(patient_id)
 
-    appointment = appointments.get_appointment_info_by(patient_id, appli_id)
+    appointment = appointments.get_appointment_info_by(patient_id, appo_id)
 
     return render_template("appointment-page.html",
                             patient_info=patient_info,
@@ -22,10 +22,10 @@ def appointment(appli_id, patient_id):
                             appointment=appointment)
 
 # TODO - only admin can call these
-@app.route("/appointment/<int:appli_id>/symptom/<int:user_id>", methods=["POST"])
-def update_symptom(appli_id, user_id):
-    appointments.update_appointment_symptom(user_id, appli_id, request.form["symptom"])
-    return redirect(f"/appointment/{appli_id}/patient/{user_id}")
+@app.route("/appointment/<int:appo_id>/symptom/<int:user_id>", methods=["POST"])
+def update_symptom(appo_id, user_id):
+    appointments.update_appointment_symptom(user_id, appo_id, request.form["symptom"])
+    return redirect(f"/appointment/{appo_id}/patient/{user_id}")
 
 # TODO - only admin can call these
 @app.route("/appointment/book/<int:doctor_id>", methods=["POST"])
@@ -35,7 +35,7 @@ def book_appointment(doctor_id):
     return redirect("/profile")
 
 # TODO - only admin can call these
-@app.route("/appointment/<int:appli_id>/delete")
-def delete_appointment(appli_id):
-    appointments.delete_appointment(appli_id)
+@app.route("/appointment/<int:appo_id>/delete")
+def delete_appointment(appo_id):
+    appointments.delete_appointment(appo_id)
     return redirect("/profile")
