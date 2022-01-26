@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+
+    <!--- PROFILE DETAILS, LEFT PART OF PAGE --->
+    {% include 'components/profile-card.html' %}
+
+    <!--- MIDDLE PART --->
+    <div class="col-md-5">
+      <!--- APPOINTMENT TABLE --->
+      {% include 'components/appointments-table.html' %}
+
+      <!--- PRESCRIPTIONS --->
+      <div>
+        <h4>List of your prescriptions</h4>
+        <h5>Current prescriptions</h5>
+
+        <!--- Current prescriptionss rendering --->
+        <ol>
+          {% for prescription in current_prescriptions %}
+          <li class="list-item">{{ prescription.name }} - Amount per day: {{ prescription.amount_per_day }}</li>
+          {% endfor %}
+        </ol>
+
+        <!--- History prescriptionss rendering --->
+        <button type="button" class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#demo">history of
+          prescriptions</button>
+        <div id="demo" class="collapse">
+          <ul class="list-group">
+            {% for prescription in history_prescriptions %}
+            <li class="list-group-item">{{ prescription.name }} - Amount per day: {{ prescription.amount_per_day }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!--- RIGHT PART --->
+    <div class="col-md-4">
+      <!--- Log out, profile settings buttons --->
+      {% include 'components/nav-buttons.html' %}
+
+      <div class="row-md-8"></div>
+      <h4>Doctor info</h4>
+      <p>{{ doctor_info.name }}, {{ doctor_info.phone }}</p>
+      <div>
+        <form action="/send-message" method="POST">
+            <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
+            <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40" placeholder="Enter message..."></textarea>
+            <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
+            <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i class="far fa-paper-plane"></i></button>
+        </form>
+      </div>
+      <br>
+
+      <!--- MESSAGES --->
+      {% include 'components/messages-history.html' %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}

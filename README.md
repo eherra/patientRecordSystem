@@ -9,11 +9,14 @@
 Patient record system for hospitals in order to keep track of their patients appointments, prescriptions and symptom stories. 
 
 ### TODO
-- input validations
+- proper input validations
 - proper error handeling
-- refactoring
 - heroku and config heroku db
 - login and session addition
+- patient not having access to admin function buttons/pages/info
+- frontend action success/failure messages
+- error pages 404, 500
+- register new user page
 - features listed below
 
 <b>Admin (doctors) available to do:</b>
@@ -25,10 +28,10 @@ Patient record system for hospitals in order to keep track of their patients app
     - [x] delete prescriptions from patient
         - [x] add new prescriptions to prescriptions db table
 - [x] book appointments for a patient
-    - [ ] remove apppointments
+    - [x] remove appointments
 - [x] see their own list of appointments
-- [ ] send message to their patients
-- [ ] read messages
+- [x] send message to their patients
+- [x] read messages
 - [x] edit profile details
     - [x] name
     - [x] email

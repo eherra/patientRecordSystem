@@ -1,4 +1,3 @@
-from pickle import FALSE
 from app import app
 from flask import redirect, request, render_template
 from services import users, prescriptions, appointments
