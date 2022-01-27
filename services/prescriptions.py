@@ -2,30 +2,30 @@ from db import db
 import sys
 
 USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
-                            FROM   UserPrescriptions \
+                            FROM   user_prescriptions \
                             WHERE  user_id = :user_id"
 
 SINGLE_PRESCRIPTION_QUERY = "SELECT id, name, amount_per_day \
-                             FROM   Prescriptions \
+                             FROM   prescriptions \
                              WHERE  id = :prescription_id"
                 
 GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY = "SELECT id, name, amount_per_day \
-                                          FROM Prescriptions \
+                                          FROM prescriptions \
                                           WHERE id NOT IN \
                                                   (SELECT prescription_id \
-                                                   FROM   UserPrescriptions \
+                                                   FROM   user_prescriptions \
                                                    WHERE  user_id = :user_id \
                                                    AND    visible = TRUE)"
 
-UPDATE_USER_PRESCRIPTION = "UPDATE UserPrescriptions \
+UPDATE_USER_PRESCRIPTION = "UPDATE user_prescriptions \
                             SET    visible = :visible \
                             WHERE  user_id = :user_id \
                             AND    prescription_id = :prescription_id"
 
-ADD_USER_PRESCRIPTION = "INSERT INTO UserPrescriptions (prescription_id, user_id) \
+ADD_USER_PRESCRIPTION = "INSERT INTO user_prescriptions (prescription_id, user_id) \
                          VALUES (:prescription_id, :user_id);"
 
-CREATE_NEW_PRESCRIPTION = "INSERT INTO Prescriptions (name, amount_per_day) \
+CREATE_NEW_PRESCRIPTION = "INSERT INTO prescriptions (name, amount_per_day) \
                            VALUES (:name, :amount_per_day);"
 
 def get_all_not_signed_prescription(user_id):

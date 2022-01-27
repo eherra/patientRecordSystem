@@ -2,7 +2,6 @@ from app import app
 from flask import redirect, request
 from services import prescriptions
 
-#TODO - hard coded sender and receiver -> get userId from sesion
 # only admin can call this function
 @app.route("/add-prescription", methods=["POST"])
 def add_prescription():

@@ -41,10 +41,10 @@ Patient record system for hospitals in order to keep track of their patients app
         - [x] country
 
 <b>User (patients) available to do:</b>
-- [ ] see their own records
+- [x] see their own records
     - [x] prescriptions
-    - [ ] symptons stories
-- [ ] see their doctor's information (contact - email/phone)
+    - [x] symptons stories
+- [x] see their doctor's information (contact - phone)
 - [x] send message to their doctor
 - [x] read messages
     - [x] see sent historys

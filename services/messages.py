@@ -1,8 +1,7 @@
 from db import db
-from constant import TIME_FORMAT, NAME_DB_KEY
+from utils.constant import TIME_FORMAT, NAME_DB_KEY
 from services import users
 
-# TODO - add ORDER BY sent_at 
 SENT_MESSAGES_QUERY = "SELECT   user2_id, content, TO_CHAR(sent_at, :time_format) \
                        FROM     messages \
                        WHERE    user1_id = :user_id \

@@ -10,5 +10,5 @@ CITY_DB_KEY='city'
 PERSONAL_DOCTOR_ID_DB_KEY='personal_doctor_id'
 
 # Avatar url
-DOCTOR_AVATAR_URL='/static/photos/doctorAvatar.png'
-PATIENT_AVATAR_URL='/static/photos/patientAvatar.png'
+DOCTOR_AVATAR_URL='/static/images/doctorAvatar.png'
+PATIENT_AVATAR_URL='/static/images/patientAvatar.png'

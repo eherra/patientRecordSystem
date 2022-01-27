@@ -5,7 +5,7 @@
             <th>#</th>
             <th>Appointment Type</th>
             <th>Date</th>
-            {% if False %}
+            {% if session.is_doctor %}
             <th>Patient name</th>
             {% else %}
             <th>Doctor name</th>
@@ -19,7 +19,7 @@
                         class="btn btn-dark btn-sm">View</button></a></td>
             <td>{{ appointment.appointment_type }}</td>
             <td>{{ appointment.time }}</td>
-            {% if False %}
+            {% if session.is_doctor %}
             <td>{{ appointment.patient_name }}</td>
             {% else %}
             <td>{{ appointment.doctor_name }}</td>

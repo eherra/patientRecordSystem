@@ -52,7 +52,7 @@
                     />
                 </div>
                 <span class="name mt-3">{{user_info.name}}</span>
-                {% if False %}
+                {% if session.is_doctor %}
                 <span class="role">Doctor</span>
                 {% else %}
                 <span class="role">Patient</span>

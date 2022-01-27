@@ -1,35 +1,36 @@
 from db import db
 from services import users
-from constant import TIME_FORMAT, NAME_DB_KEY
+from utils.constant import TIME_FORMAT, NAME_DB_KEY
 from datetime import datetime
 import sys
 
-PATIENT_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
-                                       FROM     Appointments \
-                                       WHERE    patient_id = :user_id \
-                                       ORDER BY time_at DESC"
-
-DOCTOR_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
-                                      FROM     Appointments \
-                                      WHERE    doctor_id = :user_id \
-                                      ORDER BY time_at DESC"
-
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
-                                 FROM   Appointments \
+                                 FROM   appointments \
                                  WHERE  patient_id = :user_id \
                                  AND    id = :appointment_id"
 
-UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE Appointments \
+DOCTOR_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
+                                      FROM     appointments \
+                                      WHERE    doctor_id = :user_id \
+                                      ORDER BY time_at DESC"
+
+PATIENT_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
+                                       FROM     appointments \
+                                       WHERE    patient_id = :user_id \
+                                       ORDER BY time_at DESC"
+
+DELETE_APPOINTMENT_QUERY = "DELETE \
+                            FROM  appointments \
+                            WHERE id = :appointment_id"
+
+UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE appointments \
                                 SET    symptom = :new_symptom \
                                 WHERE  patient_id = :user_id \
                                 AND    id = :appointment_id"
 
-CREATE_NEW_APPOINTMENT_QUERY = "INSERT INTO Appointments (patient_id, doctor_id, appointment_type, time_at) \
+CREATE_NEW_APPOINTMENT_QUERY = "INSERT INTO appointments (patient_id, doctor_id, appointment_type, time_at) \
                                 VALUES (:patient_id, :doctor_id, :appointment_type, (TIMESTAMP :time_at))"
 
-DELETE_APPOINTMENT_QUERY = "DELETE \
-                            FROM Appointments \
-                            WHERE id = :appointment_id"
 
 def get_patient_appointments_info(user_id):
     fetched_appointments = db.session.execute(PATIENT_ALL_APPOINTMENTS_INFO_QUERY, {"user_id": user_id, 
@@ -44,7 +45,7 @@ def get_doctor_appointments_info(user_id):
 def format_appointment_data(fetched_appointments):
     formatted_appointments = []
 
-    # fetched_appointments has a list of tuple values (doctor_id, appointment_type, time_at)
+    # fetched_appointments has a list of tuple values (id, patient_id, doctor_id, appointment_type, time_at)
     for appointment in fetched_appointments:
         patient_name = users.get_user_info_by_key(appointment[1], NAME_DB_KEY)
         doctor_name = users.get_user_info_by_key(appointment[2], NAME_DB_KEY)
@@ -104,8 +105,8 @@ def get_bg_color_according_date_past(date):
     date_formatted = datetime.strptime(date, "%d-%m-%Y %H:%M")
     if date_formatted > datetime.now():
         return "#B2D2A4"
-    else:
-        return "#B8B8B8"
+    
+    return "#B8B8B8"
 
 ## TODO - add correct date check
 def is_valid_date(input):

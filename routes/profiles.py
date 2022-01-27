@@ -1,22 +1,20 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, session
 from services import prescriptions, users, appointments, messages
-from constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
+from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from datetime import datetime
 import sys
 
-#TODO - hardcoded userID values on method calls -> get ID from session
 @app.route("/profile")
 def profile():
     # check if is_doctor value in session
-    if False:
+    if session["is_doctor"]:
         return render_doctor_profile()
     else:
         return render_patient_profile()
 
 def render_patient_profile():
-    # TODO - fetch from session
-    user_id = 1
+    user_id = session["user_id"]
 
     # fetching sent messages of user
     sent_messages = messages.get_sent_messages(user_id)
@@ -50,8 +48,7 @@ def render_patient_profile():
 
 #TODO - hardcoded userID values on method calls -> get ID from session
 def render_doctor_profile():
-    # TODO - fetch from session
-    user_id = 2
+    user_id = session["user_id"]
     
     # fetching sent messages of user
     sent_messages = messages.get_sent_messages(user_id)
@@ -65,10 +62,9 @@ def render_doctor_profile():
     # Fetching appointments info 
     appointments_info = appointments.get_doctor_appointments_info(user_id)
     doctor_patients = users.get_doctor_patients(user_id)
-    print(doctor_patients, file=sys.stdout)
 
+    # TODO - refactor
     time_now = datetime.now().strftime("%Y-%m-%dT%H:%M")
-    print(time_now, file=sys.stdout)
 
     return render_template("doctor-profile-page.html",
                             user_id=user_id,

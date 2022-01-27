@@ -1,19 +1,29 @@
 from app import app
 from flask import session, redirect, request, render_template
+from services import login, users
 import sys 
 
 @app.route("/login")
-def login():
+def login_page():
     return render_template("login-page.html")
-
+ 
 @app.route("/login", methods=["POST"])
 def process_login():
-    #TODO add username password check
-    print('toimii', file=sys.stdout)
+    username = request.form["username"]
+    password = request.form["password"]
+    logged_user_info = login.check_login_and_return_info(username, password)
 
-    return redirect("/")
+    if logged_user_info:
+        session["user_id"] = logged_user_info[0]
+        session["is_doctor"] = logged_user_info[1]
+    else: 
+        return redirect("/login")
+
+    return redirect("/profile")
 
 @app.route("/logout")
 def logout():
-    return redirect("/")
+    del session["user_id"]
+    del session["is_doctor"]
+    return redirect("/login")
 

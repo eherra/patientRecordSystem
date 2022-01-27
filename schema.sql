@@ -1,43 +1,43 @@
-CREATE TABLE Users (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
     password TEXT,
-    isDoctor BOOLEAN
+    is_doctor BOOLEAN
 );
 
-CREATE TABLE UserInfo (
+CREATE TABLE user_info (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES Users,
+    user_id INTEGER REFERENCES users,
     key TEXT,
     value TEXT
 );
 
-CREATE TABLE Appointments (
+CREATE TABLE appointments (
     id SERIAL PRIMARY KEY,
-    patient_id INTEGER REFERENCES Users,
-    doctor_id INTEGER REFERENCES Users,
+    patient_id INTEGER REFERENCES users,
+    doctor_id INTEGER REFERENCES users,
     time_at TIMESTAMP,
     appointment_type TEXT, 
     symptom TEXT DEFAULT ''
 );
 
-CREATE TABLE Prescriptions (
+CREATE TABLE prescriptions (
     id SERIAL PRIMARY KEY,
     name TEXT,
     amount_per_day INTEGER
 );
 
-CREATE TABLE UserPrescriptions (
+CREATE TABLE user_prescriptions (
     id SERIAL PRIMARY KEY,
-    prescription_id INTEGER REFERENCES Prescriptions,
-    user_id INTEGER REFERENCES Users,
+    prescription_id INTEGER REFERENCES prescriptions,
+    user_id INTEGER REFERENCES users,
     visible BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE Messages (
-    id INTEGER PRIMARY KEY,
-    user1_id INTEGER REFERENCES Users,
-    user2_id INTEGER REFERENCES Users,
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    user1_id INTEGER REFERENCES users,
+    user2_id INTEGER REFERENCES users,
     content TEXT,
     sent_at TIMESTAMP
 );

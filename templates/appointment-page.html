@@ -8,7 +8,7 @@
             <h5>Patient info</h5>
             <div>
                 {{patient_info.name}}
-                <img src="/static/photos/sickDoge.png" alt="Avatar" style="
+                <img src="/static/images/sickDoge.png" alt="Avatar" style="
                     vertical-align: middle;
                     width: 70px;
                     height: 70px;
@@ -28,10 +28,10 @@
             <div>Appointment at: {{appointment.time_at}}</div>
 
             <!--- ONLY ADMIN CAN SEE THIS --->
-            {% if False %}
+            {% if session.is_doctor %}
             <a href="/appointment/{{appointment.id}}/delete">
-                <button type="button" class="btn btn-dark btn-sm">Delete appointment <i
-                        class="far fa-trash-alt"></i></button>
+                <button type="button" class="btn btn-dark btn-sm">
+                    Delete appointment <i class="far fa-trash-alt"></i></button>
             </a>
             {% endif %}
         </div>
@@ -40,7 +40,7 @@
         </div>
 
         <!--- SYMPTON WRITING FOR DOCTOR ROLE --->
-        {% if False %}
+        {% if session.is_doctor %}
         {% include 'components/symptom-form.html' %}
         {% else %}
         {% include 'components/symptom-info.html' %}
@@ -57,7 +57,7 @@
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex justify-content-between">
                             <h6 class="mb-1"><u>{{ prescription.name }}</u>
-                                {% if False %}
+                                {% if session.is_doctor %}
                                 <input type="hidden" name="isVisible" value="False">
                                 <input type="submit" value="remove">
                                 {% endif %}
@@ -71,7 +71,7 @@
             {% endfor %}
 
             <!--- ONLY ADMIN CAN SEE THIS --->
-            {% if False %}
+            {% if session.is_doctor %}
             <h5><u>Add prescriptions to patient</u></h5>
             {% for prescription in all_prescriptions %}
             <form
@@ -92,9 +92,7 @@
             </form>
             {% endfor %}
             {% endif %}
-
         </div>
     </div>
 </div>
-
 {% endblock %}

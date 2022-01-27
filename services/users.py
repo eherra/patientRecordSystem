@@ -1,22 +1,21 @@
 from db import db
-from constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
+from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
 
 GET_USERINFO_BY_KEY_QUERY = "SELECT value \
-                             FROM   UserInfo \
+                             FROM   user_info \
                              WHERE  user_id = :user_id \
                              AND    key = :key"
 
 GET_DOCTOR_PATIENTS_QUERY = "SELECT user_id \
-                             FROM UserInfo \
+                             FROM user_info \
                              WHERE key = :key \
                              AND value = :doctor_id"
 
-UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE UserInfo \
+UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE user_info \
                                 SET    value = :new_value \
                                 WHERE  user_id = :user_id \
                                 AND    key = :key"
-
 
 def get_user_info(user_id):
     return {
@@ -57,24 +56,24 @@ def format_doctor_patients(fetched_patients):
     return formatted_patients
 
 # TODO - hardcoded user_id -> fetch it from session
-def update_settings_values(name, phone, email, address, city, country):
+def update_settings_values(user_id, name, phone, email, address, city, country):
     if is_valid_input(name):
-        update_user_info_by_key(1, NAME_DB_KEY, name)
+        update_user_info_by_key(user_id, NAME_DB_KEY, name)
     
     if is_valid_input(phone):
-        update_user_info_by_key(1, PHONE_DB_KEY, phone)
+        update_user_info_by_key(user_id, PHONE_DB_KEY, phone)
 
     if is_valid_input(email):
-        update_user_info_by_key(1, EMAIL_DB_KEY, email)
+        update_user_info_by_key(user_id, EMAIL_DB_KEY, email)
 
     if is_valid_input(address):
-        update_user_info_by_key(1, ADDRESS_DB_KEY, address)
+        update_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
 
     if is_valid_input(city):
-        update_user_info_by_key(1, CITY_DB_KEY, city)
+        update_user_info_by_key(user_id, CITY_DB_KEY, city)
 
     if is_valid_input(country):
-        update_user_info_by_key(1, COUNTRY_DB_KEY, country)
+        update_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
 
 ## TODO - move to validation module
 def is_valid_input(input):
