@@ -1,4 +1,4 @@
-## A Patient Record System
+## Patientlify - A Patient Record System
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
@@ -8,16 +8,23 @@
 
 Patient record system for hospitals in order to keep track of their patients appointments, prescriptions and symptom stories. 
 
-### TODO
-- proper input validations
-- proper error handeling
-- heroku and config heroku db
-- login and session addition
-- patient not having access to admin function buttons/pages/info
-- frontend action success/failure messages
-- error pages 404, 500
-- register new user page
-- features listed below
+### <u>Hosting:</u>
+
+Application is hosted on Heroku:
+
+https://patientlify.herokuapp.com/
+
+I have added 2 test users to Heroku DB in order to test the app
+
+#### Patient
+- username: patient123
+- password: testPassword
+
+#### Doctor
+- username: doctor123
+- password: testPassword
+
+### <u>Functionalities of the application</u>
 
 <b>Admin (doctors) available to do:</b>
 - [x] write symptom stories of patients
@@ -56,3 +63,15 @@ Patient record system for hospitals in order to keep track of their patients app
     - [x] address
         - [x] city
         - [x] country
+
+### <u>Backlog</u>
+
+#### <u>TODO</u>
+- proper input validations
+- proper error handeling
+- patient not having access to admin methods (test via Postman)
+- frontend action success/failure messages
+- error pages 404, 500
+- register new user functions
+- db table values (UNIQUE/NULL)
+- folder structure refactoring
