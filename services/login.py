@@ -1,7 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import db
 
-CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT password, is_doctor \
+CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \
                                      FROM users \
                                      WHERE username = :username"
 
