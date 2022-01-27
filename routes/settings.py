@@ -6,7 +6,7 @@ from services import users
 def settings():
     return render_template("settings-page.html")
 
-# TODO - get user_id from session
+# TODO - error handeling if user_id not found from session
 @app.route("/settings/update", methods=["POST"])
 def update_settings():
     user_id = session["user_id"]

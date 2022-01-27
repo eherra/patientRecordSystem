@@ -6,6 +6,7 @@ import sys
 def register_page():
     return render_template("register-page.html")
 
+# TODO - this
 @app.route("/register/user")
 def register_user():
     # check if over 3 characters and unique
