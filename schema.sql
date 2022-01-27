@@ -8,7 +8,7 @@ CREATE TABLE users (
 CREATE TABLE user_info (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    key TEXT,
+    key TEXT UNIQUE,
     value TEXT
 );
 

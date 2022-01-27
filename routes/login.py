@@ -6,10 +6,10 @@ import sys
 
 @app.route("/")
 def index():
-    if session["user_id"]:
+    if session.get("user_id"):
         return redirect("/profile")
-        
-    return redirect("login.html")
+
+    return redirect("/login")
 
 @app.route("/login")
 def login_page():
