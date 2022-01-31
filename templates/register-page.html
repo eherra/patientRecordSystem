@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <form action="/register/user" method="POST">
-    <div class="container" style="margin-top: 5em">
+    <div class="container" style="margin-top: 1em">
         <div class="card">
             <div class="card-body" style="background-color: #f2ebd9;">
                 <h3><u>Please fill all the forms</u></h3>
-
                 <div class="row gutters">
                     <div class="col-xl-12">
                         <h6 class="mb-3 text-dark">Add username and password</h6>
@@ -20,6 +19,19 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" placeholder="Enter password (min 5 characters)">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <span>Choose one:</span>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-secondary active">
+                                  <input type="radio" name="options" id="option1" checked>Patient
+                                </label>
+                                <label class="btn btn-outline-secondary">
+                                  <input type="radio" name="options" id="option2">Doctor
+                                </label>
+                              </div>
                         </div>
                     </div>
                 </div>

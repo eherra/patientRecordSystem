@@ -37,16 +37,19 @@ def get_user_personal_doctor_info(doctor_id):
 
 def get_user_info_by_key(user_id, key):
     try:
-        value = db.session.execute(GET_USERINFO_BY_KEY_QUERY, {"user_id": user_id,
-                                                               "key": key}).fetchone()[0]
+        value = db.session.execute(GET_USERINFO_BY_KEY_QUERY,
+                                  {"user_id": user_id,
+                                   "key": key}
+                                   ).fetchone()[0]
         return value
     except:
         abort(500)
 
 def get_doctor_patients(doctor_id):
     try:
-        fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY, {"key": PERSONAL_DOCTOR_ID_DB_KEY,
-                                                                          "doctor_id": str(doctor_id)})
+        fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
+                                             {"key": PERSONAL_DOCTOR_ID_DB_KEY,
+                                              "doctor_id": str(doctor_id)})
         return format_doctor_patients(fetched_patients)                                                       
     except:
         abort(500)
@@ -87,9 +90,10 @@ def is_valid_input(input):
 
 def update_user_info_by_key(user_id, key, new_value):
     try:
-        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"user_id": user_id,
-                                                          "key": key,
-                                                          "new_value": new_value})
+        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY,
+                          {"user_id": user_id,
+                           "key": key,
+                           "new_value": new_value})
         db.session.commit()
     except:
         abort(500)

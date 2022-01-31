@@ -4,9 +4,11 @@ from services import users
 
 @app.route("/settings")
 def settings():
-    user_id = session["user_id"]
+    user_id = session.get("user_id")
+    if user_id is None:
+        abort(401, description="User not logged in")
+        
     user_info = users.get_user_info(user_id)
-
     return render_template("settings-page.html",
                             user_info=user_info)
 

@@ -70,10 +70,8 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 
 #### Frontend
 - js input validations
-- action success/failure feedback
 - error pages 404, 500
 - message history arrow 180 degree turn when opened
-- register user possible to register doctor or patient button
 - appointment page
     - cleaner user info
     - cleaner appointmet details

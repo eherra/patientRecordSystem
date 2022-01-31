@@ -6,7 +6,8 @@ CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \
                                      WHERE username = :username"
 
 def check_login_and_return_info(username, password):
-    result = db.session.execute(CHECK_LOGIN_AND_RETURN_INFO_QUERY, {"username":username})
+    result = db.session.execute(CHECK_LOGIN_AND_RETURN_INFO_QUERY, 
+                               {"username":username})
     user = result.fetchone()    
     if not user:
         return None

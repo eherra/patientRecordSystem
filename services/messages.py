@@ -18,16 +18,20 @@ ADD_NEW_MESSAGE_QUERY = "INSERT INTO messages (user1_id, user2_id, content, sent
 
 def get_sent_messages(user_id):
     try:
-        sent_messages = db.session.execute(SENT_MESSAGES_QUERY, {"user_id": user_id,
-                                                                 "time_format": TIME_FORMAT}).fetchall()
+        sent_messages = db.session.execute(SENT_MESSAGES_QUERY, 
+                                          {"user_id": user_id,
+                                           "time_format": TIME_FORMAT}
+                                           ).fetchall()
         return format_messages(sent_messages)
     except:
         abort(500)
 
 def get_received_messages(user_id):
     try:
-        received_messages = db.session.execute(RECEIVED_MESSAGES_QUERY, {"user_id": user_id,
-                                                                         "time_format": TIME_FORMAT}).fetchall()
+        received_messages = db.session.execute(RECEIVED_MESSAGES_QUERY, 
+                                              {"user_id": user_id,
+                                               "time_format": TIME_FORMAT}
+                                               ).fetchall()
         return format_messages(received_messages)
     except:
         abort(500)
@@ -46,9 +50,10 @@ def format_messages(messages_list):
 ## TODO - add validation for content
 def add_new_message(content, sender_user_id, receiver_user_id):
     try:
-        db.session.execute(ADD_NEW_MESSAGE_QUERY, {"content": content, 
-                                                   "sender_user_id": sender_user_id, 
-                                                   "receiver_user_id": receiver_user_id})
+        db.session.execute(ADD_NEW_MESSAGE_QUERY, 
+                          {"content": content, 
+                           "sender_user_id": sender_user_id, 
+                           "receiver_user_id": receiver_user_id})
         db.session.commit()
     except:
         abort(500)

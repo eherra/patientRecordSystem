@@ -35,16 +35,20 @@ CREATE_NEW_APPOINTMENT_QUERY = "INSERT INTO appointments (patient_id, doctor_id,
 
 def get_patient_appointments_info(user_id):
     try:
-        fetched_appointments = db.session.execute(PATIENT_ALL_APPOINTMENTS_INFO_QUERY, {"user_id": user_id, 
-                                                                                        "time_format": TIME_FORMAT}).fetchall()
+        fetched_appointments = db.session.execute(PATIENT_ALL_APPOINTMENTS_INFO_QUERY,
+                                                 {"user_id": user_id, 
+                                                  "time_format": TIME_FORMAT}
+                                                  ).fetchall()
         return format_appointment_data(fetched_appointments)
     except: 
         abort(500)
 
 def get_doctor_appointments_info(user_id):
     try:
-        fetched_appointments = db.session.execute(DOCTOR_ALL_APPOINTMENTS_INFO_QUERY, {"user_id": user_id, 
-                                                                                       "time_format": TIME_FORMAT}).fetchall()
+        fetched_appointments = db.session.execute(DOCTOR_ALL_APPOINTMENTS_INFO_QUERY,
+                                                 {"user_id": user_id, 
+                                                  "time_format": TIME_FORMAT}
+                                                  ).fetchall()
         return format_appointment_data(fetched_appointments)
     except:
         abort(500)
@@ -69,9 +73,15 @@ def format_appointment_data(fetched_appointments):
     return formatted_appointments
 
 def get_appointment_info_by(user_id, appointment_id):
-    appointment = db.session.execute(APPOINTMENTS_INFO_BY_ID_QUERY, {"appointment_id": appointment_id, 
-                                                                     "time_format": TIME_FORMAT,
-                                                                     "user_id": user_id }).fetchone()
+    try: 
+        appointment = db.session.execute(APPOINTMENTS_INFO_BY_ID_QUERY,
+                                        {"appointment_id": appointment_id, 
+                                         "time_format": TIME_FORMAT,
+                                         "user_id": user_id}
+                                         ).fetchone()                                                                    
+    except:
+        abort(500)
+    
     if not appointment:
         abort(404)
     
@@ -83,39 +93,38 @@ def get_appointment_info_by(user_id, appointment_id):
         "time_at": appointment[2],
     }
 
-## TODO - proper error handling
 def update_appointment_symptom(user_id, appo_id, new_symptom):
     if is_valid_symptom_input(new_symptom):
         try:
-            db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"appointment_id": appo_id,
-                                                              "user_id": user_id,
-                                                              "new_symptom": new_symptom})
+            db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, 
+                              {"appointment_id": appo_id,
+                               "user_id": user_id,
+                               "new_symptom": new_symptom})
             db.session.commit()
         except:
             abort(500)
 
-## TODO - proper error handling
 def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
     formatted_time_at = time_at.replace("T", " ")
     if is_valid_appointment_type_input(appointment_type) and is_valid_date(formatted_time_at):
         try:
-            db.session.execute(CREATE_NEW_APPOINTMENT_QUERY, {"patient_id": patient_id, 
-                                                              "doctor_id": doctor_id,
-                                                              "appointment_type": appointment_type,
-                                                              "time_at": formatted_time_at})
+            db.session.execute(CREATE_NEW_APPOINTMENT_QUERY, 
+                              {"patient_id": patient_id, 
+                               "doctor_id": doctor_id,
+                               "appointment_type": appointment_type,
+                               "time_at": formatted_time_at})
             db.session.commit()
         except: 
             abort(500)
 
-## TODO - proper error handling
 def delete_appointment(appo_id):
     try:
-        db.session.execute(DELETE_APPOINTMENT_QUERY, {"appointment_id": appo_id})
+        db.session.execute(DELETE_APPOINTMENT_QUERY, 
+                          {"appointment_id": appo_id})
         db.session.commit()
     except:
         abort(500)
 
-## TODO - move to validation module
 def is_valid_symptom_input(input):
     return input and len(input) < 200 and not input.isspace()
 

@@ -32,13 +32,17 @@ CREATE_NEW_PRESCRIPTION = "INSERT INTO prescriptions (name, amount_per_day) \
 def get_all_not_signed_prescription(user_id):
     """Fetching all prescriptions which User doesn't have yet signed to"""
     try:
-        return db.session.execute(GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY, {"user_id": user_id}).fetchall()
+        return db.session.execute(GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY,
+                                 {"user_id": user_id}
+                                 ).fetchall()
     except:
         abort(500)
 
 def get_user_prescriptions(user_id):
     try:
-        fetched_prescriptions = db.session.execute(USER_PRESCRIPTIONS_QUERY, {"user_id": user_id}).fetchall()
+        fetched_prescriptions = db.session.execute(USER_PRESCRIPTIONS_QUERY, 
+                                                  {"user_id": user_id}
+                                                  ).fetchall()
         return format_precription_lists(fetched_prescriptions)
     except:
         abort(500)
@@ -61,7 +65,9 @@ def format_precription_lists(fetched_prescriptions):
 
 def get_prescription_info_by_id(prescription_id):
     try:
-        return db.session.execute(SINGLE_PRESCRIPTION_QUERY, {"prescription_id": prescription_id}).fetchone()
+        return db.session.execute(SINGLE_PRESCRIPTION_QUERY,
+                                 {"prescription_id": prescription_id}
+                                 ).fetchone()
     except:
         abort(500)
 
@@ -69,9 +75,10 @@ def update_prescription_from_user(user_id, prescription_id, bool_value):
     """Changing UserPrescription "visible" value to given parameter (bool_value)
        If update rowcount = 0, no connection made on UserPrescription table for the user for the prescription before"""
     try:
-        isSuccess = db.session.execute(UPDATE_USER_PRESCRIPTION, {"user_id": user_id, 
-                                                                  "prescription_id": prescription_id,
-                                                                  "visible": bool_value})
+        isSuccess = db.session.execute(UPDATE_USER_PRESCRIPTION, 
+                                      {"user_id": user_id, 
+                                       "prescription_id": prescription_id,
+                                       "visible": bool_value})
         if not isSuccess.rowcount:
             add_new_prescription_to(user_id, prescription_id)
 
@@ -81,16 +88,17 @@ def update_prescription_from_user(user_id, prescription_id, bool_value):
 
 def add_new_prescription_to(user_id, prescription_id):
     try:
-        db.session.execute(ADD_USER_PRESCRIPTION, {"user_id": user_id, 
-                                                   "prescription_id": prescription_id})
-        db.session.commit()
+        db.session.execute(ADD_USER_PRESCRIPTION, 
+                          {"user_id": user_id, 
+                           "prescription_id": prescription_id})
     except:
         abort(500)
 
 def create_new_prescription(prescription_name, amount_per_day):
     try:
-        db.session.execute(CREATE_NEW_PRESCRIPTION, {"name": prescription_name, 
-                                                    "amount_per_day": amount_per_day})
+        db.session.execute(CREATE_NEW_PRESCRIPTION,
+                          {"name": prescription_name, 
+                           "amount_per_day": amount_per_day})
         db.session.commit()
     except:
         abort(500)
