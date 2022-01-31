@@ -1,8 +1,7 @@
 from app import app
-from flask import session, redirect, request, render_template
-from services import login, users
+from flask import session, redirect, request, render_template, flash
+from services import login
 import sys 
-
 
 @app.route("/")
 def index():
@@ -25,6 +24,7 @@ def process_login():
         session["user_id"] = logged_user_info[0]
         session["is_doctor"] = logged_user_info[2]
     else: 
+        flash("Wrong username or password", "danger")
         return redirect("/login")
 
     return redirect("/profile")

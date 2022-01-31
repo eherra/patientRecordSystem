@@ -72,7 +72,6 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 - js input validations
 - action success/failure feedback
 - error pages 404, 500
-- profile settings add user info values as placeholder
 - message history arrow 180 degree turn when opened
 - register user possible to register doctor or patient button
 - appointment page
@@ -93,3 +92,4 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
     - folder structure
     - templates
     - usage of Blueprints?
+    - addings tests

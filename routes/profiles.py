@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, session
+from flask import redirect, render_template, session
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from datetime import datetime
@@ -7,11 +7,13 @@ import sys
 
 @app.route("/profile")
 def profile():
-    # check if is_doctor value in session
-    if session["is_doctor"]:
+    # checks if is_doctor value is boolean True in session
+    if session.get("is_doctor"):
         return render_doctor_profile()
-    else:
+    elif not session.get("user_id") is None:
         return render_patient_profile()
+    else:
+        return redirect("/login")
 
 def render_patient_profile():
     user_id = session["user_id"]

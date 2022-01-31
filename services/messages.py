@@ -1,4 +1,5 @@
 from db import db
+from flask import abort
 from utils.constant import TIME_FORMAT, NAME_DB_KEY
 from services import users
 
@@ -16,14 +17,20 @@ ADD_NEW_MESSAGE_QUERY = "INSERT INTO messages (user1_id, user2_id, content, sent
                          VALUES (:sender_user_id, :receiver_user_id, :content, NOW())"
 
 def get_sent_messages(user_id):
-    sent_messages = db.session.execute(SENT_MESSAGES_QUERY, {"user_id": user_id,
-                                                            "time_format": TIME_FORMAT}).fetchall()
-    return format_messages(sent_messages)
+    try:
+        sent_messages = db.session.execute(SENT_MESSAGES_QUERY, {"user_id": user_id,
+                                                                 "time_format": TIME_FORMAT}).fetchall()
+        return format_messages(sent_messages)
+    except:
+        abort(500)
 
 def get_received_messages(user_id):
-    received_messages = db.session.execute(RECEIVED_MESSAGES_QUERY, {"user_id": user_id,
-                                                                    "time_format": TIME_FORMAT}).fetchall()
-    return format_messages(received_messages)
+    try:
+        received_messages = db.session.execute(RECEIVED_MESSAGES_QUERY, {"user_id": user_id,
+                                                                         "time_format": TIME_FORMAT}).fetchall()
+        return format_messages(received_messages)
+    except:
+        abort(500)
 
 def format_messages(messages_list):
     formatted_messages = []
@@ -38,7 +45,10 @@ def format_messages(messages_list):
 
 ## TODO - add validation for content
 def add_new_message(content, sender_user_id, receiver_user_id):
-    db.session.execute(ADD_NEW_MESSAGE_QUERY, {"content": content, 
-                                               "sender_user_id": sender_user_id, 
-                                               "receiver_user_id": receiver_user_id})
-    db.session.commit()
+    try:
+        db.session.execute(ADD_NEW_MESSAGE_QUERY, {"content": content, 
+                                                   "sender_user_id": sender_user_id, 
+                                                   "receiver_user_id": receiver_user_id})
+        db.session.commit()
+    except:
+        abort(500)

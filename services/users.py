@@ -1,4 +1,5 @@
 from db import db
+from flask import abort
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
 
@@ -35,14 +36,20 @@ def get_user_personal_doctor_info(doctor_id):
     }
 
 def get_user_info_by_key(user_id, key):
-    value = db.session.execute(GET_USERINFO_BY_KEY_QUERY, {"user_id": user_id,
-                                                           "key": key}).fetchone()[0]
-    return value
+    try:
+        value = db.session.execute(GET_USERINFO_BY_KEY_QUERY, {"user_id": user_id,
+                                                               "key": key}).fetchone()[0]
+        return value
+    except:
+        abort(500)
 
 def get_doctor_patients(doctor_id):
-    fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY, {"key": PERSONAL_DOCTOR_ID_DB_KEY,
-                                                                      "doctor_id": str(doctor_id)})
-    return format_doctor_patients(fetched_patients)
+    try:
+        fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY, {"key": PERSONAL_DOCTOR_ID_DB_KEY,
+                                                                          "doctor_id": str(doctor_id)})
+        return format_doctor_patients(fetched_patients)                                                       
+    except:
+        abort(500)
 
 def format_doctor_patients(fetched_patients):
     formatted_patients = []
@@ -55,7 +62,6 @@ def format_doctor_patients(fetched_patients):
 
     return formatted_patients
 
-# TODO - hardcoded user_id -> fetch it from session
 def update_settings_values(user_id, name, phone, email, address, city, country):
     if is_valid_input(name):
         update_user_info_by_key(user_id, NAME_DB_KEY, name)
@@ -80,7 +86,10 @@ def is_valid_input(input):
     return input and len(input) < 50 and not input.isspace()
 
 def update_user_info_by_key(user_id, key, new_value):
-    db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"user_id": user_id,
-                                                      "key": key,
-                                                      "new_value": new_value})
-    db.session.commit()
+    try:
+        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, {"user_id": user_id,
+                                                          "key": key,
+                                                          "new_value": new_value})
+        db.session.commit()
+    except:
+        abort(500)
