@@ -1,6 +1,6 @@
 TIME_FORMAT='DD-MM-YYYY HH:MI'
 
-# DB Table UserInfo keys
+# DB Table user_info keys
 NAME_DB_KEY='name'
 PHONE_DB_KEY='phone'
 ADDRESS_DB_KEY='address'

@@ -8,13 +8,15 @@
 
 Patient record system for hospitals in order to keep track of their patients appointments, prescriptions and symptom stories. 
 
-### <u>Hosting:</u>
+### Hosting
 
 Application is hosted on Heroku:
 
 https://patientlify.herokuapp.com/
 
-I have added 2 test users to Heroku DB in order to test the app
+Registering new users functionality is in progess.
+
+Therefore I have added 2 test users to Heroku Postgres DB in order to test the app:
 
 #### Patient
 - username: patient123
@@ -24,7 +26,7 @@ I have added 2 test users to Heroku DB in order to test the app
 - username: doctor123
 - password: testPassword
 
-### <u>Functionalities of the application</u>
+### Functionalities of the application
 
 <b>Admin (doctors) available to do:</b>
 - [x] write symptom stories of patients
@@ -35,7 +37,7 @@ I have added 2 test users to Heroku DB in order to test the app
     - [x] delete prescriptions from patient
         - [x] add new prescriptions to prescriptions db table
 - [x] book appointments for a patient
-    - [x] remove appointments
+    - [x] delete appointments
 - [x] see their own list of appointments
 - [x] send message to their patients
 - [x] read messages
@@ -64,14 +66,30 @@ I have added 2 test users to Heroku DB in order to test the app
         - [x] city
         - [x] country
 
-### <u>Backlog</u>
+### Backlog
 
-#### <u>TODO</u>
-- proper input validations
-- proper error handeling
-- patient not having access to admin methods (test via Postman)
-- frontend action success/failure messages
+#### Frontend
+- js input validations
+- action success/failure feedback
 - error pages 404, 500
+- profile settings add user info values as placeholder
+- message history arrow 180 degree turn when opened
+- register user possible to register doctor or patient button
+- appointment page
+    - cleaner user info
+    - cleaner appointmet details
+    - top right part, photo?
+
+#### Backend
+- proper input validations
+    - starting to use validator module and moving validator methods there
+- proper error handeling
+- patient not having access to admin routes (test via Postman)
 - register new user functions
 - db table values (UNIQUE/NULL)
-- folder structure refactoring
+
+#### General
+- refactoring
+    - folder structure
+    - templates
+    - usage of Blueprints?
