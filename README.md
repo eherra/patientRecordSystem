@@ -26,6 +26,9 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 - username: doctor123
 - password: testPassword
 
+### Known browser issues
+On <u>Mozilla Firefox</u> and <u>Safari</u> the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
+
 ### Functionalities of the application
 
 <b>Admin (doctors) available to do:</b>
@@ -81,7 +84,6 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 - proper input validations
     - starting to use validator module and moving validator methods there
 - proper error handeling
-- patient not having access to admin routes (test via Postman)
 - register new user functions
 - db table values (UNIQUE/NULL)
 

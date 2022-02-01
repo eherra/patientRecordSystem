@@ -1,6 +1,9 @@
 from flask import session, redirect, request, render_template, flash, Blueprint
 from services import auth
-import sys 
+from utils.constant import DANGER_CATEGORY
+from utils.auth_validator import requires_login
+
+LOGIN_ERROR_MESSAGE = "Wrong username or password"
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -24,12 +27,13 @@ def process_login():
         session["user_id"] = logged_user_info[0]
         session["is_doctor"] = logged_user_info[2]
     else: 
-        flash("Wrong username or password", "danger")
+        flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
         return redirect("/login")
 
     return redirect("/profile")
 
 @auth_bp.route("/logout")
+@requires_login
 def logout():
     del session["user_id"]
     del session["is_doctor"]
