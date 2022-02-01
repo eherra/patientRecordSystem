@@ -1,11 +1,11 @@
-from app import app
-from flask import redirect, render_template, session
+from flask import redirect, render_template, session, Blueprint
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from datetime import datetime
-import sys
 
-@app.route("/profile")
+profiles_bp = Blueprint("profiles", __name__)
+
+@profiles_bp.route("/profile")
 def profile():
     # checks if is_doctor value is boolean True in session
     if session.get("is_doctor"):
@@ -37,7 +37,7 @@ def render_patient_profile():
     # Fetching appointments info 
     appointments_info = appointments.get_patient_appointments_info(user_id)
 
-    return render_template("patient-profile-page.html",
+    return render_template("profile/patient-profile-page.html",
                             sent_messages=sent_messages, 
                             doctor_info=doctor_info,
                             received_messages=received_messages,
@@ -68,7 +68,7 @@ def render_doctor_profile():
     # TODO - refactor
     time_now = datetime.now().strftime("%Y-%m-%dT%H:%M")
 
-    return render_template("doctor-profile-page.html",
+    return render_template("profile/doctor-profile-page.html",
                             user_id=user_id,
                             sent_messages=sent_messages, 
                             received_messages=received_messages,

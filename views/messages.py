@@ -1,8 +1,9 @@
-from app import app
-from flask import redirect, request, session, flash
+from flask import redirect, request, session, flash, Blueprint
 from services import messages
 
-@app.route("/send-message", methods=["POST"])
+messages_bp = Blueprint('message', __name__)
+
+@messages_bp.route("/send-message", methods=["POST"])
 def send_message():
     sender_id = session["user_id"]
     content = request.form["content"]

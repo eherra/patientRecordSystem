@@ -1,24 +1,24 @@
-from app import app
-from flask import session, redirect, request, render_template, flash
-from services import login
+from flask import session, redirect, request, render_template, flash, Blueprint
+from services import auth
 import sys 
 
-@app.route("/")
+auth_bp = Blueprint("auth", __name__)
+
+@auth_bp.route("/")
 def index():
     if session.get("user_id"):
         return redirect("/profile")
 
     return redirect("/login")
 
-@app.route("/login")
+@auth_bp.route("/login")
 def login_page():
-    return render_template("login-page.html")
+    return render_template("auth/login-page.html")
  
-@app.route("/login", methods=["POST"])
+@auth_bp.route("/login", methods=["POST"])
 def process_login():
-    username = request.form["username"]
-    password = request.form["password"]
-    logged_user_info = login.check_login_and_return_info(username, password)
+    logged_user_info = auth.check_login_and_return_info(request.form["username"], 
+                                                        request.form["password"])
 
     if logged_user_info:
         session["user_id"] = logged_user_info[0]
@@ -29,7 +29,7 @@ def process_login():
 
     return redirect("/profile")
 
-@app.route("/logout")
+@auth_bp.route("/logout")
 def logout():
     del session["user_id"]
     del session["is_doctor"]

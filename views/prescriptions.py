@@ -1,8 +1,9 @@
-from app import app
-from flask import redirect, request, session, abort, flash
+from flask import redirect, request, session, abort, flash, Blueprint
 from services import prescriptions
 
-@app.route("/add-prescription", methods=["POST"])
+prescriptions_bp = Blueprint("prescriptions", __name__)
+
+@prescriptions_bp.route("/add-prescription", methods=["POST"])
 def add_prescription():
     if not session.get("is_doctor"):
         abort(401, description = "Not authorized call")
@@ -12,7 +13,7 @@ def add_prescription():
     flash("New prescription added successfully!", "success")                              
     return redirect("/profile")
 
-@app.route("/appointment/<int:appli_id>/prescription/<int:prescription_id>/patient/<int:user_id>", methods=["POST"])
+@prescriptions_bp.route("/appointment/<int:appli_id>/prescription/<int:prescription_id>/patient/<int:user_id>", methods=["POST"])
 def update_user_prescription(appli_id, prescription_id, user_id):
     if not session.get("is_doctor"):
         abort(401, description = "Not authorized call")

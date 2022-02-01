@@ -40,9 +40,9 @@
 
         <!--- SYMPTON WRITING FOR DOCTOR ROLE --->
         {% if session.is_doctor %}
-        {% include 'components/symptom-form.html' %}
+        {% include 'appointment/symptom-form.html' %}
         {% else %}
-        {% include 'components/symptom-info.html' %}
+        {% include 'appointment/symptom-info.html' %}
         {% endif %}
 
         <!--- PRESCRIPTIONS --->

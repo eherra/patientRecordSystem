@@ -87,7 +87,5 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 
 #### General
 - refactoring
-    - folder structure
     - templates
-    - usage of Blueprints?
     - addings tests

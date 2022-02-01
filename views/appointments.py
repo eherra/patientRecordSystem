@@ -1,10 +1,9 @@
-from app import app
-from flask import redirect, request, render_template, session, abort, flash
+from flask import redirect, request, render_template, session, abort, flash, Blueprint
 from services import users, prescriptions, appointments
-import sys
 
-# TODO - only admin (doctor) can enter this page
-@app.route("/appointment/<int:appo_id>/patient/<int:patient_id>")
+appointments_bp = Blueprint('appointments', __name__)
+
+@appointments_bp.route("/appointment/<int:appo_id>/patient/<int:patient_id>")
 def appointment(appo_id, patient_id):
     patient_info = users.get_user_info(patient_id)
 
@@ -15,13 +14,13 @@ def appointment(appo_id, patient_id):
 
     appointment = appointments.get_appointment_info_by(patient_id, appo_id)
 
-    return render_template("appointment-page.html",
+    return render_template("appointment/appointment-page.html",
                             patient_info=patient_info,
                             all_prescriptions=not_signed_prescriptions,
                             current_prescriptions=signed_prescriptions['current_prescriptions'],
                             appointment=appointment)
 
-@app.route("/appointment/<int:appo_id>/symptom/<int:user_id>", methods=["POST"])
+@appointments_bp.route("/appointment/<int:appo_id>/symptom/<int:user_id>", methods=["POST"])
 def update_symptom(appo_id, user_id):
     if not session.get("is_doctor"):
         abort(401, description = "Not authorized call")
@@ -30,7 +29,7 @@ def update_symptom(appo_id, user_id):
     flash("Symptom updated successfully", "success")
     return redirect(f"/appointment/{appo_id}/patient/{user_id}")
 
-@app.route("/appointment/book/<int:doctor_id>", methods=["POST"])
+@appointments_bp.route("/appointment/book/<int:doctor_id>", methods=["POST"])
 def book_appointment(doctor_id):
     if not session.get("is_doctor"):
         abort(401, description = "Not authorized call")
@@ -40,7 +39,7 @@ def book_appointment(doctor_id):
     flash("Appointment booked successfully!", "success")
     return redirect("/profile")
 
-@app.route("/appointment/<int:appo_id>/delete")
+@appointments_bp.route("/appointment/<int:appo_id>/delete")
 def delete_appointment(appo_id):
     if not session.get("is_doctor"):
         abort(401, description = "Not authorized call")

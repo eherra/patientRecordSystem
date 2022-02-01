@@ -1,13 +1,14 @@
-from app import app
-from flask import session, redirect, request, render_template
+from flask import session, redirect, request, render_template, Blueprint
 import sys 
 
-@app.route("/register")
+register_bp = Blueprint("register", __name__)
+
+@register_bp.route("/register")
 def register_page():
-    return render_template("register-page.html")
+    return render_template("auth/register-page.html")
 
 # TODO - this
-@app.route("/register/user")
+@register_bp.route("/register/user")
 def register_user():
     # check if over 3 characters and unique
     username = request.form["username"]
