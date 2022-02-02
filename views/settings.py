@@ -1,4 +1,4 @@
-from flask import redirect, request, render_template, session, abort, flash, Blueprint
+from flask import redirect, request, render_template, session, flash, Blueprint
 from services import users
 from utils.constant import SUCCESS_CATEGORY
 from utils.auth_validator import requires_login
@@ -19,7 +19,9 @@ def settings():
 @requires_login
 def update_settings():
     user_id = session.get("user_id") 
-    users.update_settings_values(user_id, request.form["name"], request.form["phone"], request.form["email"], 
-                                 request.form["address"], request.form["city"], request.form["country"])
+    users.update_settings_values(user_id, request.form["name"], 
+                                 request.form["phone"], request.form["email"], 
+                                 request.form["address"], request.form["city"], 
+                                 request.form["country"])
     flash(INFORMATION_UPDATED_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/settings")
