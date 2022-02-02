@@ -10,12 +10,12 @@ APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_
                                  WHERE  patient_id = :user_id \
                                  AND    id = :appointment_id"
 
-DOCTOR_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
+DOCTOR_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time \
                                       FROM     appointments \
                                       WHERE    doctor_id = :user_id \
                                       ORDER BY time_at DESC"
 
-PATIENT_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) \
+PATIENT_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appointment_type, TO_CHAR(time_at, :time_format) AS time \
                                        FROM     appointments \
                                        WHERE    patient_id = :user_id \
                                        ORDER BY time_at DESC"
@@ -56,18 +56,17 @@ def get_doctor_appointments_info(user_id):
 def format_appointment_data(fetched_appointments):
     formatted_appointments = []
 
-    # fetched_appointments has a list of tuple values (id, patient_id, doctor_id, appointment_type, time_at)
     for appointment in fetched_appointments:
-        patient_name = users.get_user_info_by_key(appointment[1], NAME_DB_KEY)
-        doctor_name = users.get_user_info_by_key(appointment[2], NAME_DB_KEY)
+        patient_name = users.get_user_info_by_key(appointment.patient_id, NAME_DB_KEY)
+        doctor_name = users.get_user_info_by_key(appointment.doctor_id, NAME_DB_KEY)
         formatted_appointments.append({
-            "id": appointment[0],
-            "patient_id": appointment[1],
+            "id": appointment.id,
+            "patient_id": appointment.patient_id,
             'doctor_name': doctor_name,
             "patient_name": patient_name,
-            'appointment_type': appointment[3],
-            'time': appointment[4],
-            'bg_color': get_bg_color_according_date_past(appointment[4])
+            'appointment_type': appointment.appointment_type,
+            'time': appointment.time,
+            'bg_color': get_bg_color_according_date_past(appointment.time)
         })
 
     return formatted_appointments
@@ -88,9 +87,9 @@ def get_appointment_info_by(user_id, appointment_id):
     return {
         "id": appointment_id,
         "patient_id": user_id,
-        "appointment_type": appointment[0],
-        "symptom": appointment[1],
-        "time_at": appointment[2],
+        "appointment_type": appointment.appointment_type,
+        "symptom": appointment.symptom,
+        "time_at": appointment.time_at,
     }
 
 def update_appointment_symptom(user_id, appo_id, new_symptom):

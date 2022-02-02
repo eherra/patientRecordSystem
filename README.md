@@ -75,10 +75,6 @@ On <u>Mozilla Firefox</u> and <u>Safari</u> the appointment booking calender not
 - js input validations
 - error pages 404, 500
 - message history arrow 180 degree turn when opened
-- appointment page
-    - cleaner user info
-    - cleaner appointmet details
-    - top right part, photo?
 
 #### Backend
 - proper input validations

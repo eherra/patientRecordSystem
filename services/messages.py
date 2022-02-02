@@ -3,12 +3,12 @@ from flask import abort
 from utils.constant import TIME_FORMAT, NAME_DB_KEY
 from services import users
 
-SENT_MESSAGES_QUERY = "SELECT   user2_id, content, TO_CHAR(sent_at, :time_format) \
+SENT_MESSAGES_QUERY = "SELECT   user2_id AS user_id, content, TO_CHAR(sent_at, :time_format) AS time \
                        FROM     messages \
                        WHERE    user1_id = :user_id \
                        ORDER BY sent_at DESC"
 
-RECEIVED_MESSAGES_QUERY = "SELECT   user1_id, content, TO_CHAR(sent_at, :time_format) \
+RECEIVED_MESSAGES_QUERY = "SELECT   user1_id AS user_id, content, TO_CHAR(sent_at, :time_format) AS time \
                            FROM     messages \
                            WHERE    user2_id = :user_id \
                            ORDER BY sent_at DESC"
@@ -41,9 +41,9 @@ def format_messages(messages_list):
     # message is a tuple value of (user_id, content, sent_at)
     for message in messages_list:
         formatted_messages.append({
-            "toOrfrom": users.get_user_info_by_key(message[0], NAME_DB_KEY),
-            "content": message[1],
-            "sent_at": message[2]
+            "toOrfrom": users.get_user_info_by_key(message.user_id, NAME_DB_KEY),
+            "content": message.content,
+            "sent_at": message.time
         })
     return formatted_messages
 

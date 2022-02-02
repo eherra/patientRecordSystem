@@ -59,8 +59,8 @@ def format_doctor_patients(fetched_patients):
     
     for patient in fetched_patients:
         formatted_patients.append({
-            "user_id": patient[0],
-            "name": get_user_info_by_key(patient[0], NAME_DB_KEY)
+            "user_id": patient.user_id,
+            "name": get_user_info_by_key(patient.user_id, NAME_DB_KEY)
         })
 
     return formatted_patients

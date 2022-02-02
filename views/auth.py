@@ -24,8 +24,8 @@ def process_login():
                                                         request.form["password"])
 
     if logged_user_info:
-        session["user_id"] = logged_user_info[0]
-        session["is_doctor"] = logged_user_info[2]
+        session["user_id"] = logged_user_info.id
+        session["is_doctor"] = logged_user_info.is_doctor
     else: 
         flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
         return redirect("/login")

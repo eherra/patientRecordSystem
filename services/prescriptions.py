@@ -51,9 +51,9 @@ def format_precription_lists(fetched_prescriptions):
     current_prescriptions, history_prescriptions = [], []
     # fetched_prescriptions has list of tuple values (prescription_id, visible)
     for prescription in fetched_prescriptions:
-        prescription_info = get_prescription_info_by_id(prescription[0])
+        prescription_info = get_prescription_info_by_id(prescription.prescription_id)
 
-        if prescription[1]:
+        if prescription.visible:
             current_prescriptions.append(prescription_info)
         else:
             history_prescriptions.append(prescription_info)
