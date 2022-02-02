@@ -12,7 +12,7 @@ settings_bp = Blueprint("settings", __name__)
 def settings():
     user_id = session.get("user_id")        
     user_info = users.get_user_info(user_id)
-    return render_template("settings/settings-page.html",
+    return render_template("settings/edit-settings-page.html",
                             user_info=user_info)
 
 @settings_bp.route("/settings/update", methods=["POST"])

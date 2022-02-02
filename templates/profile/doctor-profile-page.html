@@ -24,11 +24,15 @@
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="patient">For patient:</label>
+                            {% if doctor_patients|length == 0 %}
+                            <span>You have no signed patients.</span>
+                            {% else %}
                             <select class="custom-select" id="patient" name="patient_id">
                                 {% for patient in doctor_patients %}
                                 <option value="{{patient.user_id}}">{{patient.name}}</option>
                                 {% endfor %}
                             </select>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="form-row">
@@ -75,15 +79,16 @@
 
         <!--- RIGHT PART --->
         <div class="col-md-4">
-            <a href="/logout"><button style="float: right; margin-top: 1em;">
-                logout <i class="fas fa-sign-out-alt"></i>
-            </button></a>
+            {% include 'auth/logout-button.html' %}
             <br>
             <br>
 
             <div class="row-md-8"></div>
             <div>
                 <h5><u>Send message to your patients</u></h5>
+                {% if doctor_patients|length == 0 %}
+                <span>You have no signed patients.</span>
+                {% else %}
                 <label>Choose patient:</label>
                 <form action="/send-message" method="POST">
                     <select class="custom-select" name="receiverId">
@@ -96,6 +101,7 @@
                     <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                             class="far fa-paper-plane"></i></button>
                 </form>
+                {% endif %}
             </div>
             <br>
 

@@ -56,7 +56,7 @@ def render_patient_profile():
     doctor_id = users.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
     doctor_info = users.get_user_personal_doctor_info(doctor_id)
 
-    # TODO - refactor
+    # fetching history and current prescriptions list
     prescription_lists = prescriptions.get_user_prescriptions(user_id)
 
     # fetching User Info
@@ -69,8 +69,7 @@ def render_patient_profile():
                             sent_messages=sent_messages, 
                             doctor_info=doctor_info,
                             received_messages=received_messages,
-                            current_prescriptions=prescription_lists['current_prescriptions'],
-                            history_prescriptions=prescription_lists['history_prescriptions'],
+                            prescriptions=prescription_lists,
                             user_info=user_info,
                             appointments_list=appointments_info, 
                             avatar_url=PATIENT_AVATAR_URL,

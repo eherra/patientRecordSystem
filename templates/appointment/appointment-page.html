@@ -1,12 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-{% include 'flash.html' %}
-<div class="container" style="border-radius: 1rem; background-color: #f2ebd9; margin-top: 5em;">
-    <div class="row">
+<style>
+    .container {
+        border-radius: 1rem;
+        background-color: #f2ebd9;
+        margin-top: 5em;
+    }
+
+    .topColumn {
+        margin-top: 1em;
+    }
+
+    .bottomColumn {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: bold
+    }
+
+    .info {
+        font-size: 16px;
+        font-weight: bold
+    }
+
+    .time {
+        font-size: 16px;
+    }
+
+    .phone,
+    .email {
+        font-size: 14px;
+        font-weight: 600
+    }
+
+    .address {
+        font-size: 13px;
+        color: #545454;
+        font-weight: 600
+    }
+</style>
+
+<div class="container">
+    <div class="row gutters">
         <!--- PATIENT INFO --->
-        <div class="col-4">
-            <h5>Patient info</h5>
-            <div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 topColumn">
+            <h5><u>Patient info</u></h5>
+            <div class="name">
                 {{patient_info.name}}
                 <img src="/static/images/sickDoge.png" alt="Avatar" style="
                     vertical-align: middle;
@@ -14,17 +56,17 @@
                     height: 70px;
                     border-radius: 50%;" />
             </div>
-            <div>{{patient_info.phone}}</div>
-            <div>{{patient_info.email}}</div>
-            <div>{{patient_info.address}}</div>
-            <div>{{patient_info.city}}, {{patient_info.country}}</div>
+            <div class="phone">{{patient_info.phone}}</div>
+            <div class="email">{{patient_info.email}}</div>
+            <div class="address">{{patient_info.address}}</div>
+            <div class="address">{{patient_info.city}}, {{patient_info.country}}</div>
         </div>
 
         <!--- APPOINTMENT TYPE --->
-        <div class="col-4">
-            <h5>Appointment type</h5>
-            <div>{{appointment.appointment_type}}</div>
-            <div>Appointment at: {{appointment.time_at}}</div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 topColumn">
+            <h5><u>Appointment info</u></h5>
+            <div class="info">{{appointment.appointment_type}}</div>
+            <div class="time">{{appointment.time_at}} <i class="far fa-clock"></i></div>
 
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
@@ -34,8 +76,9 @@
             </a>
             {% endif %}
         </div>
-        <div class="col-4">
-            put some photo
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+            {% include 'auth/logout-button.html' %}
+            {% include 'flash.html' %}
         </div>
 
         <!--- SYMPTON WRITING FOR DOCTOR ROLE --->
@@ -46,8 +89,11 @@
         {% endif %}
 
         <!--- PRESCRIPTIONS --->
-        <div class="col-6">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 bottomColumn">
             <h5><u>Current prescriptions</u></h5>
+            {% if current_prescriptions|length == 0 %}
+            <p>No current prescriptions</p>
+            {% else %}
             {% for prescription in current_prescriptions %}
             <form
                 action="/appointment/{{appointment.id}}/prescription/{{prescription.id}}/patient/{{appointment.patient_id}}"
@@ -62,12 +108,14 @@
                                 {% endif %}
                             </h6>
                             <small>Amount per day: <span
-                                    class="badge badge-info badge-pill">{{prescription.amount_per_day }}</span></small>
+                                    class="badge badge-info badge-pill">{{prescription.amount_per_day
+                                    }}</span></small>
                         </div>
                     </div>
                 </div>
             </form>
             {% endfor %}
+            {% endif %}
 
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
@@ -84,7 +132,8 @@
                                 <input type="submit" value="add">
                             </h6>
                             <small>Amount per day: <span
-                                    class="badge badge-info badge-pill">{{prescription.amount_per_day }}</span></small>
+                                    class="badge badge-info badge-pill">{{prescription.amount_per_day
+                                    }}</span></small>
                         </div>
                     </div>
                 </div>
