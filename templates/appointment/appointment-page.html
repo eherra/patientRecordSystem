@@ -72,7 +72,7 @@
             {% if session.is_doctor %}
             <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm">
                 Delete appointment <i class="far fa-trash-alt"></i></button>
-            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="confirmModal"
                 aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -84,7 +84,8 @@
                         </div>
                         <div class="modal-footer">
                             <a href="/appointment/{{appointment.id}}/delete"><button type="button"
-                                    class="btn btn-danger btn-sm">Confirm delete</button></a>
+                                    class="btn btn-danger btn-sm">Confirm delete <i
+                                        class="far fa-trash-alt"></i></button></a>
                             <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -136,6 +137,9 @@
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
             <h5><u>Add prescriptions to patient</u></h5>
+            {% if all_prescriptions|length == 0 %}
+            <span>No prescriptions to add.</span>
+            {% else %}
             {% for prescription in all_prescriptions %}
             <form
                 action="/appointment/{{appointment.id}}/prescription/{{prescription.id}}/patient/{{appointment.patient_id}}"
@@ -155,6 +159,7 @@
                 </div>
             </form>
             {% endfor %}
+            {% endif %}
             {% endif %}
         </div>
     </div>

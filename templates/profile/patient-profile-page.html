@@ -19,7 +19,7 @@
 
         <!--- Current prescriptionss rendering --->
         <div class="list-group">
-          {% if current_prescriptions|length == 0 %}
+          {% if prescriptions.current_prescriptions|length == 0 %}
           <span>No current prescriptions</span>
           {% else %}
           {% for prescription in prescriptions.current_prescriptions %}
@@ -40,6 +40,9 @@
           prescriptions <i class="fas fa-angle-down"></i></button>
         <div id="historyPrescriptions" class="collapse">
           <div class="list-group">
+            {% if prescriptions.history_prescriptions|length == 0 %}
+            <span>No past prescriptions.</span>
+            {% else %}
             {% for prescription in prescriptions.history_prescriptions %}
             <div class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex justify-content-between">
@@ -49,6 +52,7 @@
               </div>
             </div>
             {% endfor %}
+            {% endif %}
           </div>
         </div>
       </div>
