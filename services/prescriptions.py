@@ -11,12 +11,12 @@ SINGLE_PRESCRIPTION_QUERY = "SELECT id, name, amount_per_day \
                              WHERE  id = :prescription_id"
                 
 GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY = "SELECT id, name, amount_per_day \
-                                          FROM prescriptions \
-                                          WHERE id NOT IN \
-                                                  (SELECT prescription_id \
-                                                   FROM   user_prescriptions \
-                                                   WHERE  user_id = :user_id \
-                                                   AND    visible = TRUE)"
+                                          FROM   prescriptions \
+                                          WHERE  id NOT IN \
+                                                   (SELECT prescription_id \
+                                                    FROM   user_prescriptions \
+                                                    WHERE  user_id = :user_id \
+                                                    AND    visible = TRUE)"
 
 UPDATE_USER_PRESCRIPTION = "UPDATE user_prescriptions \
                             SET    visible = :visible \
@@ -49,7 +49,6 @@ def get_user_prescriptions(user_id):
 
 def format_precription_lists(fetched_prescriptions):
     current_prescriptions, history_prescriptions = [], []
-    # fetched_prescriptions has list of tuple values (prescription_id, visible)
     for prescription in fetched_prescriptions:
         prescription_info = get_prescription_info_by_id(prescription.prescription_id)
 
@@ -72,13 +71,13 @@ def get_prescription_info_by_id(prescription_id):
         abort(500)
 
 def update_prescription_from_user(user_id, prescription_id, bool_value):
-    """Changing UserPrescription "visible" value to given parameter (bool_value)
-       If update rowcount = 0, no connection made on UserPrescription table for the user for the prescription before"""
+    """Changing user_prescription table "visible" value to given parameter (bool_value)"""
     try:
         isSuccess = db.session.execute(UPDATE_USER_PRESCRIPTION, 
                                       {"user_id": user_id, 
                                        "prescription_id": prescription_id,
                                        "visible": bool_value})
+        # if nothing updated, there was not connection on user_prescriptions table earlier                           
         if not isSuccess.rowcount:
             add_new_prescription_to(user_id, prescription_id)
 
@@ -94,6 +93,7 @@ def add_new_prescription_to(user_id, prescription_id):
     except:
         abort(500)
 
+# TODO - add validation to prescription_name
 def create_new_prescription(prescription_name, amount_per_day):
     try:
         db.session.execute(CREATE_NEW_PRESCRIPTION,

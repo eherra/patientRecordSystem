@@ -2,6 +2,9 @@ from db import db
 from flask import abort
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
+from werkzeug.security import generate_password_hash
+
+import sys
 
 GET_USERINFO_BY_KEY_QUERY = "SELECT value \
                              FROM   user_info \
@@ -9,14 +12,21 @@ GET_USERINFO_BY_KEY_QUERY = "SELECT value \
                              AND    key = :key"
 
 GET_DOCTOR_PATIENTS_QUERY = "SELECT user_id \
-                             FROM user_info \
-                             WHERE key = :key \
-                             AND value = :doctor_id"
+                             FROM   user_info \
+                             WHERE  key = :key \
+                             AND    value = :doctor_id"
 
 UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE user_info \
                                 SET    value = :new_value \
                                 WHERE  user_id = :user_id \
                                 AND    key = :key"
+
+CREATE_NEW_USER_QUERY = "INSERT INTO users (username, password, is_doctor) \
+                         VALUES (:username, :password, :is_doctor) \
+                         RETURNING id"
+
+CREATE_USER_INFO_QUERY = "INSERT INTO user_info (user_id, key, value) \
+                          VALUES (:user_id, :key, :value)"
 
 def get_user_info(user_id):
     return {
@@ -94,6 +104,51 @@ def update_user_info_by_key(user_id, key, new_value):
                           {"user_id": user_id,
                            "key": key,
                            "new_value": new_value})
+        db.session.commit()
+    except:
+        abort(500)
+
+def create_new_user(username, password,
+                    is_doctor):
+    try:
+        result = db.session.execute(CREATE_NEW_USER_QUERY,
+                                   {"username": username,
+                                    "password": generate_password_hash(password),
+                                    "is_doctor": is_doctor}).fetchone()
+        db.session.commit()
+        return result.id
+    except:
+        abort(500)
+
+# TODO - proper validations
+def initialize_user_info_values(user_id, name, 
+                                phone, email, 
+                                address, city, 
+                                country):
+    if is_valid_input(name):
+        create_user_info_by_key(user_id, NAME_DB_KEY, name)
+    
+    if is_valid_input(phone):
+        create_user_info_by_key(user_id, PHONE_DB_KEY, phone)
+
+    if is_valid_input(email):
+        create_user_info_by_key(user_id, EMAIL_DB_KEY, email)
+
+    if is_valid_input(address):
+        create_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
+
+    if is_valid_input(city):
+        create_user_info_by_key(user_id, CITY_DB_KEY, city)
+
+    if is_valid_input(country):
+        create_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
+
+def create_user_info_by_key(user_id, key, value):
+    try:
+        db.session.execute(CREATE_USER_INFO_QUERY,
+                          {"user_id": user_id,
+                           "key": key,
+                           "value": value})
         db.session.commit()
     except:
         abort(500)
