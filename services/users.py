@@ -1,10 +1,10 @@
 from db import db
-from flask import abort
+from flask import abort, flash
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
-     COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
+     COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY, GENERAL_LENGTH_MAX
+from utils.validators.input_validator import is_valid_input, is_valid_phone, \
+    is_valid_username, is_valid_password, is_valid_email
 from werkzeug.security import generate_password_hash
-
-import sys
 
 GET_USERINFO_BY_KEY_QUERY = "SELECT value \
                              FROM   user_info \
@@ -15,6 +15,10 @@ GET_DOCTOR_PATIENTS_QUERY = "SELECT user_id \
                              FROM   user_info \
                              WHERE  key = :key \
                              AND    value = :doctor_id"
+
+CHECK_IS_USERNAME_UNIQUE_QUERY = "SELECT 1 \
+                                  FROM users \
+                                  WHERE username = :username"
 
 UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE user_info \
                                 SET    value = :new_value \
@@ -55,6 +59,16 @@ def get_user_info_by_key(user_id, key):
     except:
         abort(500)
 
+def is_username_unique(username):
+    try:
+        found_username = db.session.execute(CHECK_IS_USERNAME_UNIQUE_QUERY,
+                                           {"username": username}
+                                           ).fetchone()
+        return not found_username
+    except:
+        abort(500)
+    
+
 def get_doctor_patients(doctor_id):
     try:
         fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
@@ -76,27 +90,23 @@ def format_doctor_patients(fetched_patients):
     return formatted_patients
 
 def update_settings_values(user_id, name, phone, email, address, city, country):
-    if is_valid_input(name):
+    if is_valid_input(name, GENERAL_LENGTH_MAX):
         update_user_info_by_key(user_id, NAME_DB_KEY, name)
     
-    if is_valid_input(phone):
+    if is_valid_phone(phone):
         update_user_info_by_key(user_id, PHONE_DB_KEY, phone)
 
-    if is_valid_input(email):
+    if is_valid_email(email):
         update_user_info_by_key(user_id, EMAIL_DB_KEY, email)
 
-    if is_valid_input(address):
+    if is_valid_input(address, GENERAL_LENGTH_MAX):
         update_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
 
-    if is_valid_input(city):
+    if is_valid_input(city, GENERAL_LENGTH_MAX):
         update_user_info_by_key(user_id, CITY_DB_KEY, city)
 
-    if is_valid_input(country):
+    if is_valid_input(country, GENERAL_LENGTH_MAX):
         update_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
-
-## TODO - move to validation module
-def is_valid_input(input):
-    return input and len(input) < 50 and not input.isspace()
 
 def update_user_info_by_key(user_id, key, new_value):
     try:
@@ -108,11 +118,18 @@ def update_user_info_by_key(user_id, key, new_value):
     except:
         abort(500)
 
-def create_new_user(username, password,
-                    is_doctor):
+def create_new_user(username, password, is_doctor):
+    if not is_valid_username(username):
+        flash("Username not unique, try other one!", "danger")
+        return False
+
+    if not is_valid_password(password):
+        flash("Password too short!", "danger")
+        return False
+
     try:
         result = db.session.execute(CREATE_NEW_USER_QUERY,
-                                   {"username": username,
+                                    {"username": username,
                                     "password": generate_password_hash(password),
                                     "is_doctor": is_doctor}).fetchone()
         db.session.commit()
@@ -120,28 +137,26 @@ def create_new_user(username, password,
     except:
         abort(500)
 
-# TODO - proper validations
+# TODO - refactor?
 def initialize_user_info_values(user_id, name, 
                                 phone, email, 
                                 address, city, 
                                 country):
-    if is_valid_input(name):
-        create_user_info_by_key(user_id, NAME_DB_KEY, name)
-    
-    if is_valid_input(phone):
-        create_user_info_by_key(user_id, PHONE_DB_KEY, phone)
-
-    if is_valid_input(email):
-        create_user_info_by_key(user_id, EMAIL_DB_KEY, email)
-
-    if is_valid_input(address):
-        create_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
-
-    if is_valid_input(city):
-        create_user_info_by_key(user_id, CITY_DB_KEY, city)
-
-    if is_valid_input(country):
-        create_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
+    if is_valid_input(name, GENERAL_LENGTH_MAX) and \
+       is_valid_phone(phone) and \
+       is_valid_email(email) and \
+       is_valid_input(address, GENERAL_LENGTH_MAX) and \
+       is_valid_input(city, GENERAL_LENGTH_MAX) and \
+       is_valid_input(country, GENERAL_LENGTH_MAX):
+            create_user_info_by_key(user_id, NAME_DB_KEY, name)
+            create_user_info_by_key(user_id, PHONE_DB_KEY, phone)
+            create_user_info_by_key(user_id, EMAIL_DB_KEY, email)
+            create_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
+            create_user_info_by_key(user_id, CITY_DB_KEY, city)
+            create_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
+            db.session.commit()
+            return True
+    return False
 
 def create_user_info_by_key(user_id, key, value):
     try:
@@ -149,6 +164,6 @@ def create_user_info_by_key(user_id, key, value):
                           {"user_id": user_id,
                            "key": key,
                            "value": value})
-        db.session.commit()
     except:
+        db.session.rollback()
         abort(500)

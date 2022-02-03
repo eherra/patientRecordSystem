@@ -1,5 +1,7 @@
 from db import db
 from flask import abort
+from utils.constant import GENERAL_LENGTH_MAX, PRESCRIPTION_NAME_LENGTH_MAX
+from utils.validators.input_validator import is_valid_input
 import sys
 
 USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
@@ -73,12 +75,12 @@ def get_prescription_info_by_id(prescription_id):
 def update_prescription_from_user(user_id, prescription_id, bool_value):
     """Changing user_prescription table "visible" value to given parameter (bool_value)"""
     try:
-        isSuccess = db.session.execute(UPDATE_USER_PRESCRIPTION, 
-                                      {"user_id": user_id, 
+        is_success = db.session.execute(UPDATE_USER_PRESCRIPTION, 
+                                       {"user_id": user_id, 
                                        "prescription_id": prescription_id,
                                        "visible": bool_value})
         # if nothing updated, there was not connection on user_prescriptions table earlier                           
-        if not isSuccess.rowcount:
+        if not is_success.rowcount:
             add_new_prescription_to(user_id, prescription_id)
 
         db.session.commit()
@@ -93,12 +95,14 @@ def add_new_prescription_to(user_id, prescription_id):
     except:
         abort(500)
 
-# TODO - add validation to prescription_name
 def create_new_prescription(prescription_name, amount_per_day):
-    try:
-        db.session.execute(CREATE_NEW_PRESCRIPTION,
-                          {"name": prescription_name, 
-                           "amount_per_day": amount_per_day})
-        db.session.commit()
-    except:
-        abort(500)
+    if is_valid_input(prescription_name, PRESCRIPTION_NAME_LENGTH_MAX):
+        try:
+            is_success = db.session.execute(CREATE_NEW_PRESCRIPTION,
+                                           {"name": prescription_name, 
+                                            "amount_per_day": amount_per_day})
+            db.session.commit()
+            return is_success 
+        except:
+            abort(500)
+    return False

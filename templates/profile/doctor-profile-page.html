@@ -20,7 +20,7 @@
                         <div class="col-md-7 mb-3">
                             <label for="appointment_type">Appointment type:</label>
                             <input type="text" name="appointment_type" class="form-control"
-                                placeholder="Enter appointment type">
+                                placeholder="Enter appointment type" pattern={1,30} required>
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="patient">For patient:</label>
@@ -39,7 +39,7 @@
                         <div class="col-md-5 mb-3">
                             <label for="dateTime">Appointment date:</label>
                             <input class="form-control" type="datetime-local" min="{{time_now}}" name="appointment_date"
-                                id="dateTime">
+                                id="dateTime" required>
                         </div>
                         <div class="col-md-4 mb-2">
                             <label>fix</label>
@@ -58,7 +58,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="prescription">Prescription name:</label>
                         <input type="text" id="prescription" name="prescription_name" class="form-control"
-                            placeholder="Enter prescription name">
+                            placeholder="Enter prescription name" pattern=".{1,30}" required>
                     </div>
                     <div class="col-md-2 mb-3">
                         <label>Per day:</label>
@@ -97,7 +97,7 @@
                         {% endfor %}
                     </select>
                     <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
-                        placeholder="Enter message..."></textarea>
+                        placeholder="Enter message..." maxlength="48" required></textarea>
                     <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                             class="far fa-paper-plane"></i></button>
                 </form>

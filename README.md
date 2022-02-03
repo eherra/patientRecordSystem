@@ -27,12 +27,12 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 - password: testPassword
 
 ### Known browser issues
-On <u>Mozilla Firefox</u> and <u>Safari</u> the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
+On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
 ### Functionalities of the application
 
 <b>Admin (doctors) available to do:</b>
-- [x] write symptom stories of patients
+- [x] write symptom stories to their patients
     - [x] delete symptom stories 
     - [x] edit symptom stories 
 - [x] determine prescription for patients
@@ -44,6 +44,8 @@ On <u>Mozilla Firefox</u> and <u>Safari</u> the appointment booking calender not
 - [x] see their own list of appointments
 - [x] send message to their patients
 - [x] read messages
+    - [x] sent history
+    - [x] received history
 - [x] edit profile details
     - [x] name
     - [x] email
@@ -59,8 +61,8 @@ On <u>Mozilla Firefox</u> and <u>Safari</u> the appointment booking calender not
 - [x] see their doctor's information (contact - phone)
 - [x] send message to their doctor
 - [x] read messages
-    - [x] see sent historys
-    - [x] see received history
+    - [x] sent historys
+    - [x] received history
 - [x] edit profile details
     - [x] name
     - [x] email
@@ -69,18 +71,20 @@ On <u>Mozilla Firefox</u> and <u>Safari</u> the appointment booking calender not
         - [x] city
         - [x] country
 
+### Input validating
+The app has input validations included for user inputs with Bootstrap **required** and regex **pattern** matches on client-side.
+
+On server-side the inputs are also validated so that e.g. via Postman incorrect data can't be sent and inserted to the database.
+
+The input validations has been done from scratch (not the best practise - plenty of third-party libraries out there to do the validations), but a good practise for the sake of practising programming. (: 
+
 ### Backlog
 
 #### Frontend
-- js input validations
 - error pages 404, 500
 - message history arrow 180 degree turn when opened
 
 #### Backend
-- proper input validations
-    - starting to use validator module and moving validator methods there
-- proper error handeling
-- register new user functions
 - db table values (UNIQUE/NULL)
 
 #### General

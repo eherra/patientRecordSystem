@@ -7,12 +7,10 @@ CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \
 
 def check_login_and_return_info(username, password):
     user = db.session.execute(CHECK_LOGIN_AND_RETURN_INFO_QUERY, 
-                               {"username":username}).fetchone()
+                             {"username":username}
+                             ).fetchone()
     if not user:
         return None
     else:
         hash_value = user.password
-        if check_password_hash(hash_value, password):
-            return user
-        else:
-            return None
+        return user if check_password_hash(hash_value, password) else None

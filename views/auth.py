@@ -1,7 +1,7 @@
 from flask import session, redirect, request, render_template, flash, Blueprint
 from services import auth
 from utils.constant import DANGER_CATEGORY
-from utils.auth_validator import requires_login
+from utils.validators.auth_validator import requires_login
 
 LOGIN_ERROR_MESSAGE = "Wrong username or password"
 

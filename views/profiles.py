@@ -1,7 +1,7 @@
 from flask import redirect, render_template, session, Blueprint
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
-from utils.auth_validator import requires_login
+from utils.validators.auth_validator import requires_login
 from datetime import datetime
 
 profiles_bp = Blueprint("profiles", __name__)

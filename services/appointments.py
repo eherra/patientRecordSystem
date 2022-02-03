@@ -1,7 +1,8 @@
 from db import db
 from services import users
 from flask import abort
-from utils.constant import TIME_FORMAT, NAME_DB_KEY
+from utils.constant import TIME_FORMAT, NAME_DB_KEY, APPOINTMENT_TYPE_LENGTH_MAX, SYMPTOM_LENGTH_MAX
+from utils.validators.input_validator import is_valid_input, is_valid_date
 from datetime import datetime
 import sys
 
@@ -93,19 +94,18 @@ def get_appointment_info_by(user_id, appointment_id):
     }
 
 def update_appointment_symptom(user_id, appo_id, new_symptom):
-    if is_valid_symptom_input(new_symptom):
-        try:
-            db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, 
-                              {"appointment_id": appo_id,
-                               "user_id": user_id,
-                               "new_symptom": new_symptom})
-            db.session.commit()
-        except:
-            abort(500)
-
+    try:
+        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, 
+                            {"appointment_id": appo_id,
+                            "user_id": user_id,
+                            "new_symptom": new_symptom})
+        db.session.commit()
+    except:
+        abort(500)
+        
 def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
     formatted_time_at = time_at.replace("T", " ")
-    if is_valid_appointment_type_input(appointment_type) and is_valid_date(formatted_time_at):
+    if is_valid_date(formatted_time_at) and is_valid_input(appointment_type, APPOINTMENT_TYPE_LENGTH_MAX):
         try:
             db.session.execute(CREATE_NEW_APPOINTMENT_QUERY, 
                               {"patient_id": patient_id, 
@@ -113,8 +113,10 @@ def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
                                "appointment_type": appointment_type,
                                "time_at": formatted_time_at})
             db.session.commit()
+            return True
         except: 
             abort(500)
+    return False
 
 def delete_appointment(appo_id):
     try:
@@ -124,9 +126,6 @@ def delete_appointment(appo_id):
     except:
         abort(500)
 
-def is_valid_symptom_input(input):
-    return input and len(input) < 200 and not input.isspace()
-
 def get_bg_color_according_date_past(date):
     """Checks if parameter (date) has past and return hex-color according to it"""
     date_formatted = datetime.strptime(date, "%d-%m-%Y %H:%M")
@@ -134,10 +133,3 @@ def get_bg_color_according_date_past(date):
         return "#B2D2A4"
     
     return "#B8B8B8"
-
-## TODO - add correct date check
-def is_valid_date(input):
-    return input and not input.isspace()
-
-def is_valid_appointment_type_input(input):
-    return input and len(input) < 30 and not input.isspace()

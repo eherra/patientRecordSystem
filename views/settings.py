@@ -1,7 +1,7 @@
 from flask import redirect, request, render_template, session, flash, Blueprint
 from services import users
 from utils.constant import SUCCESS_CATEGORY
-from utils.auth_validator import requires_login
+from utils.validators.auth_validator import requires_login
 
 INFORMATION_UPDATED_MESSAGE = "Information updated successfully!"
 
