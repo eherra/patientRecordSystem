@@ -83,6 +83,7 @@ The input validations has been done from scratch (not the best practise - plenty
 #### Frontend
 - error pages 404, 500
 - message history arrow 180 degree turn when opened
+- modal for creating new patient and after choosing personal doctor
 
 #### Backend
 - db table values (UNIQUE/NULL)
@@ -91,3 +92,4 @@ The input validations has been done from scratch (not the best practise - plenty
 - refactoring
     - templates
     - addings tests
+    - CSS files?

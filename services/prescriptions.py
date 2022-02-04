@@ -1,8 +1,7 @@
 from db import db
 from flask import abort
-from utils.constant import GENERAL_LENGTH_MAX, PRESCRIPTION_NAME_LENGTH_MAX
+from utils.constant import PRESCRIPTION_NAME_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input
-import sys
 
 USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
                             FROM   user_prescriptions \

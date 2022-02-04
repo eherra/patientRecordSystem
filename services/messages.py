@@ -1,6 +1,6 @@
 from db import db
 from flask import abort
-from utils.constant import TIME_FORMAT, NAME_DB_KEY, GENERAL_LENGTH_MAX
+from utils.constant import TIME_FORMAT, NAME_DB_KEY
 from utils.validators.input_validator import is_valid_input
 from services import users
 
