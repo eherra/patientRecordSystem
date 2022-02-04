@@ -64,36 +64,36 @@
       <br>
       <br>
 
-      <div class="row-md-8"></div>
-      <h4><u>Doctor info</u></h4>
-      <div class="doctorInfo">
-        <span class="name">{{ doctor_info.name }}</span>
-        <img src="{{doctor_avatar_url}}" alt="Avatar" style="
+      <div class="row-md-8">
+        {% if doctor_info %}
+        <h4><u>Doctor info</u></h4>
+        <div class="doctorInfo">
+          <span class="name">{{ doctor_info.name }}</span>
+          <img src="{{doctor_avatar_url}}" alt="Avatar" style="
                         width: 50px;
                         height: 50px;
                         border-radius: 50%;" />
+          <p class="phone">Urgent matters: {{ doctor_info.phone }}</p>
+        </div>
+        {% else %}
+        {% include 'profile/sign-doctor-modal.html' %}
+        {% endif %}
+        <div>
+          <form action="/send-message" method="POST">
+            <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
+            <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
+              placeholder="Enter message..." maxlength="48" required></textarea>
+            <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
+            <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
+                class="far fa-paper-plane"></i></button>
+          </form>
+        </div>
         <br>
-        <span class="phone">Urgent matters: {{ doctor_info.phone }}</span>
-        <br>
-        <br>
+
+        <!--- MESSAGES --->
+        {% include 'profile/messages-history.html' %}
+
       </div>
-
-      <div>
-        <form action="/send-message" method="POST">
-          <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
-          <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
-            placeholder="Enter message..." maxlength="48" required></textarea>
-          <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
-          <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
-              class="far fa-paper-plane"></i></button>
-        </form>
-      </div>
-      <br>
-
-      <!--- MESSAGES --->
-      {% include 'profile/messages-history.html' %}
-
     </div>
   </div>
-</div>
-{% endblock %}
+  {% endblock %}

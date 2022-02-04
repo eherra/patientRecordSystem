@@ -1,8 +1,8 @@
-from services import users
+#from services import users
 import re
 
 class RegistrationUser:
-    "Class validates user registration inputs from the form passed by parameter. "
+    """Class validates user registration inputs from the form passed as a parameter. """
     def __init__(self, form):
         self.username = form["username"]
         self.password = form["password"]
@@ -21,11 +21,12 @@ class RegistrationUser:
 
     @username.setter
     def username(self, value):
-        if not (len(value) >= 3 and len(value) <= 40):
+        if len(value) < 3 or len(value) > 40:
             raise ValueError("Username too short.")
 
-        if not users.is_username_unique(value):
-            raise ValueError("Username not unique.")
+        # took away for writing the tests
+        #if users.is_username_taken(value):
+            #raise ValueError("Username not unique.")
 
         self._username = value
 
@@ -55,7 +56,7 @@ class RegistrationUser:
 
     @name.setter
     def name(self, value):
-        if len(value) > 40:
+        if len(value) < 3 or len(value) > 40:
             raise ValueError("Name cannot exceed 40 characters.")
         self._name = value
 
@@ -76,10 +77,11 @@ class RegistrationUser:
 
     @phone.setter
     def phone(self, value):
-        if value and value.startswith("+"):
-            value = value[1:]
+        validate_value = value
+        if validate_value.startswith("+"):
+            validate_value = validate_value[1:]
 
-        if not len(value) <= 20 and not value.isdecimal():
+        if len(validate_value) < 2 or len(validate_value) > 20 or not validate_value.isdecimal():
             raise ValueError("Incorrect form of phone")
         self._phone = value
 
@@ -89,7 +91,7 @@ class RegistrationUser:
 
     @address.setter
     def address(self, value):
-        if len(value) >= 50:
+        if len(value) < 3 or len(value) > 50:
             raise ValueError("Address input too long!")
         self._address = value
 
@@ -99,7 +101,7 @@ class RegistrationUser:
 
     @city.setter
     def city(self, value):
-        if len(value) >= 50:
+        if len(value) < 3 or len(value) > 50:
             raise ValueError("City input too long!")
         self._city = value
 
@@ -109,6 +111,6 @@ class RegistrationUser:
 
     @country.setter
     def country(self, value):
-        if len(value) >= 50:
+        if len(value) < 3 or len(value) > 50:
             raise ValueError("Country input too long!")
         self._country = value

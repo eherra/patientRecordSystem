@@ -6,7 +6,7 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 
-Patient record system for hospitals in order to keep track of their patients appointments, prescriptions and symptom stories. 
+Patient record system for hospitals in order to keep track of their patients appointments, patient/doctor communication, prescriptions and symptom stories. 
 
 ### Hosting
 
@@ -14,9 +14,7 @@ Application is hosted on Heroku:
 
 https://patientlify.herokuapp.com/
 
-Registering new users functionality is in progess.
-
-Therefore I have added 2 test users to Heroku Postgres DB in order to test the app:
+I have added 2 test users to Heroku Postgres DB in order to test the app:
 
 #### Patient
 - username: patient123
@@ -26,12 +24,14 @@ Therefore I have added 2 test users to Heroku Postgres DB in order to test the a
 - username: doctor123
 - password: testPassword
 
+You can also create your own user if you wish to.
+
 ### Known browser issues
 On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
 ### Functionalities of the application
 
-<b>Admin (doctors) available to do:</b>
+**Admin (doctors) available to do:**
 - [x] write symptom stories to their patients
     - [x] delete symptom stories 
     - [x] edit symptom stories 
@@ -54,7 +54,7 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
         - [x] city
         - [x] country
 
-<b>User (patients) available to do:</b>
+**User (patients) available to do:**
 - [x] see their own records
     - [x] prescriptions
     - [x] symptons stories
@@ -71,12 +71,13 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
         - [x] city
         - [x] country
 
-### Input validating
-The app has input validations included for user inputs with Bootstrap **required** and regex **pattern** matches on client-side.
+### Input validation
+The app has client-side validations for user inputs done via Bootstrap **required** and regex **pattern** matches.
 
-On server-side the inputs are also validated so that e.g. via Postman incorrect data can't be sent and inserted to the database.
+On server-side the inputs are as well validated -> via Postman incorrect data can't be sent and inserted to the database.
 
-The input validations has been done from scratch (not the best practise - plenty of third-party libraries out there to do the validations), but a good practise for the sake of practising programming. (: 
+The input validations has been done for cases where higher amount of form parameters is given with a validation model class e.g. when registering new user, and updating user settings. 
+The validation class takes a form as a construct parameter and checks that the form values are according to validation rules.
 
 ### Backlog
 
@@ -91,5 +92,4 @@ The input validations has been done from scratch (not the best practise - plenty
 #### General
 - refactoring
     - templates
-    - addings tests
     - CSS files?

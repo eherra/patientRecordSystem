@@ -1,4 +1,4 @@
-from flask import redirect, request, render_template, Blueprint, flash
+from flask import redirect, request, render_template, Blueprint, flash, abort
 from services import users
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
 from utils.validators.models.registration_user import RegistrationUser
@@ -14,18 +14,21 @@ def register_page():
 @register_bp.route("/register/user", methods=["POST"])
 def register_user():
     # the RegistrationUser class handles the validation of the form inputs
-    user_validated = RegistrationUser(request.form)
-
-    if not user_validated:
-        return redirect("/register")  
+    try:
+        user_validated = RegistrationUser(request.form)
+    except ValueError:
+        # print valueError message as a flash, danger category color
+        flash("some wrong", DANGER_CATEGORY)
+        return redirect("/register") 
+    except KeyError:
+        abort(500)
 
     created_user_id = users.create_new_user(user_validated) 
-
-    is_success = users.initialize_user_info_values(created_user_id, user_validated)
-
-    if is_success:
+    if created_user_id:
+        users.initialize_user_info_values(created_user_id, user_validated)
         flash("New user succesfully registered!", SUCCESS_CATEGORY)
-        return redirect("/login")  
+        return redirect("/login") 
     
-    flash("Check you input values!", DANGER_CATEGORY)
-    return redirect("/register")  
+    flash("Something went wrong!", DANGER_CATEGORY)
+    return redirect("/register") 
+

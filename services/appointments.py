@@ -2,7 +2,7 @@ from db import db
 from services import users
 from flask import abort
 from utils.constant import TIME_FORMAT, NAME_DB_KEY, APPOINTMENT_TYPE_LENGTH_MAX, SYMPTOM_LENGTH_MAX
-from utils.validators.input_validator import is_valid_input, is_valid_date
+from utils.validators.input_validator import is_valid_input, is_valid_future_date
 from datetime import datetime
 import sys
 
@@ -105,7 +105,7 @@ def update_appointment_symptom(user_id, appo_id, new_symptom):
         
 def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
     formatted_time_at = time_at.replace("T", " ")
-    if is_valid_date(formatted_time_at) and is_valid_input(appointment_type, APPOINTMENT_TYPE_LENGTH_MAX):
+    if is_valid_future_date(formatted_time_at) and is_valid_input(appointment_type, APPOINTMENT_TYPE_LENGTH_MAX):
         try:
             db.session.execute(CREATE_NEW_APPOINTMENT_QUERY, 
                               {"patient_id": patient_id, 

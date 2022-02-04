@@ -3,6 +3,7 @@ from flask import abort
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
 from werkzeug.security import generate_password_hash
+import sys
 
 GET_USERINFO_BY_KEY_QUERY = "SELECT value \
                              FROM   user_info \
@@ -13,6 +14,10 @@ GET_DOCTOR_PATIENTS_QUERY = "SELECT user_id \
                              FROM   user_info \
                              WHERE  key = :key \
                              AND    value = :doctor_id"
+
+GET_ALL_DOCTORS_QUERY = "SELECT id AS user_id \
+                         FROM   users \
+                         WHERE  is_doctor = True"
 
 CHECK_IS_USERNAME_UNIQUE_QUERY = "SELECT 1 \
                                   FROM   users \
@@ -57,35 +62,41 @@ def get_user_info_by_key(user_id, key):
     except:
         abort(500)
 
-def is_username_unique(username):
+def is_username_taken(username):
     try:
         found_username = db.session.execute(CHECK_IS_USERNAME_UNIQUE_QUERY,
                                            {"username": username}
                                            ).fetchone()
-        return not found_username
+        return found_username
     except:
         abort(500)
     
-
 def get_doctor_patients(doctor_id):
     try:
         fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
                                              {"key": PERSONAL_DOCTOR_ID_DB_KEY,
                                               "doctor_id": str(doctor_id)})
-        return format_doctor_patients(fetched_patients)                                                       
+        return format_users(fetched_patients)                                                       
     except:
         abort(500)
 
-def format_doctor_patients(fetched_patients):
-    formatted_patients = []
+def get_all_doctors():
+    try:
+        fetched_doctors = db.session.execute(GET_ALL_DOCTORS_QUERY).fetchall()
+        print(fetched_doctors, file=sys.stdout)
+        return format_users(fetched_doctors)                                                       
+    except:
+        abort(500)
     
-    for patient in fetched_patients:
-        formatted_patients.append({
-            "user_id": patient.user_id,
-            "name": get_user_info_by_key(patient.user_id, NAME_DB_KEY)
+def format_users(fetched_users):
+    formatted_users = []
+    for user in fetched_users:
+        formatted_users.append({
+            "user_id": user.user_id,
+            "name": get_user_info_by_key(user.user_id, NAME_DB_KEY)
         })
 
-    return formatted_patients
+    return formatted_users
 
 
 def update_settings_values(user_id, user):
@@ -137,6 +148,8 @@ def initialize_user_info_values(user_id, user):
         create_user_info_by_key(user_id, ADDRESS_DB_KEY, user.address)
         create_user_info_by_key(user_id, CITY_DB_KEY, user.city)
         create_user_info_by_key(user_id, COUNTRY_DB_KEY, user.country)
+        create_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, None)
+
         db.session.commit()
         return True
     except:

@@ -1,6 +1,6 @@
 from db import db
 from flask import abort
-from utils.constant import TIME_FORMAT, NAME_DB_KEY
+from utils.constant import TIME_FORMAT, NAME_DB_KEY, MESSAGE_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input
 from services import users
 
@@ -49,7 +49,7 @@ def format_messages(messages_list):
     return formatted_messages
 
 def add_new_message(content, sender_user_id, receiver_user_id):
-    if is_valid_input(content, 100):
+    if is_valid_input(content, MESSAGE_LENGTH_MAX):
         try:
             is_success = db.session.execute(ADD_NEW_MESSAGE_QUERY, 
                                            {"content": content, 
