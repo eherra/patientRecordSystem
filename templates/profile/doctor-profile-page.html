@@ -12,9 +12,10 @@
             <!--- APPOINTMENT TABLE --->
             {% include 'profile/components/appointments-table.html' %}
 
-            <!--- ADD APPOINTMENT --->
+            <!--- BOOK APPOINTMENT --->
             <div>
                 <h5><u>Book appointment</u></h5>
+                {% if doctor_patients|length != 0 %}
                 <form action="/appointment/book/{{user_id}}" method="POST">
                     <div class="form-row">
                         <div class="col-md-7 mb-3">
@@ -24,15 +25,11 @@
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="patient">For patient:</label>
-                            {% if doctor_patients|length == 0 %}
-                            <p>You have no signed patients.</p>
-                            {% else %}
                             <select class="custom-select" id="patient" name="patient_id">
                                 {% for patient in doctor_patients %}
                                 <option value="{{patient.user_id}}">{{patient.name}}</option>
                                 {% endfor %}
                             </select>
-                            {% endif %}
                         </div>
                     </div>
                     <div class="form-row">
@@ -47,6 +44,9 @@
                         </div>
                     </div>
                 </form>
+                {% else %}
+                <p>You have no signed patients.</p>
+                {% endif %}
             </div>
             <br>
 
