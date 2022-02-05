@@ -1,4 +1,4 @@
-#from services import users
+from services import users
 import re
 
 class RegistrationUser:
@@ -24,9 +24,8 @@ class RegistrationUser:
         if len(value) < 3 or len(value) > 40:
             raise ValueError("Username too short.")
 
-        # took away for writing the tests
-        #if users.is_username_taken(value):
-            #raise ValueError("Username not unique.")
+        if users.is_username_taken(value):
+            raise ValueError("Username not unique. Try other one!")
 
         self._username = value
 

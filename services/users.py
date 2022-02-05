@@ -138,7 +138,7 @@ def create_new_user(user):
         db.session.commit()
         return result.id
     except:
-        abort(500)
+        return None
 
 def initialize_user_info_values(user_id, user):
     try:

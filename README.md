@@ -6,7 +6,7 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 
-Patient record system for hospitals in order to keep track of their patients appointments, patient/doctor communication, prescriptions and symptom stories. 
+Patient record system for hospitals in order to keep track of their patients appointments, patient <-> doctor communication, prescriptions and symptom stories. 
 
 ### Hosting
 
@@ -84,7 +84,6 @@ The validation class takes a form as a construct parameter and checks that the f
 #### Frontend
 - error pages 404, 500
 - message history arrow 180 degree turn when opened
-- modal for creating new patient and after choosing personal doctor
 
 #### Backend
 - db table values (UNIQUE/NULL)

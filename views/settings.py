@@ -1,9 +1,8 @@
-from flask import redirect, request, render_template, session, flash, Blueprint
+from flask import redirect, request, render_template, session, flash, Blueprint, abort
 from services import users
-from utils.constant import SUCCESS_CATEGORY
+from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY
 from utils.validators.auth_validator import requires_login
 from utils.validators.models.settings_user import SettingsUser
-import sys
 
 INFORMATION_UPDATED_MESSAGE = "Information updated successfully!"
 
@@ -21,8 +20,13 @@ def settings():
 @requires_login
 def update_settings():
     user_id = session.get("user_id") 
-    user_validated = SettingsUser(request.form)
-    print(user_validated, file=sys.stdout)
+    try:
+        user_validated = SettingsUser(request.form)
+    except ValueError as error:
+        flash(str(error), DANGER_CATEGORY)
+        return redirect("/settings") 
+    except KeyError:
+        abort(500)
 
     users.update_settings_values(user_id, user_validated)
     flash(INFORMATION_UPDATED_MESSAGE, SUCCESS_CATEGORY)

@@ -25,7 +25,7 @@
                         <div class="col-md-5 mb-3">
                             <label for="patient">For patient:</label>
                             {% if doctor_patients|length == 0 %}
-                            <span>You have no signed patients.</span>
+                            <p>You have no signed patients.</p>
                             {% else %}
                             <select class="custom-select" id="patient" name="patient_id">
                                 {% for patient in doctor_patients %}
@@ -41,8 +41,7 @@
                             <input class="form-control" type="datetime-local" min="{{time_now}}" name="appointment_date"
                                 id="dateTime" required>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <label>fix</label>
+                        <div class="col-md-4 mb-2" style="margin-top: 2em;">
                             <button class="btn btn-dark btn-sm form-control" id="appointment_submit" type="submit">Add
                                 appointment <i class="far fa-calendar-check"></i></button>
                         </div>
@@ -69,8 +68,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-4 mb-2">
-                        <label>fix</label>
+                    <div class="col-md-4 mb-2" style="margin-top: 2em;">
                         <button class="btn btn-dark btn-sm form-control" type="submit">Create prescription</button>
                     </div>
                 </div>
