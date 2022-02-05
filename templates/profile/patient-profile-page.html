@@ -5,12 +5,12 @@
   <div class="row">
 
     <!--- PROFILE DETAILS, LEFT PART OF PAGE --->
-    {% include 'profile/profile-card.html' %}
+    {% include 'profile/components/profile-card.html' %}
 
     <!--- MIDDLE PART --->
     <div class="col-md-5">
       <!--- APPOINTMENT TABLE --->
-      {% include 'profile/appointments-table.html' %}
+      {% include 'profile/components/appointments-table.html' %}
 
       <!--- PRESCRIPTIONS --->
       <div>
@@ -75,9 +75,12 @@
                         border-radius: 50%;" />
           <p class="phone">Urgent matters: {{ doctor_info.phone }}</p>
         </div>
+        <!--- Means that patient haven't chose personal doctor yet --->
         {% else %}
-        {% include 'profile/sign-doctor-modal.html' %}
+        {% include 'profile/components/sign-doctor-modal.html' %}
         {% endif %}
+
+        {% if doctor_info %}
         <div>
           <form action="/send-message" method="POST">
             <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
@@ -87,11 +90,12 @@
             <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                 class="far fa-paper-plane"></i></button>
           </form>
+          <br>
         </div>
-        <br>
+        {% endif %}
 
         <!--- MESSAGES --->
-        {% include 'profile/messages-history.html' %}
+        {% include 'profile/components/messages-history.html' %}
 
       </div>
     </div>

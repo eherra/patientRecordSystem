@@ -1,23 +1,20 @@
-<div type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm">
-    Choose doctor <i class="far fa-trash-alt"></i></div>
-<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="confirmModal"
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal">
+    Choose doctor <i class="fas fa-user-md"></i></button>
+<div id="signDoctorModal" class="modal fade bd-example-modal" tabindex="-1" role="dialog" aria-labelledby="confirmModal"
     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Welcome {{user_info.name}} to Patientlify!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title">Welcome <u>{{user_info.name}}</u> to Patientlify!</h5>
             </div>
             <div class="modal-body">
-                <p>We are glad to have you here!</p>
+                <p>You came to the right neighbourhood!</p>
                 <p><u>Firstly, we need to sign you a personal doctor.</u></p>
                 <h6>Choose one of our doctors from the list below:</h6>
                 <form action="/profile/sign-doctor" method="POST">
                     <select class="custom-select" id="doctor" name="signedDoctorId">
                         {% for doctor in all_doctors %}
-                        <option value="{{doctor.user_id}}">{{doctor.name}}</option>
+                        <option value="{{doctor.user_id}}">{{doctor.name}} </option>
                         {% endfor %}
                     </select>
                     <button type="submit" class="btn btn-dark">Confirm your choice</button>
@@ -26,4 +23,9 @@
         </div>
     </div>
 </div>
-<p>not chosen</p>
+<script type="text/javascript">
+    window.onload = function () {
+        $("#signDoctorModal").modal('show');
+    };
+</script>
+<p>Personal doctor not chosen.</p>
