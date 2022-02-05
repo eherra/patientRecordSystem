@@ -1,6 +1,7 @@
 from db import db
 from flask import abort
-from utils.constant import TIME_FORMAT, NAME_DB_KEY
+from utils.constant import TIME_FORMAT, NAME_DB_KEY, MESSAGE_LENGTH_MAX
+from utils.validators.input_validator import is_valid_input
 from services import users
 
 SENT_MESSAGES_QUERY = "SELECT   user2_id AS user_id, content, TO_CHAR(sent_at, :time_format) AS time \
@@ -38,7 +39,7 @@ def get_received_messages(user_id):
 
 def format_messages(messages_list):
     formatted_messages = []
-    # message is a tuple value of (user_id, content, sent_at)
+    # message is a tuple value of (user_id, content, time)
     for message in messages_list:
         formatted_messages.append({
             "toOrfrom": users.get_user_info_by_key(message.user_id, NAME_DB_KEY),
@@ -47,13 +48,15 @@ def format_messages(messages_list):
         })
     return formatted_messages
 
-## TODO - add validation for content
 def add_new_message(content, sender_user_id, receiver_user_id):
-    try:
-        db.session.execute(ADD_NEW_MESSAGE_QUERY, 
-                          {"content": content, 
-                           "sender_user_id": sender_user_id, 
-                           "receiver_user_id": receiver_user_id})
-        db.session.commit()
-    except:
-        abort(500)
+    if is_valid_input(content, MESSAGE_LENGTH_MAX):
+        try:
+            is_success = db.session.execute(ADD_NEW_MESSAGE_QUERY, 
+                                           {"content": content, 
+                                            "sender_user_id": sender_user_id, 
+                                            "receiver_user_id": receiver_user_id})
+            db.session.commit()
+            return is_success
+        except:
+            abort(500)
+    return False

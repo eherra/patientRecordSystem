@@ -1,5 +1,4 @@
 TIME_FORMAT='DD-MM-YYYY HH:MI'
-
 # DB Table user_info keys
 NAME_DB_KEY='name'
 PHONE_DB_KEY='phone'
@@ -16,3 +15,10 @@ PATIENT_AVATAR_URL='/static/images/patientAvatar.png'
 # Flash categories
 SUCCESS_CATEGORY = "success"
 DANGER_CATEGORY = "danger"
+
+# Validator lengths
+PRESCRIPTION_NAME_LENGTH_MAX = 30
+APPOINTMENT_TYPE_LENGTH_MAX = 30
+GENERAL_LENGTH_MAX = 50
+MESSAGE_LENGTH_MAX = 100
+SYMPTOM_LENGTH_MAX = 200

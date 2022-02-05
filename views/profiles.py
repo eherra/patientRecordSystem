@@ -1,7 +1,7 @@
-from flask import redirect, render_template, session, Blueprint
+from flask import request, render_template, session, Blueprint
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
-from utils.auth_validator import requires_login
+from utils.validators.auth_validator import requires_login
 from datetime import datetime
 
 profiles_bp = Blueprint("profiles", __name__)
@@ -52,9 +52,16 @@ def render_patient_profile():
     # fetching received messages of user
     received_messages = messages.get_received_messages(user_id)
 
-    # fetching name of doctor
+    # fetching id of signed doctor
     doctor_id = users.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
-    doctor_info = users.get_user_personal_doctor_info(doctor_id)
+
+    # TODO: refactor
+    if doctor_id:
+        doctor_info = users.get_user_personal_doctor_info(doctor_id)
+        all_doctors = None
+    else:
+        doctor_info = None
+        all_doctors = users.get_all_doctors()
 
     # fetching history and current prescriptions list
     prescription_lists = prescriptions.get_user_prescriptions(user_id)
@@ -72,5 +79,15 @@ def render_patient_profile():
                             prescriptions=prescription_lists,
                             user_info=user_info,
                             appointments_list=appointments_info, 
+                            all_doctors=all_doctors,
                             avatar_url=PATIENT_AVATAR_URL,
                             doctor_avatar_url=DOCTOR_AVATAR_URL)
+
+
+@profiles_bp.route("/profile/sign-doctor", methods=["POST"])
+@requires_login
+def choose_doctor():
+    user_id = session["user_id"]
+    doctor_signed_id = request.form["signedDoctorId"]
+    users.update_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, doctor_signed_id)
+    return render_patient_profile()

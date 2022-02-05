@@ -3,7 +3,6 @@ from flask import abort
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
 from werkzeug.security import generate_password_hash
-
 import sys
 
 GET_USERINFO_BY_KEY_QUERY = "SELECT value \
@@ -15,6 +14,14 @@ GET_DOCTOR_PATIENTS_QUERY = "SELECT user_id \
                              FROM   user_info \
                              WHERE  key = :key \
                              AND    value = :doctor_id"
+
+GET_ALL_DOCTORS_QUERY = "SELECT id AS user_id \
+                         FROM   users \
+                         WHERE  is_doctor = True"
+
+CHECK_IS_USERNAME_UNIQUE_QUERY = "SELECT 1 \
+                                  FROM   users \
+                                  WHERE  username = :username"
 
 UPDATE_USERINFO_BY_KEY_QUERY = "UPDATE user_info \
                                 SET    value = :new_value \
@@ -55,48 +62,62 @@ def get_user_info_by_key(user_id, key):
     except:
         abort(500)
 
+def is_username_taken(username):
+    try:
+        found_username = db.session.execute(CHECK_IS_USERNAME_UNIQUE_QUERY,
+                                           {"username": username}
+                                           ).fetchone()
+        return found_username
+    except:
+        abort(500)
+    
 def get_doctor_patients(doctor_id):
     try:
         fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
                                              {"key": PERSONAL_DOCTOR_ID_DB_KEY,
                                               "doctor_id": str(doctor_id)})
-        return format_doctor_patients(fetched_patients)                                                       
+        return format_users(fetched_patients)                                                       
     except:
         abort(500)
 
-def format_doctor_patients(fetched_patients):
-    formatted_patients = []
+def get_all_doctors():
+    try:
+        fetched_doctors = db.session.execute(GET_ALL_DOCTORS_QUERY).fetchall()
+        print(fetched_doctors, file=sys.stdout)
+        return format_users(fetched_doctors)                                                       
+    except:
+        abort(500)
     
-    for patient in fetched_patients:
-        formatted_patients.append({
-            "user_id": patient.user_id,
-            "name": get_user_info_by_key(patient.user_id, NAME_DB_KEY)
+def format_users(fetched_users):
+    formatted_users = []
+    for user in fetched_users:
+        formatted_users.append({
+            "user_id": user.user_id,
+            "name": get_user_info_by_key(user.user_id, NAME_DB_KEY)
         })
 
-    return formatted_patients
+    return formatted_users
 
-def update_settings_values(user_id, name, phone, email, address, city, country):
-    if is_valid_input(name):
-        update_user_info_by_key(user_id, NAME_DB_KEY, name)
+
+def update_settings_values(user_id, user):
+    "Updates user_info table values if user has filled the input with the request"
+    if user.name:
+        update_user_info_by_key(user_id, NAME_DB_KEY, user.name)
     
-    if is_valid_input(phone):
-        update_user_info_by_key(user_id, PHONE_DB_KEY, phone)
+    if user.phone:
+        update_user_info_by_key(user_id, PHONE_DB_KEY, user.phone)
 
-    if is_valid_input(email):
-        update_user_info_by_key(user_id, EMAIL_DB_KEY, email)
+    if user.email:
+        update_user_info_by_key(user_id, EMAIL_DB_KEY, user.email)
 
-    if is_valid_input(address):
-        update_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
+    if user.address:
+        update_user_info_by_key(user_id, ADDRESS_DB_KEY, user.address)
 
-    if is_valid_input(city):
-        update_user_info_by_key(user_id, CITY_DB_KEY, city)
+    if user.city:
+        update_user_info_by_key(user_id, CITY_DB_KEY, user.city)
 
-    if is_valid_input(country):
-        update_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
-
-## TODO - move to validation module
-def is_valid_input(input):
-    return input and len(input) < 50 and not input.isspace()
+    if user.country:
+        update_user_info_by_key(user_id, COUNTRY_DB_KEY, user.country)
 
 def update_user_info_by_key(user_id, key, new_value):
     try:
@@ -108,40 +129,31 @@ def update_user_info_by_key(user_id, key, new_value):
     except:
         abort(500)
 
-def create_new_user(username, password,
-                    is_doctor):
+def create_new_user(user):
     try:
         result = db.session.execute(CREATE_NEW_USER_QUERY,
-                                   {"username": username,
-                                    "password": generate_password_hash(password),
-                                    "is_doctor": is_doctor}).fetchone()
+                                   {"username": user.username,
+                                    "password": generate_password_hash(user.password),
+                                    "is_doctor": user.is_doctor}).fetchone()
         db.session.commit()
         return result.id
     except:
         abort(500)
 
-# TODO - proper validations
-def initialize_user_info_values(user_id, name, 
-                                phone, email, 
-                                address, city, 
-                                country):
-    if is_valid_input(name):
-        create_user_info_by_key(user_id, NAME_DB_KEY, name)
-    
-    if is_valid_input(phone):
-        create_user_info_by_key(user_id, PHONE_DB_KEY, phone)
+def initialize_user_info_values(user_id, user):
+    try:
+        create_user_info_by_key(user_id, NAME_DB_KEY, user.name)
+        create_user_info_by_key(user_id, PHONE_DB_KEY, user.phone)
+        create_user_info_by_key(user_id, EMAIL_DB_KEY, user.email)
+        create_user_info_by_key(user_id, ADDRESS_DB_KEY, user.address)
+        create_user_info_by_key(user_id, CITY_DB_KEY, user.city)
+        create_user_info_by_key(user_id, COUNTRY_DB_KEY, user.country)
+        create_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, None)
 
-    if is_valid_input(email):
-        create_user_info_by_key(user_id, EMAIL_DB_KEY, email)
-
-    if is_valid_input(address):
-        create_user_info_by_key(user_id, ADDRESS_DB_KEY, address)
-
-    if is_valid_input(city):
-        create_user_info_by_key(user_id, CITY_DB_KEY, city)
-
-    if is_valid_input(country):
-        create_user_info_by_key(user_id, COUNTRY_DB_KEY, country)
+        db.session.commit()
+        return True
+    except:
+        return False
 
 def create_user_info_by_key(user_id, key, value):
     try:
@@ -149,6 +161,5 @@ def create_user_info_by_key(user_id, key, value):
                           {"user_id": user_id,
                            "key": key,
                            "value": value})
-        db.session.commit()
     except:
-        abort(500)
+        db.session.rollback()

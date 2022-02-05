@@ -118,15 +118,17 @@
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-1"><u>{{ prescription.name }}</u>
+                            <h6 class="mb-1"><u>{{ prescription.name }}</u></h6>
+                            <div>
                                 {% if session.is_doctor %}
+                                <button type="submit" class="btn btn-danger btn-sm">remove <i
+                                        class="far fa-minus-square"></i></button>
                                 <input type="hidden" name="isVisible" value="False">
-                                <input type="submit" value="remove">
                                 {% endif %}
-                            </h6>
-                            <small>Amount per day: <span
-                                    class="badge badge-info badge-pill">{{prescription.amount_per_day
-                                    }}</span></small>
+                                <small>Amount per day: <span
+                                        class="badge badge-info badge-pill">{{prescription.amount_per_day
+                                        }}</span></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,7 +138,7 @@
 
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
-            <h5><u>Add prescriptions</u></h5>
+            <h5><u>All prescriptions</u></h5>
             {% if all_prescriptions|length == 0 %}
             <span>No prescriptions to add.</span>
             {% else %}
@@ -147,13 +149,15 @@
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-1"><u>{{ prescription.name }}</u>
+                            <h6 class="mb-1"><u>{{ prescription.name }}</u></h6>
+                            <div>
+                                <button type="submit" class="btn btn-dark btn-sm">add <i
+                                        class="far fa-plus-square"></i></button>
                                 <input type="hidden" name="isVisible" value="True">
-                                <input type="submit" value="add">
-                            </h6>
-                            <small>Amount per day: <span
-                                    class="badge badge-info badge-pill">{{prescription.amount_per_day
-                                    }}</span></small>
+                                <small>Amount per day: <span
+                                        class="badge badge-info badge-pill">{{prescription.amount_per_day
+                                        }}</span></small>
+                            </div>
                         </div>
                     </div>
                 </div>
