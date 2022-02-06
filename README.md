@@ -82,7 +82,6 @@ The validation class takes a form as a construct parameter and checks that the f
 ### Backlog
 
 #### Frontend
-- error pages 404, 500
 - message history arrow 180 degree turn when opened
 
 #### Backend

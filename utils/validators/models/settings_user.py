@@ -19,7 +19,7 @@ class SettingsUser:
     @name.setter
     def name(self, value):
         if value:
-            if len(value) < 3 or len(value) > 40:
+            if len(value) < 3 or len(value) > 40 or value.isspace():
                 raise ValueError("Full name should be 3-40 characters long.")
         self._name = value
 
@@ -57,7 +57,7 @@ class SettingsUser:
     @address.setter
     def address(self, value):
         if value:
-            if len(value) < 2 or len(value) > 50:
+            if len(value) < 2 or len(value) > 50 or value.isspace():
                 raise ValueError("Address should be 2-50 characters long.")
         self._address = value
 
@@ -68,7 +68,7 @@ class SettingsUser:
     @city.setter
     def city(self, value):
         if value:
-            if len(value) < 2 or len(value) > 50:
+            if len(value) < 2 or len(value) > 50 or value.isspace():
                 raise ValueError("City should be 2-50 characters long.")
         self._city = value
 
@@ -79,6 +79,6 @@ class SettingsUser:
     @country.setter
     def country(self, value):
         if value:
-            if len(value) < 2 or len(value) > 50:
+            if len(value) < 2 or len(value) > 50 or value.isspace():
                     raise ValueError("Country should be 2-50 characters long.")
         self._country = value

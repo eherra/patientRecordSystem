@@ -21,7 +21,7 @@ class RegistrationUser:
 
     @username.setter
     def username(self, value):
-        if len(value) < 3 or len(value) > 40:
+        if len(value) < 3 or len(value) > 40 or value.isspace():
             raise ValueError("Username too short.")
 
         if users.is_username_taken(value):
@@ -35,7 +35,7 @@ class RegistrationUser:
 
     @password.setter
     def password(self, value):
-        if len(value) < 5:
+        if len(value) < 5 or value.isspace():
             raise ValueError("Password too short!")
         self._password = value
 
@@ -55,7 +55,7 @@ class RegistrationUser:
 
     @name.setter
     def name(self, value):
-        if len(value) < 3 or len(value) > 40:
+        if len(value) < 3 or len(value) > 40 or value.isspace():
             raise ValueError("Full name should be 3-40 characters.")
         self._name = value
 
@@ -90,7 +90,7 @@ class RegistrationUser:
 
     @address.setter
     def address(self, value):
-        if len(value) < 2 or len(value) > 50:
+        if len(value) < 2 or len(value) > 50 or value.isspace():
             raise ValueError("Address should be 2-50 characters long.")
         self._address = value
 
@@ -100,7 +100,7 @@ class RegistrationUser:
 
     @city.setter
     def city(self, value):
-        if len(value) < 2 or len(value) > 50:
+        if len(value) < 2 or len(value) > 50 or value.isspace():
             raise ValueError("City should be 2-50 characters long.")
         self._city = value
 
@@ -110,6 +110,6 @@ class RegistrationUser:
 
     @country.setter
     def country(self, value):
-        if len(value) < 2 or len(value) > 50:
+        if len(value) < 2 or len(value) > 50 or value.isspace():
             raise ValueError("Country should be 2-50 characters long.")
         self._country = value

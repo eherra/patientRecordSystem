@@ -21,7 +21,6 @@ def settings():
 @requires_login
 def update_settings():
     user_id = session.get("user_id") 
-    print(request.form, file=sys.stdout)
     try:
         user_validated = SettingsUser(request.form)
     except ValueError as error:
