@@ -21,7 +21,8 @@
                         <div class="col-md-7 mb-3">
                             <label for="appointment_type">Appointment type:</label>
                             <input type="text" name="appointment_type" class="form-control"
-                                placeholder="Enter appointment type" pattern=.{1,30} required>
+                                placeholder="Enter appointment type" pattern=".*\S+.*" minlength="1" maxlength="30"
+                                title="1-30 characters, not allowed only whitespaces." required>
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="patient">For patient:</label>
@@ -58,7 +59,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="prescription">Prescription name:</label>
                         <input type="text" id="prescription" name="prescription_name" class="form-control"
-                            placeholder="Enter prescription name" pattern=".{1,30}" required>
+                            placeholder="Enter prescription name" pattern=".*\S+.*" minlength="1" maxlength="30"
+                            title="1-30 characters, not allowed only whitespaces." required>
                     </div>
                     <div class="col-md-2 mb-3">
                         <label>Per day:</label>
