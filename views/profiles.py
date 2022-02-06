@@ -83,7 +83,6 @@ def render_patient_profile():
                             avatar_url=PATIENT_AVATAR_URL,
                             doctor_avatar_url=DOCTOR_AVATAR_URL)
 
-
 @profiles_bp.route("/profile/sign-doctor", methods=["POST"])
 @requires_login
 def choose_doctor():

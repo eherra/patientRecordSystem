@@ -1,10 +1,14 @@
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 from os import getenv
+import sys
 
 app = Flask(__name__)
 
 app.secret_key = getenv("SECRET_KEY")
 app.config['FLASK_ENV'] = getenv("FLASK_ENV")
+app.config['WTF_CSRF_SECRET_KEY'] = getenv("WTF_CSRF_SECRET_KEY")
+csrf = CSRFProtect(app)
 
 from views import appointments, auth, errors, messages, \
        prescriptions, profiles, register, settings

@@ -1,11 +1,20 @@
 from flask import render_template, jsonify, Blueprint
+from flask_wtf.csrf import CSRFError
 import sys
 
 errors_bp = Blueprint("error", __name__)
 
+@errors_bp.app_errorhandler(CSRFError)
+def csrf_error(error):
+    return jsonify(error=str(error.description)), 400
+
+@errors_bp.app_errorhandler(KeyError)
+def key_error(error):
+    return jsonify(error=str(error.description)), 400
+
 @errors_bp.app_errorhandler(401)
 def user_not_authorized(error):
-    return jsonify(error=str(error)), 401
+    return jsonify(error=str(error.description)), 401
 
 @errors_bp.app_errorhandler(404)
 def page_not_found(error):
@@ -17,6 +26,4 @@ def not_allowed_method(error):
 
 @errors_bp.app_errorhandler(500)
 def internal_server_error(error):
-    print(error , file=sys.stdout)
-
     return render_template('error/500.html'), 500

@@ -1,5 +1,6 @@
-<a href="/logout" style="float: right; margin-top: 1em;">
-    <button type="button">
+<form action="/logout" method="POST">
+    <button type="submit" style="float: right; margin-top: 1em;">
         logout <i class="fas fa-sign-out-alt"></i>
     </button>
-</a>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</form>

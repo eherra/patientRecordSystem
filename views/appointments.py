@@ -46,7 +46,7 @@ def book_appointment(doctor_id):
         flash(INVALID_APPOINTMENT_MESSAGE, DANGER_CATEGORY)
     return redirect("/profile")
 
-@appointments_bp.route("/appointment/<int:appo_id>/delete")
+@appointments_bp.route("/appointment/<int:appo_id>", methods=["POST"])
 @requires_doctor_role
 def delete_appointment(appo_id):
     appointments.delete_appointment(appo_id)
