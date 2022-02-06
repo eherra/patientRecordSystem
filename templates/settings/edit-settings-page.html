@@ -1,74 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/settings/update" method="POST">
-    <div class="container" style="margin-top: 5em">
-        <div class="card" style="background-color: #f2ebd9;">
-            {% include 'flash.html' %}
-            <div class="card-body">
-                <div class="row gutters">
-                    <div class="col-xl-12">
-                        {% include 'auth/logout-button.html' %}
+<div class="container" style="margin-top: 5em">
+    <div class="card" style="background-color: #f2ebd9;">
+        {% include 'flash.html' %}
+        <div class="card-body">
+            <div class="row gutters">
+                <div class="col-xl-12">
+                    {% include 'auth/logout-button.html' %}
+                    <form action="/settings/update" method="POST">
                         <h6 class="mb-3 text-dark"><u>Edit Personal Details</u></h6>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="{{user_info.name}}"
-                                pattern=".{2,40}">
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label for="eMail">Email</label>
-                            <input type="email" name="email" class="form-control" maxlength="40" placeholder="{{user_info.email}}"
-                                pattern=".{3,40}">
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" name="phone" class="form-control" placeholder="{{user_info.phone}}"
-                                pattern="^\+?\d+$" minlength="3" maxlength="20">
-                        </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="{{user_info.name}}"
+                            minlength="3" maxlength="40">
                     </div>
                 </div>
-                <div class="row gutters">
-                    <div class="col-xl-12">
-                        <h6 class="mb-3 text-dark"><u>Edit Address details</u></h6>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label for="Street">Address</label>
-                            <input type="text" name="address" class="form-control" placeholder="{{user_info.address}}"
-                                pattern=".{2,50}">
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label for="ciTy">City</label>
-                            <input type="text" name="city" class="form-control" placeholder="{{user_info.city}}"
-                                pattern=".{2,50}">
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label for="country">Country</label>
-                            <input type="text" name="country" class="form-control" placeholder="{{user_info.country}}"
-                                pattern=".{2,50}">
-                        </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="eMail">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="{{user_info.email}}"
+                            minlength="3" maxlength="40">
                     </div>
                 </div>
-                <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="text-left">
-                            <button type="submit" name="submit" class="btn btn-dark">Update</button>
-                            <a href="/profile"><button type="button" class="btn btn-secondary">Back</button></a>
-                        </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" name="phone" class="form-control" placeholder="{{user_info.phone}}"
+                            pattern="^\+?\d+$" minlength="3" maxlength="20">
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-12">
+                    <h6 class="mb-3 text-dark"><u>Edit Address details</u></h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" name="address" class="form-control" placeholder="{{user_info.address}}"
+                            minlength="2" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="ciTy">City</label>
+                        <input type="text" name="city" class="form-control" placeholder="{{user_info.city}}"
+                            minlength="2" maxlength="50">
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" name="country" class="form-control" placeholder="{{user_info.country}}"
+                            minlength="2" maxlength="50">
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="text-left">
+                        <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                        <a href="/profile"><button type="button" class="btn btn-secondary">Back</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+</div>
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 </form>
 {% endblock %}

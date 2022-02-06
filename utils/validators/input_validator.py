@@ -10,4 +10,4 @@ def is_valid_future_date(date):
         date = datetime.strptime(date, VALIDATOR_TIME_FORMAT)
         return bool(date) and date > datetime.now()
     except:
-        return False    
+        return False        

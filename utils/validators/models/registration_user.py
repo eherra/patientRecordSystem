@@ -56,7 +56,7 @@ class RegistrationUser:
     @name.setter
     def name(self, value):
         if len(value) < 3 or len(value) > 40:
-            raise ValueError("Name cannot exceed 40 characters.")
+            raise ValueError("Full name should be 3-40 characters.")
         self._name = value
 
     @property
@@ -80,7 +80,7 @@ class RegistrationUser:
         if validate_value.startswith("+"):
             validate_value = validate_value[1:]
 
-        if len(validate_value) < 2 or len(validate_value) > 20 or not validate_value.isdecimal():
+        if len(validate_value) < 3 or len(validate_value) > 20 or not validate_value.isdecimal():
             raise ValueError("Incorrect form of phone")
         self._phone = value
 
@@ -90,8 +90,8 @@ class RegistrationUser:
 
     @address.setter
     def address(self, value):
-        if len(value) < 3 or len(value) > 50:
-            raise ValueError("Address input too long!")
+        if len(value) < 2 or len(value) > 50:
+            raise ValueError("Address should be 2-50 characters long.")
         self._address = value
 
     @property
@@ -100,8 +100,8 @@ class RegistrationUser:
 
     @city.setter
     def city(self, value):
-        if len(value) < 3 or len(value) > 50:
-            raise ValueError("City input too long!")
+        if len(value) < 2 or len(value) > 50:
+            raise ValueError("City should be 2-50 characters long.")
         self._city = value
 
     @property
@@ -110,6 +110,6 @@ class RegistrationUser:
 
     @country.setter
     def country(self, value):
-        if len(value) < 3 or len(value) > 50:
-            raise ValueError("Country input too long!")
+        if len(value) < 2 or len(value) > 50:
+            raise ValueError("Country should be 2-50 characters long.")
         self._country = value
