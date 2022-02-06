@@ -1,9 +1,11 @@
 from flask import session, redirect, request, render_template, flash, Blueprint
 from services import auth
-from utils.constant import DANGER_CATEGORY
+from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY
 from utils.validators.auth_validator import requires_login
 
+LOGIN_SUCCESS_MESSAGE = "You successfully logged in!"
 LOGIN_ERROR_MESSAGE = "Wrong username or password"
+SUCCESSFULLY_LOGGED_OUT_MESSAGE = "You successfully logged out!"
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -25,16 +27,18 @@ def process_login():
     if logged_user_info:
         session["user_id"] = logged_user_info.id
         session["is_doctor"] = logged_user_info.is_doctor
+        flash(LOGIN_SUCCESS_MESSAGE, SUCCESS_CATEGORY)
         return redirect("/profile")
 
     flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
     return redirect("/login")
 
 
-@auth_bp.route("/logout")
+@auth_bp.route("/logout", methods=["POST"])
 @requires_login
 def logout():
     del session["user_id"]
     del session["is_doctor"]
+    flash(SUCCESSFULLY_LOGGED_OUT_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/login")
 

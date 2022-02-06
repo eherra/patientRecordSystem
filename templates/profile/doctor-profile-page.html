@@ -43,6 +43,7 @@
                                 appointment <i class="far fa-calendar-check"></i></button>
                         </div>
                     </div>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 </form>
                 {% else %}
                 <p>You have no signed patients.</p>
@@ -72,6 +73,7 @@
                         <button class="btn btn-dark btn-sm form-control" type="submit">Create prescription</button>
                     </div>
                 </div>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             </form>
         </div>
 
@@ -98,6 +100,7 @@
                         placeholder="Enter message..." maxlength="48" required></textarea>
                     <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                             class="far fa-paper-plane"></i></button>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 </form>
                 {% endif %}
             </div>

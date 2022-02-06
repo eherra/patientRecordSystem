@@ -19,8 +19,6 @@ def register_user():
     except ValueError as error:
         flash(str(error), DANGER_CATEGORY)
         return redirect("/register") 
-    except KeyError:
-        abort(500)
 
     created_user_id = users.create_new_user(user_validated) 
     if created_user_id:

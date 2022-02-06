@@ -6,5 +6,6 @@
         </div>
         <button type="submit" class="btn btn-dark">Update symptom</button>
         <a href="/profile"><button type="button" class="btn btn-secondary">Back</button></a>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>
 </div>
