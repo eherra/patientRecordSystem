@@ -3,6 +3,7 @@ from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from utils.validators.auth_validator import requires_login
 from datetime import datetime
+import sys
 
 profiles_bp = Blueprint("profiles", __name__)
 
@@ -55,13 +56,13 @@ def render_patient_profile():
     # fetching id of signed doctor
     doctor_id = users.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
 
-    # TODO: refactor
+    # if doctor_id is none, personal doctor not yet signed to patient
     if doctor_id:
         doctor_info = users.get_user_personal_doctor_info(doctor_id)
         all_doctors = None
     else:
-        doctor_info = None
         all_doctors = users.get_all_doctors()
+        doctor_info = None
 
     # fetching history and current prescriptions list
     prescription_lists = prescriptions.get_user_prescriptions(user_id)
@@ -85,7 +86,7 @@ def render_patient_profile():
 
 @profiles_bp.route("/profile/sign-doctor", methods=["POST"])
 @requires_login
-def choose_doctor():
+def sign_personal_doctor():
     user_id = session["user_id"]
     doctor_signed_id = request.form["signedDoctorId"]
     users.update_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, doctor_signed_id)

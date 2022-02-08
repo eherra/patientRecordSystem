@@ -6,7 +6,7 @@ from utils.validators.auth_validator import requires_login
 SUCCESS_SENT_MESSAGE = "Message sent successfully!"
 UNSUCCESS_SENT_MESSAGE = "Couldn't deliver that message!"
 
-messages_bp = Blueprint('message', __name__)
+messages_bp = Blueprint("message", __name__)
 
 @messages_bp.route("/send-message", methods=["POST"])
 @requires_login

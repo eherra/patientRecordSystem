@@ -1,10 +1,9 @@
-from db import db
+from database.db import db
 from services import users
 from flask import abort
 from utils.constant import TIME_FORMAT, NAME_DB_KEY, APPOINTMENT_TYPE_LENGTH_MAX, SYMPTOM_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input, is_valid_future_date
 from datetime import datetime
-import sys
 
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
                                  FROM   appointments \
@@ -63,11 +62,11 @@ def format_appointment_data(fetched_appointments):
         formatted_appointments.append({
             "id": appointment.id,
             "patient_id": appointment.patient_id,
-            'doctor_name': doctor_name,
+            "doctor_name": doctor_name,
             "patient_name": patient_name,
-            'appointment_type': appointment.appointment_type,
-            'time': appointment.time,
-            'bg_color': get_bg_color_according_date_past(appointment.time)
+            "appointment_type": appointment.appointment_type,
+            "time": appointment.time,
+            "bg_color": get_bg_color_according_date_past(appointment.time)
         })
 
     return formatted_appointments
@@ -97,8 +96,8 @@ def update_appointment_symptom(user_id, appo_id, new_symptom):
     try:
         db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY, 
                             {"appointment_id": appo_id,
-                            "user_id": user_id,
-                            "new_symptom": new_symptom})
+                             "user_id": user_id,
+                             "new_symptom": new_symptom})
         db.session.commit()
     except:
         abort(500)

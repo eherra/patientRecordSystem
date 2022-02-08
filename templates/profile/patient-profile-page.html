@@ -36,8 +36,9 @@
         </div>
         <br>
         <!--- History prescriptionss rendering --->
-        <button type="button" class="btn btn-dark" data-toggle="collapse" data-target="#historyPrescriptions">Past
-          prescriptions <i class="fas fa-angle-down"></i></button>
+        <button onClick="rotatePrescriptionArrow()" type="button" class="btn btn-dark" data-toggle="collapse"
+          data-target="#historyPrescriptions">Past
+          prescriptions <i class="fas fa-angle-down prescriptionArrow"></i></button>
         <div id="historyPrescriptions" class="collapse">
           <div class="list-group">
             {% if prescriptions.history_prescriptions|length == 0 %}
@@ -89,7 +90,7 @@
             <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
             <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                 class="far fa-paper-plane"></i></button>
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
           </form>
           <br>
         </div>
@@ -101,4 +102,5 @@
       </div>
     </div>
   </div>
+  <script src="static/js/prescriptionArrow.js"></script>
   {% endblock %}

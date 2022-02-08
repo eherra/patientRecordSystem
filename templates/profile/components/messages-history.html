@@ -1,9 +1,10 @@
 <h4><u>Message history</u></h4>
 <!--- Sent messages rendering --->
-<button id="the-button" type="button" class="btn btn-dark" data-toggle="collapse" data-target="#sentMessages">Sent
-    messages <i class="fas fa-angle-down"></i></button>
+<button onclick="rotateSentArrow()" id="the-button" type="button" class="btn btn-dark" data-toggle="collapse"
+    data-target="#sentMessages">Sent
+    messages <i class="fas fa-angle-down sentArrow"></i></button>
 <div id="sentMessages" class="collapse">
-    <dib class="list-group">
+    <div class="list-group">
         {% if sent_messages|length == 0 %}
         <span>You have no sent messages.</span>
         {% else %}
@@ -17,14 +18,15 @@
         </div>
         {% endfor %}
         {% endif %}
-    </dib>
+    </div>
 </div>
 
 <!--- Received messages rendering --->
-<button class="btn btn-dark" data-toggle="collapse" data-target="#receivedMessages">Received messages <i
-        class="fas fa-angle-down"></i></button>
+<button onClick="rotateReceivedArrow()" class="btn btn-dark" data-toggle="collapse"
+    data-target="#receivedMessages">Received
+    messages <i class="fas fa-angle-down receivedArrow"></i></button>
 <div id="receivedMessages" class="collapse">
-    <dib class="list-group">
+    <div class="list-group">
         {% if received_messages|length == 0 %}
         <span>You have no received messages.</span>
         {% else %}
@@ -38,5 +40,6 @@
         </div>
         {% endfor %}
         {% endif %}
-    </dib>
+    </div>
 </div>
+<script src="static/js/messageArrows.js"></script>

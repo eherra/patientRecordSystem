@@ -3,7 +3,6 @@ from services import users
 from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY
 from utils.validators.auth_validator import requires_login
 from utils.validators.models.settings_user import SettingsUser
-import sys
 
 INFORMATION_UPDATED_MESSAGE = "Information updated successfully!"
 

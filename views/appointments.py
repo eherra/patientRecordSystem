@@ -8,7 +8,7 @@ BOOKED_APPOINTMENT_MESSAGE = "Appointment booked successfully!"
 DELETED_APPOINTMENT_MESSAGE = "Appointment deleted successfully!"
 INVALID_APPOINTMENT_MESSAGE = "Invalid appointment inputs!"
 
-appointments_bp = Blueprint('appointments', __name__)
+appointments_bp = Blueprint("appointments", __name__)
 
 @appointments_bp.route("/appointment/<int:appo_id>/patient/<int:patient_id>")
 @requires_login
@@ -25,7 +25,7 @@ def appointment(appo_id, patient_id):
     return render_template("appointment/appointment-page.html",
                             patient_info=patient_info,
                             all_prescriptions=not_signed_prescriptions,
-                            current_prescriptions=signed_prescriptions['current_prescriptions'],
+                            current_prescriptions=signed_prescriptions["current_prescriptions"],
                             appointment=appointment)
 
 @appointments_bp.route("/appointment/<int:appo_id>/symptom/<int:user_id>", methods=["POST"])

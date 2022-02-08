@@ -74,7 +74,7 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
 ### Input validation
 The app has client-side validations for user inputs done via Bootstrap **required** and regex **pattern** matches.
 
-On server-side the inputs are as well validated -> via Postman incorrect data can't be sent and inserted to the database.
+On server-side the inputs are as well validated -> with Postman incorrect data can't be sent and inserted to the database.
 
 The input validations has been done for cases where higher amount of form parameters is given with a validation model class e.g. when registering new user, and updating user settings. 
 The validation class takes a form as a construct parameter and checks that the form values are according to validation rules.
@@ -82,10 +82,8 @@ The validation class takes a form as a construct parameter and checks that the f
 ### Backlog
 
 #### Frontend
-- message history arrow 180 degree turn when opened
 
 #### Backend
-- db table values (UNIQUE/NULL)
 
 #### General
 - refactoring

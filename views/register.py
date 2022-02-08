@@ -3,8 +3,9 @@ from services import users
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
 from utils.validators.models.registration_user import RegistrationUser
 
-SUCCESFULLY_USER_REGISTRATION_MESSAGE = "New user succesfully registered!"
 FAILED_USER_REGISTRATION_MESSAGE = "Something went wrong!"
+SUCCESFULLY_USER_REGISTRATION_MESSAGE = "New user succesfully registered!"
+
 register_bp = Blueprint("register", __name__)
 
 @register_bp.route("/register")

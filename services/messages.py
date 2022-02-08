@@ -1,4 +1,4 @@
-from db import db
+from database.db import db
 from flask import abort
 from utils.constant import TIME_FORMAT, NAME_DB_KEY, MESSAGE_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input
@@ -41,8 +41,10 @@ def format_messages(messages_list):
     formatted_messages = []
     # message is a tuple value of (user_id, content, time)
     for message in messages_list:
+        toOrFrom = users.get_user_info_by_key(message.user_id, NAME_DB_KEY)
+
         formatted_messages.append({
-            "toOrfrom": users.get_user_info_by_key(message.user_id, NAME_DB_KEY),
+            "toOrfrom": toOrFrom,
             "content": message.content,
             "sent_at": message.time
         })

@@ -1,4 +1,4 @@
-from db import db
+from database.db import db
 from flask import abort
 from utils.constant import PRESCRIPTION_NAME_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input
@@ -59,8 +59,8 @@ def format_precription_lists(fetched_prescriptions):
             history_prescriptions.append(prescription_info)
 
     return {
-        'current_prescriptions': current_prescriptions, 
-        'history_prescriptions': history_prescriptions
+        "current_prescriptions": current_prescriptions, 
+        "history_prescriptions": history_prescriptions
         }
 
 def get_prescription_info_by_id(prescription_id):
@@ -76,8 +76,8 @@ def update_prescription_from_user(user_id, prescription_id, bool_value):
     try:
         is_success = db.session.execute(UPDATE_USER_PRESCRIPTION, 
                                        {"user_id": user_id, 
-                                       "prescription_id": prescription_id,
-                                       "visible": bool_value})
+                                        "prescription_id": prescription_id,
+                                        "visible": bool_value})
         # if nothing updated, there was not connection on user_prescriptions table earlier                           
         if not is_success.rowcount:
             add_new_prescription_to(user_id, prescription_id)

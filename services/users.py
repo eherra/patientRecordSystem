@@ -1,4 +1,5 @@
-from db import db
+from sqlite3 import DatabaseError
+from database.db import db
 from flask import abort
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
@@ -37,28 +38,30 @@ CREATE_USER_INFO_QUERY = "INSERT INTO user_info (user_id, key, value) \
 
 def get_user_info(user_id):
     return {
-        'name': get_user_info_by_key(user_id, NAME_DB_KEY), 
-        'phone': get_user_info_by_key(user_id, PHONE_DB_KEY), 
-        'email': get_user_info_by_key(user_id, EMAIL_DB_KEY), 
-        'address': get_user_info_by_key(user_id, ADDRESS_DB_KEY), 
-        'country': get_user_info_by_key(user_id, COUNTRY_DB_KEY), 
-        'city': get_user_info_by_key(user_id, CITY_DB_KEY) 
+        "name": get_user_info_by_key(user_id, NAME_DB_KEY), 
+        "phone": get_user_info_by_key(user_id, PHONE_DB_KEY), 
+        "email": get_user_info_by_key(user_id, EMAIL_DB_KEY), 
+        "address": get_user_info_by_key(user_id, ADDRESS_DB_KEY), 
+        "country": get_user_info_by_key(user_id, COUNTRY_DB_KEY), 
+        "city": get_user_info_by_key(user_id, CITY_DB_KEY) 
     }
 
 def get_user_personal_doctor_info(doctor_id):
     return {
-        'name': get_user_info_by_key(doctor_id, NAME_DB_KEY), 
-        'phone': get_user_info_by_key(doctor_id, PHONE_DB_KEY), 
-        'id': doctor_id
+        "name": get_user_info_by_key(doctor_id, NAME_DB_KEY), 
+        "phone": get_user_info_by_key(doctor_id, PHONE_DB_KEY), 
+        "id": doctor_id
     }
 
 def get_user_info_by_key(user_id, key):
     try:
         value = db.session.execute(GET_USERINFO_BY_KEY_QUERY,
-                                  {"user_id": user_id,
-                                   "key": key}
-                                   ).fetchone()[0]
-        return value
+                                 {"user_id": user_id,
+                                  "key": key}
+                                 ).fetchone()
+        if value:
+            return value[0]
+        return "(user unknown)"
     except:
         abort(500)
 
@@ -83,7 +86,6 @@ def get_doctor_patients(doctor_id):
 def get_all_doctors():
     try:
         fetched_doctors = db.session.execute(GET_ALL_DOCTORS_QUERY).fetchall()
-        print(fetched_doctors, file=sys.stdout)
         return format_users(fetched_doctors)                                                       
     except:
         abort(500)
@@ -97,7 +99,6 @@ def format_users(fetched_users):
         })
 
     return formatted_users
-
 
 def update_settings_values(user_id, user):
     "Updates user_info table values if user has filled the input with the request"
@@ -149,10 +150,9 @@ def initialize_user_info_values(user_id, user):
         create_user_info_by_key(user_id, CITY_DB_KEY, user.city)
         create_user_info_by_key(user_id, COUNTRY_DB_KEY, user.country)
         create_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, None)
-
         db.session.commit()
         return True
-    except:
+    except DatabaseError:
         return False
 
 def create_user_info_by_key(user_id, key, value):
@@ -163,3 +163,4 @@ def create_user_info_by_key(user_id, key, value):
                            "value": value})
     except:
         db.session.rollback()
+        raise DatabaseError("Adding key-value pair didn't succeed.")
