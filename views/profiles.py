@@ -18,20 +18,11 @@ def profile():
     
 def render_doctor_profile():
     user_id = session["user_id"]
-    
-    # fetching sent messages of the user
     sent_messages = messages.get_sent_messages(user_id)
-
-    # fetching received messages of the user
     received_messages = messages.get_received_messages(user_id)
-
-    # fetching User Info (name, phone, email, address)
     user_info = users.get_user_info(user_id)
-
-    # Fetching appointments info of the doctor
     appointments_info = appointments.get_doctor_appointments_info(user_id)
     doctor_patients = users.get_doctor_patients(user_id)
-
     time_now = datetime.now().strftime("%Y-%m-%dT%H:%M")
 
     return render_template("profile/doctor-profile-page.html",
@@ -46,14 +37,8 @@ def render_doctor_profile():
 
 def render_patient_profile():
     user_id = session["user_id"]
-
-    # fetching sent messages of user
     sent_messages = messages.get_sent_messages(user_id)
-
-    # fetching received messages of user
     received_messages = messages.get_received_messages(user_id)
-
-    # fetching id of signed doctor
     doctor_id = users.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
 
     # if doctor_id is none, personal doctor not yet signed to patient
@@ -66,11 +51,7 @@ def render_patient_profile():
 
     # fetching history and current prescriptions list
     prescription_lists = prescriptions.get_user_prescriptions(user_id)
-
-    # fetching User Info
     user_info = users.get_user_info(user_id)
-
-    # Fetching appointments info 
     appointments_info = appointments.get_patient_appointments_info(user_id)
 
     return render_template("profile/patient-profile-page.html",
