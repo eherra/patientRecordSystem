@@ -79,10 +79,10 @@ On server-side the inputs are as well validated -> with Postman incorrect data c
 The input validations has been done for cases where higher amount of form parameters is given with a validation model class e.g. when registering new user, and updating user settings. 
 The validation class takes a form as a construct parameter and checks that the form values are according to validation rules.
 
-### DB schema
-![Db schema](/static/images/schema.png)
+### DB diagram
+![Db diagram](/database/diagram.png)
 
-More detailed schema with constraint included can be found ->
+DB schema with constraints included can be found ->
 [DB schema](https://github.com/eherra/patientRecordSystem/blob/master/database/schema.sql)
 ### Backlog
 
