@@ -1,7 +1,7 @@
 from flask import redirect, request, render_template, flash, Blueprint
 from services import users, prescriptions, appointments
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
-from utils.validators.auth_validator import requires_login, requires_doctor_role
+from utils.validators.auth_validator import requires_login, requires_doctor_role, requires_appointment_signed_to_user
 
 SYMPTOM_UPDATE_MESSAGE = "Symptom updated successfully"
 BOOKED_APPOINTMENT_MESSAGE = "Appointment booked successfully!"
@@ -12,6 +12,7 @@ appointments_bp = Blueprint("appointments", __name__)
 
 @appointments_bp.route("/appointment/<int:appo_id>/patient/<int:patient_id>")
 @requires_login
+@requires_appointment_signed_to_user
 def appointment(appo_id, patient_id):
     patient_info = users.get_user_info(patient_id)
 

@@ -3,21 +3,18 @@ from services import auth
 from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY
 from utils.validators.auth_validator import requires_login
 
+LOGIN_ERROR_MESSAGE = "Wrong username or password!"
 LOGIN_SUCCESSFULLY_MESSAGE = "You have successfully logged in!"
 LOGGED_OUT_SUCCESSFULLY_MESSAGE = "You have successfully logged out!"
-LOGIN_ERROR_MESSAGE = "Wrong username or password!"
 
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/")
-def index():
+@auth_bp.route("/login")
+def login_page():
     if session.get("user_id"):
         return redirect("/profile")
 
-    return redirect("/login")
-
-@auth_bp.route("/login")
-def login_page():
     return render_template("auth/login-page.html")
  
 @auth_bp.route("/login", methods=["POST"])

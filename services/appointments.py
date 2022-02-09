@@ -20,6 +20,11 @@ PATIENT_ALL_APPOINTMENTS_INFO_QUERY = "SELECT   id, patient_id, doctor_id, appoi
                                        WHERE    patient_id = :user_id \
                                        ORDER BY time_at DESC"
 
+CHECK_IS_APPOINTMENT_ID_SIGNED_TO_USER_QUERY = "SELECT 1 \
+                                                FROM   appointments \
+                                                WHERE  patient_id = :user_id \
+                                                AND    id = :appointment_id"
+
 DELETE_APPOINTMENT_QUERY = "DELETE \
                             FROM  appointments \
                             WHERE id = :appointment_id"
@@ -122,6 +127,16 @@ def delete_appointment(appo_id):
         db.session.execute(DELETE_APPOINTMENT_QUERY, 
                           {"appointment_id": appo_id})
         db.session.commit()
+    except:
+        abort(500)
+
+def is_appointment_signed_to_user(user_id, appointment_id):
+    try:
+        is_signed = db.session.execute(CHECK_IS_APPOINTMENT_ID_SIGNED_TO_USER_QUERY,
+                                      {"user_id": user_id,
+                                       "appointment_id": appointment_id}
+                                      ).fetchone()
+        return is_signed
     except:
         abort(500)
 
