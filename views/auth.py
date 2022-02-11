@@ -16,10 +16,10 @@ def login_page():
         return redirect("/profile")
 
     return render_template("auth/login-page.html")
- 
+
 @auth_bp.route("/login", methods=["POST"])
 def process_login():
-    logged_user_info = auth.check_login_and_return_info(request.form["username"], 
+    logged_user_info = auth.check_login_and_return_info(request.form["username"],
                                                         request.form["password"])
     if logged_user_info:
         session["user_id"] = logged_user_info.id
@@ -37,3 +37,4 @@ def logout():
     del session["is_doctor"]
     flash(LOGGED_OUT_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/login")
+    

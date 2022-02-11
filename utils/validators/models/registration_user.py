@@ -1,5 +1,5 @@
-from services import users
 import re
+from services import users
 
 class RegistrationUser:
     """Class validates user registration inputs from the form passed as a parameter. """
@@ -113,3 +113,4 @@ class RegistrationUser:
         if len(value) < 2 or len(value) > 50 or value.isspace():
             raise ValueError("Country should be 2-50 characters long.")
         self._country = value
+        

@@ -46,7 +46,8 @@ class SettingsUser:
             if validate_value.startswith("+"):
                 validate_value = validate_value[1:]
 
-            if len(validate_value) < 3 or len(validate_value) > 20 or not validate_value.isdecimal():
+            if len(validate_value) < 3 or len(validate_value) > 20 \
+               or not validate_value.isdecimal():
                 raise ValueError("Incorrect form of the phone number.")
         self._phone = value
 
@@ -80,5 +81,5 @@ class SettingsUser:
     def country(self, value):
         if value:
             if len(value) < 2 or len(value) > 50 or value.isspace():
-                    raise ValueError("Country should be 2-50 characters long.")
+                raise ValueError("Country should be 2-50 characters long.")
         self._country = value

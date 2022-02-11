@@ -1,4 +1,4 @@
-from flask import redirect, request, render_template, Blueprint, flash, abort
+from flask import redirect, request, render_template, Blueprint, flash
 from services import users
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
 from utils.validators.models.registration_user import RegistrationUser
@@ -19,14 +19,13 @@ def register_user():
         user_validated = RegistrationUser(request.form)
     except ValueError as error:
         flash(str(error), DANGER_CATEGORY)
-        return redirect("/register") 
+        return redirect("/register")
 
-    created_user_id = users.create_new_user(user_validated) 
+    created_user_id = users.create_new_user(user_validated)
     if created_user_id:
         users.initialize_user_info_values(created_user_id, user_validated)
         flash(SUCCESFULLY_USER_REGISTRATION_MESSAGE, SUCCESS_CATEGORY)
-        return redirect("/login") 
-    
-    flash(FAILED_USER_REGISTRATION_MESSAGE, DANGER_CATEGORY)
-    return redirect("/register") 
+        return redirect("/login")
 
+    flash(FAILED_USER_REGISTRATION_MESSAGE, DANGER_CATEGORY)
+    return redirect("/register")

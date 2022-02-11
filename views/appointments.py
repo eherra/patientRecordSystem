@@ -1,7 +1,8 @@
 from flask import redirect, request, render_template, flash, Blueprint
 from services import users, prescriptions, appointments
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
-from utils.validators.auth_validator import requires_login, requires_doctor_role, requires_appointment_signed_to_user
+from utils.validators.auth_validator import requires_login, requires_doctor_role, \
+    requires_appointment_signed_to_user
 
 SYMPTOM_UPDATE_MESSAGE = "Symptom updated successfully"
 BOOKED_APPOINTMENT_MESSAGE = "Appointment booked successfully!"
@@ -21,13 +22,13 @@ def appointment(appo_id, patient_id):
 
     signed_prescriptions = prescriptions.get_user_prescriptions(patient_id)
 
-    appointment = appointments.get_appointment_info_by(patient_id, appo_id)
+    appointments_info = appointments.get_appointment_info_by(patient_id, appo_id)
 
     return render_template("appointment/appointment-page.html",
                             patient_info=patient_info,
                             all_prescriptions=not_signed_prescriptions,
                             current_prescriptions=signed_prescriptions["current_prescriptions"],
-                            appointment=appointment)
+                            appointment=appointments_info)
 
 @appointments_bp.route("/appointment/<int:appo_id>/symptom/<int:user_id>", methods=["POST"])
 @requires_doctor_role
@@ -39,8 +40,10 @@ def update_symptom(appo_id, user_id):
 @appointments_bp.route("/appointment/book/<int:doctor_id>", methods=["POST"])
 @requires_doctor_role
 def book_appointment(doctor_id):
-    is_success = appointments.add_new_appointment(request.form["patient_id"], doctor_id,
-                                                  request.form["appointment_type"], request.form["appointment_date"])
+    is_success = appointments.add_new_appointment(request.form["patient_id"],
+                                                  doctor_id,
+                                                  request.form["appointment_type"],
+                                                  request.form["appointment_date"])
     if is_success:
         flash(BOOKED_APPOINTMENT_MESSAGE, SUCCESS_CATEGORY)
     else:

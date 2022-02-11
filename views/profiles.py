@@ -1,9 +1,8 @@
+from datetime import datetime
 from flask import request, render_template, session, Blueprint
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from utils.validators.auth_validator import requires_login
-from datetime import datetime
-import sys
 
 profiles_bp = Blueprint("profiles", __name__)
 
@@ -13,9 +12,8 @@ def profile():
     # checks if is_doctor value is boolean True in session
     if session.get("is_doctor"):
         return render_doctor_profile()
-    
     return render_patient_profile()
-    
+
 def render_doctor_profile():
     user_id = session["user_id"]
     sent_messages = messages.get_sent_messages(user_id)
@@ -27,7 +25,7 @@ def render_doctor_profile():
 
     return render_template("profile/doctor-profile-page.html",
                             user_id=user_id,
-                            sent_messages=sent_messages, 
+                            sent_messages=sent_messages,
                             received_messages=received_messages,
                             doctor_patients=doctor_patients,
                             user_info=user_info,
@@ -55,12 +53,12 @@ def render_patient_profile():
     appointments_info = appointments.get_patient_appointments_info(user_id)
 
     return render_template("profile/patient-profile-page.html",
-                            sent_messages=sent_messages, 
+                            sent_messages=sent_messages,
                             doctor_info=doctor_info,
                             received_messages=received_messages,
                             prescriptions=prescription_lists,
                             user_info=user_info,
-                            appointments_list=appointments_info, 
+                            appointments_list=appointments_info,
                             all_doctors=all_doctors,
                             avatar_url=PATIENT_AVATAR_URL,
                             doctor_avatar_url=DOCTOR_AVATAR_URL)
@@ -72,3 +70,4 @@ def sign_personal_doctor():
     doctor_signed_id = request.form["signedDoctorId"]
     users.update_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, doctor_signed_id)
     return render_patient_profile()
+    

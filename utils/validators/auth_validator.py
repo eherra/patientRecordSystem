@@ -1,5 +1,5 @@
-from flask import session, redirect, flash, abort
 from functools import wraps
+from flask import session, redirect, flash, abort
 from utils.constant import DANGER_CATEGORY
 from services.appointments import is_appointment_signed_to_user
 
@@ -26,7 +26,7 @@ def requires_doctor_role(f):
 
 def requires_appointment_signed_to_user(f):
     """Validates that appointment id belonging to user and session user_id matching
-       to patient_id given as url parameter
+       to patient_id given as url parameter.
        For doctor role these checks are not executed"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -40,5 +40,5 @@ def requires_appointment_signed_to_user(f):
 def has_no_access(kwargs):
     appointment_id = int(kwargs["appo_id"])
     patient_id = int(kwargs["patient_id"])
-    return not (session["user_id"] == patient_id 
+    return not (session["user_id"] == patient_id
                 and is_appointment_signed_to_user(patient_id, appointment_id))

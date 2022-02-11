@@ -11,7 +11,7 @@ Patient record system for hospitals in order to keep track of their patients app
 
 ### Hosting
 
-Application is hosted on Heroku:
+Application is hosted on:
 
 https://patientlify.herokuapp.com/
 
@@ -22,8 +22,8 @@ I have added 2 test users to Heroku Postgres DB in order to test the app:
 - password: testPassword
 
 #### Doctor
-- username: doctor123
-- password: testPassword
+- doctor123
+- testPassword
 
 You can also create your own user if you wish to.
 
@@ -34,12 +34,11 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
 
 **Admin (doctors) available to do:**
 - [x] write symptom stories to their patients
-    - [x] delete symptom stories 
-    - [x] edit symptom stories 
+    - [x] edit/delete symptom stories 
 - [x] determine prescription for patients
     - [x] add prescriptions to patient
     - [x] delete prescriptions from patient
-        - [x] add new prescriptions to prescriptions db table
+    - [x] add new prescriptions to prescriptions db table
 - [x] book appointments for a patient
     - [x] delete appointments
 - [x] see their own list of appointments
@@ -59,10 +58,11 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
 - [x] see their own records
     - [x] prescriptions
     - [x] symptons stories
+    - [x] upcoming/past appointments
 - [x] see their doctor's information (contact - phone)
 - [x] send message to their doctor
 - [x] read messages
-    - [x] sent historys
+    - [x] sent history
     - [x] received history
 - [x] edit profile details
     - [x] name
