@@ -1,4 +1,4 @@
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 from database.db import db
 
 CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \
@@ -6,7 +6,7 @@ CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \
                                      WHERE  username = :username"
 
 def check_login_and_return_info(username, password):
-    user = db.session.execute(CHECK_LOGIN_AND_RETURN_INFO_QUERY, 
+    user = db.session.execute(CHECK_LOGIN_AND_RETURN_INFO_QUERY,
                              {"username":username}
                              ).fetchone()
     if not user:

@@ -1,6 +1,5 @@
 from flask import render_template, jsonify, Blueprint
 from flask_wtf.csrf import CSRFError
-import sys
 
 errors_bp = Blueprint("error", __name__)
 
