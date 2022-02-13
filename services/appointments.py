@@ -4,6 +4,7 @@ from database.db import db
 from services import users
 from utils.constant import TIME_FORMAT, NAME_DB_KEY, APPOINTMENT_TYPE_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input, is_valid_future_date
+import sys
 
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
                                  FROM   appointments \
@@ -83,7 +84,8 @@ def get_appointment_info_by(user_id, appointment_id):
                                          "time_format": TIME_FORMAT,
                                          "user_id": user_id}
                                          ).fetchone()
-    except Exception:
+    except Exception as error:
+        print(str(error), file=sys.stdout)
         abort(500)
 
     if not appointment:

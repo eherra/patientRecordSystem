@@ -1,54 +1,10 @@
-<style>
-    .cardProfile {
-        width: 350px;
-        background-color: #f2ebd9;
-        cursor: pointer;
-        transition: all 0.5s;
-        border-radius: 1em;
-    }
-
-    .imageCard img {
-        transition: all 0.5s
-    }
-
-    .cardProfile:hover .imageCard img {
-        transform: scale(1.1)
-    }
-
-    .btnCard {
-        height: 140px;
-        width: 140px;
-        border-radius: 50%
-    }
-
-    .name {
-        font-size: 22px;
-        font-weight: bold
-    }
-
-    .role,
-    .phone,
-    .email {
-        font-size: 14px;
-        font-weight: 600
-    }
-
-    .address {
-        font-size: 13px;
-        color: #545454;
-        font-weight: 600
-    }
-</style>
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile-card.css') }}">
 <div class="col-md-3">
     <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
         <div class="cardProfile p-4">
             <div class="imageCard d-flex flex-column justify-content-center align-items-center">
                 <div class="btnCard">
-                    <img src="{{avatar_url}}" alt="Avatar" style="
-                        width: 150px;
-                        height: 150px;
-                        border-radius: 50%;" />
+                    <img class="profileAvatar" src="{{avatar_url}}" alt="Avatar" />
                 </div>
                 <span class="name mt-3">{{user_info.name}}</span>
                 {% if session.is_doctor %}

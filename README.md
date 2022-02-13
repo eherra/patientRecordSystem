@@ -7,7 +7,7 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 
-Patient record system for hospitals in order to keep track of their patients appointments, patient <-> doctor communication, prescriptions and symptom stories. 
+Patient record system for hospitals in order to keep track of their patients appointments, prescriptions, symptom stories and enable patient <-> doctor communication.
 
 ### Hosting
 
@@ -35,10 +35,10 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
 **Admin (doctors) available to do:**
 - [x] write symptom stories to their patients
     - [x] edit/delete symptom stories 
+- [x] create new prescriptions
 - [x] determine prescription for patients
     - [x] add prescriptions to patient
     - [x] delete prescriptions from patient
-    - [x] add new prescriptions to prescriptions db table
 - [x] book appointments for a patient
     - [x] delete appointments
 - [x] see their own list of appointments
@@ -85,6 +85,7 @@ The validation class takes a form as a construct parameter and checks that the f
 
 DB schema with constraints included can be found ->
 [DB schema](https://github.com/eherra/patientRecordSystem/blob/master/database/schema.sql)
+
 ### Backlog
 
 #### Frontend
@@ -93,5 +94,5 @@ DB schema with constraints included can be found ->
 
 #### General
 - refactoring
-    - templates
-    - CSS files?
+    - folder structure - repositories?
+    - catch sqlAlchemy errors instead of broad exceptions

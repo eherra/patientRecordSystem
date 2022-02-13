@@ -74,15 +74,15 @@
                     <div class="col-md-4 mb-2" style="margin-top: 2em;">
                         <button class="btn btn-dark btn-sm form-control" type="submit">Create prescription <i
                                 class="fas fa-marker"></i></button>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                     </div>
                 </div>
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             </form>
         </div>
 
         <!--- RIGHT PART --->
         <div class="col-md-4">
-            {% include 'auth/logout-button.html' %}
+            {% include 'auth/components/logout-button.html' %}
             <br>
             <br>
 
