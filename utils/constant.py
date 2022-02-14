@@ -1,4 +1,5 @@
 TIME_FORMAT='DD-MM-YYYY HH:MI'
+SESSION_ALIVE_TIME_MINUTES = 15
 # DB Table user_info keys
 NAME_DB_KEY='name'
 PHONE_DB_KEY='phone'

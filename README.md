@@ -7,12 +7,17 @@
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 
-Patient record system for hospitals in order to keep track of their patients appointments, prescriptions, symptom stories and enable patient <-> doctor communication.
+### About 
+
+An application for hospitals in order to keep track of their patients appointments, prescriptions, symptom stories and enable patient <-> doctor communication.
+
+The project's main focus has been on diverse SQL queries (CRUD) usage. 
+
+As being healthcare related application - I have been focusing on the security e.g. by setting 15 minutes session expiration time and that the application users doesn't have access to pages/information which are not under their authorization role. Input validations (client-side and e.g. Postman usage) has been taking consideration and secured that users can't pass data through which is not formatted according to validations rules.
 
 ### Hosting
 
-Application is hosted on:
-
+Application is hosted on:\
 https://patientlify.herokuapp.com/
 
 I have added 2 test users to Heroku Postgres DB in order to test the app:
@@ -25,10 +30,8 @@ I have added 2 test users to Heroku Postgres DB in order to test the app:
 - doctor123
 - testPassword
 
-You can also create your own user if you wish to.
-
-### Known browser issues
-On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
+You can also create your own user from:\
+https://patientlify.herokuapp.com/register
 
 ### Functionalities of the application
 
@@ -75,16 +78,17 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
 ### Input validation
 The app has client-side validations for user inputs done via HTML5 **required**, **min-, maxlength** and regex **pattern** matches.
 
-On server-side the inputs are as well validated -> with Postman incorrect data can't be sent and inserted to the database.
-
-The input validations has been done for cases where higher amount of form parameters is given with a validation model class e.g. when registering new user, and updating user settings. 
-The validation class takes a form as a construct parameter and checks that the form values are according to validation rules.
+On backend input validations has been done for cases where higher amount of form parameters is given with a validation model [classes](https://github.com/eherra/patientRecordSystem/tree/master/utils/validators/models) when registering new user and updating user settings. 
+The validation class takes a form as a construct parameter and checks that the form values are according to the validation rules and raises value error if the rules are not met.
 
 ### DB diagram
 ![Db diagram](/database/diagram.png)
 
 DB schema with constraints included can be found ->
 [DB schema](https://github.com/eherra/patientRecordSystem/blob/master/database/schema.sql)
+
+### Known browser issues
+On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
 ### Backlog
 
@@ -96,3 +100,5 @@ DB schema with constraints included can be found ->
 - refactoring
     - folder structure - repositories?
     - catch sqlAlchemy errors instead of broad exceptions
+    - fix tests
+    - github actions

@@ -1,13 +1,15 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from flask import request, render_template, session, Blueprint
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
-from utils.validators.auth_validator import requires_login
+from utils.validators.auth_validator import requires_login, requires_session_time_alive
+import sys
 
 profiles_bp = Blueprint("profiles", __name__)
 
 @profiles_bp.route("/profile")
 @requires_login
+@requires_session_time_alive
 def profile():
     # checks if is_doctor value is boolean True in session
     if session.get("is_doctor"):
@@ -65,9 +67,10 @@ def render_patient_profile():
 
 @profiles_bp.route("/profile/sign-doctor", methods=["POST"])
 @requires_login
+@requires_session_time_alive
 def sign_personal_doctor():
     user_id = session["user_id"]
-    doctor_signed_id = request.form["signedDoctorId"]
+    doctor_signed_id = request.form["signed_doctor_id"]
     users.update_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, doctor_signed_id)
     return render_patient_profile()
     

@@ -4,7 +4,7 @@
             <h5><u>Write symptoms</u></h5>
             <textarea class="form-control" name="symptom" rows="5">{{appointment.symptom}}</textarea>
         </div>
-        <button type="submit" class="btn btn-dark">Update symptom</button>
+        <button type="submit" class="btn btn-dark">Update symptom <i class="far fa-edit"></i></button>
         <a href="/profile"><button type="button" class="btn btn-secondary">Back</button></a>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     </form>

@@ -17,7 +17,7 @@
         </div>
 
         <!--- APPOINTMENT TYPE --->
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 topColumn">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 topColumn">
             <h5><u>Appointment info</u></h5>
             <div class="info">{{appointment.appointment_type}}</div>
             <div class="time">{{appointment.time_at}} <i class="far fa-clock"></i></div>
@@ -49,7 +49,7 @@
             </div>
             {% endif %}
         </div>
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
             {% include 'auth/components/logout-button.html' %}
             {% include 'flash.html' %}
         </div>
@@ -79,7 +79,7 @@
                                 {% if session.is_doctor %}
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="far fa-minus-square"></i>
                                     remove</button>
-                                <input type="hidden" name="isVisible" value="False">
+                                <input type="hidden" name="is_visible" value="False">
                                 {% endif %}
                                 <small>Amount per day: <span
                                         class="badge badge-info badge-pill">{{prescription.amount_per_day
@@ -110,7 +110,7 @@
                             <div>
                                 <button type="submit" class="btn btn-dark btn-sm"><i class="far fa-plus-square"></i>
                                     add</button>
-                                <input type="hidden" name="isVisible" value="True">
+                                <input type="hidden" name="is_visible" value="True">
                                 <small>Amount per day: <span
                                         class="badge badge-info badge-pill">{{prescription.amount_per_day
                                         }}</span></small>

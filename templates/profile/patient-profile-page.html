@@ -64,7 +64,7 @@
       {% include 'auth/components/logout-button.html' %}
       <br>
       <br>
-
+      <br>
       <div class="row-md-8">
         {% if doctor_info %}
         <h4><u>Doctor info</u></h4>
@@ -87,7 +87,7 @@
             <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
             <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
               placeholder="Enter message..." maxlength="48" required></textarea>
-            <input type="hidden" name="receiverId" value="{{doctor_info.id}}">
+            <input type="hidden" name="receiver_id" value="{{doctor_info.id}}">
             <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                 class="far fa-paper-plane"></i></button>
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
