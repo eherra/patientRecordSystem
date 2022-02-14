@@ -1,14 +1,9 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/session.css') }}">
 <form action="/logout" method="POST">
-    <div style="float: right; margin-top: 1em;">
-        <span id="session" style="background-color: #D0D0D0; 
-        display: inline-block; 
-        border-radius: 1em; 
-        text-align: center; 
-        font-family: monospace; 
-        width: 19em;
-        height: 2.2em;">Session time left: <span id="timer">loading</span>
+    <div id="group">
+        <span id="session">Session time left: <span id="timer">loading</span>
         </span>
-        <button type="submit" style="margin-left: 0.5em; float: right">
+        <button id="submitButton" type="submit">
             logout <i class="fas fa-sign-out-alt"></i>
         </button>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

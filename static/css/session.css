@@ -1,0 +1,19 @@
+#session {
+    background-color: #D0D0D0; 
+    display: inline-block; 
+    border-radius: 1em; 
+    text-align: center; 
+    font-family: monospace; 
+    width: 19em;
+    height: 2.2em;
+}
+
+#group {
+    float: right; 
+    margin-top: 1em;
+}
+
+#submitButton {
+    margin-left: 0.5em; 
+    float: right;
+}
