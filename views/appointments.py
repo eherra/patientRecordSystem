@@ -1,8 +1,8 @@
-from flask import redirect, request, render_template, flash, Blueprint
+from flask import redirect, request, render_template, flash, Blueprint, session
 from services import users, prescriptions, appointments
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
 from utils.validators.auth_validator import requires_login, requires_doctor_role, \
-    requires_appointment_signed_to_user
+    requires_appointment_signed_to_user, requires_session_time_alive
 
 SYMPTOM_UPDATE_MESSAGE = "Symptom updated successfully"
 BOOKED_APPOINTMENT_MESSAGE = "Appointment booked successfully!"
@@ -13,6 +13,7 @@ appointments_bp = Blueprint("appointments", __name__)
 
 @appointments_bp.route("/appointment/<int:appo_id>/patient/<int:patient_id>")
 @requires_login
+@requires_session_time_alive
 @requires_appointment_signed_to_user
 def appointment(appo_id, patient_id):
     patient_info = users.get_user_info(patient_id)
@@ -32,6 +33,7 @@ def appointment(appo_id, patient_id):
 
 @appointments_bp.route("/appointment/<int:appo_id>/symptom/<int:user_id>", methods=["POST"])
 @requires_doctor_role
+@requires_session_time_alive
 def update_symptom(appo_id, user_id):
     appointments.update_appointment_symptom(user_id, appo_id, request.form["symptom"])
     flash(SYMPTOM_UPDATE_MESSAGE, SUCCESS_CATEGORY)
@@ -39,6 +41,7 @@ def update_symptom(appo_id, user_id):
 
 @appointments_bp.route("/appointment/book/<int:doctor_id>", methods=["POST"])
 @requires_doctor_role
+@requires_session_time_alive
 def book_appointment(doctor_id):
     is_success = appointments.add_new_appointment(request.form["patient_id"],
                                                   doctor_id,
@@ -52,6 +55,7 @@ def book_appointment(doctor_id):
 
 @appointments_bp.route("/appointment/<int:appo_id>", methods=["POST"])
 @requires_doctor_role
+@requires_session_time_alive
 def delete_appointment(appo_id):
     appointments.delete_appointment(appo_id)
     flash(DELETED_APPOINTMENT_MESSAGE, SUCCESS_CATEGORY)

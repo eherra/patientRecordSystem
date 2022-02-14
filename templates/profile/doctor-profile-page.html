@@ -52,9 +52,9 @@
             </div>
             <br>
 
-            <!--- ADD PRESCRIPTIONS --->
+            <!--- CREATE PRESCRIPTIONS --->
             <h5><u>Create new prescription</u></h5>
-            <form action="/add-prescription" method="POST">
+            <form action="/create-prescription" method="POST">
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label for="prescription">Prescription name:</label>
@@ -85,6 +85,7 @@
             {% include 'auth/components/logout-button.html' %}
             <br>
             <br>
+            <br>
 
             <div class="row-md-8"></div>
             <div>
@@ -94,7 +95,7 @@
                 {% else %}
                 <label>Choose patient:</label>
                 <form action="/send-message" method="POST">
-                    <select class="custom-select" name="receiverId">
+                    <select class="custom-select" name="receiver_id">
                         {% for patient in doctor_patients %}
                         <option value="{{patient.user_id}}">{{patient.name}}</option>
                         {% endfor %}

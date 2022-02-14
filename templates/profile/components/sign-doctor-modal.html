@@ -12,7 +12,7 @@
                 <p><u>Firstly, we need to sign you a personal doctor.</u></p>
                 <h6>Choose one of our doctors from the list below:</h6>
                 <form action="/profile/sign-doctor" method="POST">
-                    <select class="custom-select" id="doctor" name="signedDoctorId">
+                    <select class="custom-select" id="doctor" name="signed_doctor_id">
                         {% for doctor in all_doctors %}
                         <option value="{{doctor.user_id}}">{{doctor.name}} </option>
                         {% endfor %}

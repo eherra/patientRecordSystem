@@ -1,7 +1,7 @@
 from flask import redirect, request, render_template, session, flash, Blueprint
 from services import users
 from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY
-from utils.validators.auth_validator import requires_login
+from utils.validators.auth_validator import requires_login, requires_session_time_alive
 from utils.validators.models.settings_user import SettingsUser
 
 INFORMATION_UPDATED_MESSAGE = "Information updated successfully!"
@@ -10,6 +10,7 @@ settings_bp = Blueprint("settings", __name__)
 
 @settings_bp.route("/settings")
 @requires_login
+@requires_session_time_alive
 def settings():
     user_id = session.get("user_id")  
     user_info = users.get_user_info(user_id)
@@ -18,6 +19,7 @@ def settings():
 
 @settings_bp.route("/settings/update", methods=["POST"])
 @requires_login
+@requires_session_time_alive
 def update_settings():
     user_id = session.get("user_id")
     try:
