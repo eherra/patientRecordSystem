@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <form action="/register/user" method="POST">
-    <div class="container" style="margin-top: 0.5em;">
+    <div class="container" style="margin-top: 0.5em; margin-bottom: 0.5em;">
         <div class="card" style="border-radius: 1rem;">
             {% include 'flash.html' %}
             <div class="card-body" style="background-color: #f2ebd9; border-radius: 1rem;">
@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control"
-                                placeholder="Enter password (min 5 characters)" minlength="5" pattern=".*\S+.*"
+                                placeholder="Enter password (minium 5 characters)" minlength="5" pattern=".*\S+.*"
                                 title="5 or more characters, not allowed only whitespaces." required>
                         </div>
                     </div>
@@ -30,10 +30,10 @@
                         <div class="form-group">
                             <span>Choose either: </span>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-outline-secondary active">
+                                <label class="btn btn-outline-dark active">
                                     <input type="radio" name="options" value="patient" checked>Patient
                                 </label>
-                                <label class="btn btn-outline-secondary">
+                                <label class="btn btn-outline-dark">
                                     <input type="radio" name="options" value="doctor">Doctor
                                 </label>
                             </div>

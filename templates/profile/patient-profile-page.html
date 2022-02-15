@@ -14,7 +14,7 @@
 
       <!--- PRESCRIPTIONS --->
       <div>
-        <h4><u>Prescriptions</u></h4>
+        <h4><u>Prescriptions</u> <i class="fas fa-prescription-bottle"></i></h4>
         <h5>Current prescriptions</h5>
 
         <!--- Current prescriptionss rendering --->
@@ -67,7 +67,7 @@
       <br>
       <div class="row-md-8">
         {% if doctor_info %}
-        <h4><u>Doctor info</u></h4>
+        <h4><u>Doctor info</u> <i class="fas fa-user-md"></i></h4>
         <div class="doctorInfo">
           <span class="name">{{ doctor_info.name }}</span>
           <img src="{{doctor_avatar_url}}" alt="Avatar" style="
@@ -84,7 +84,7 @@
         {% if doctor_info %}
         <div>
           <form action="/send-message" method="POST">
-            <label for="messageArea"><b><u>Send message to your doctor</u></b></label>
+            <label for="messageArea"><b><u>Send message to your doctor</u></b> <i class="fas fa-comments"></i></label>
             <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
               placeholder="Enter message..." maxlength="48" required></textarea>
             <input type="hidden" name="receiver_id" value="{{doctor_info.id}}">
