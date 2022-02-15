@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container" style="margin-top: 5em">
-    <div class="card" style="background-color: #f2ebd9;">
+<div class="container" style="margin-top: 5em;">
+    <div class="card" style="background-color: #f2ebd9; border-radius: 1rem;">
         {% include 'flash.html' %}
         <div class="card-body">
             <div class="row gutters">
@@ -69,7 +69,10 @@
                         <button id="updateButton" disabled="true" type="submit" name="submit"
                             class="btn btn-primary">Update <i class="far fa-edit"></i></button>
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                        <a href="/profile"><button type="button" class="btn btn-secondary">Back</button></a>
+                        <a href="/profile">
+                            <button type="button" class="btn btn-secondary"><i class="fas fa-angle-left"></i>
+                                Back</button>
+                        </a>
                     </div>
                 </div>
             </div>
