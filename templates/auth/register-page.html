@@ -5,10 +5,10 @@
         <div class="card">
             {% include 'flash.html' %}
             <div class="card-body" style="background-color: #f2ebd9;">
-                <h3><u>Please fill all the forms</u></h3>
+                <h3>Please fill all the forms</h3>
                 <div class="row gutters">
                     <div class="col-xl-12">
-                        <h6 class="mb-3 text-dark">Add username, password and choose role</h6>
+                        <h6 class="mb-3 text-dark"><u>Add username, password and choose role</u></h6>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
@@ -42,11 +42,11 @@
                 </div>
                 <div class="row gutters">
                     <div class="col-xl-12">
-                        <h6 class="mb-3 text-dark">Add personal details</h6>
+                        <h6 class="mb-3 text-dark"><u>Add personal details</u> <i class="fas fa-user-alt"></i></h6>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
-                            <label for="fullName">Full Name</label>
+                            <label for="fullName">Full name</label>
                             <input type="text" name="name" class="form-control" placeholder="Enter full name"
                                 minlength="3" maxlength="40" pattern=".*\S+.*"
                                 title="3-40 characters, not allowed only whitespaces." required>
@@ -63,14 +63,14 @@
                         <div class="form-group">
                             <label for="phone">Phone</label>
                             <input type="text" name="phone" class="form-control"
-                                placeholder="+358501234567 or 0501234567" pattern="^\+?\d+$" minlength="3"
+                                placeholder="e.g. +358501234567 or 0501234567" pattern="^\+?\d+$" minlength="3"
                                 maxlength="20" title="Format +358501234567 or 0501234567. Length max 3-20" required>
                         </div>
                     </div>
                 </div>
                 <div class="row gutters">
                     <div class="col-xl-12">
-                        <h6 class="mb-3 text-dark">Add address details</h6>
+                        <h6 class="mb-3 text-dark"><u>Add address details</u> <i class="fas fa-map-marker-alt"></i></h6>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">

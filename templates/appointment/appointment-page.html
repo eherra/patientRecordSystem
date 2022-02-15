@@ -5,7 +5,7 @@
     <div class="row gutters">
         <!--- PATIENT INFO --->
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 topColumn">
-            <h5><u>Patient info</u></h5>
+            <h5><u>Patient details</u> <i class="fas fa-user-injured"></i></h5>
             <div class="name">
                 {{patient_info.name}}
                 <img class="sickDoge" src="/static/images/sickDoge.png" alt="Avatar" />
@@ -18,7 +18,7 @@
 
         <!--- APPOINTMENT TYPE --->
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3 topColumn">
-            <h5><u>Appointment info</u></h5>
+            <h5><u>Appointment info</u> <i class="fas fa-info-circle"></i></h5>
             <div class="info">{{appointment.appointment_type}}</div>
             <div class="time">{{appointment.time_at}} <i class="far fa-clock"></i></div>
 
@@ -63,7 +63,7 @@
 
         <!--- PRESCRIPTIONS --->
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 bottomColumn">
-            <h5><u>Current prescriptions</u></h5>
+            <h5><u>Current prescriptions</u> <i class="fas fa-prescription-bottle"></i></i></h5>
             {% if current_prescriptions|length == 0 %}
             <p>No current prescriptions</p>
             {% else %}
@@ -95,7 +95,7 @@
 
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
-            <h5><u>All prescriptions</u></h5>
+            <h5><u>All prescriptions</u> <i class="fas fa-prescription-bottle-alt"></i></h5>
             {% if all_prescriptions|length == 0 %}
             <span>No prescriptions to add.</span>
             {% else %}

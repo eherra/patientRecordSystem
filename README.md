@@ -13,7 +13,9 @@ An application for hospitals in order to keep track of their patients appointmen
 
 The project's main focus has been on diverse SQL queries (CRUD) usage. 
 
-As being healthcare related application - I have been focusing on the security e.g. by setting 15 minutes session expiration time and that the application users doesn't have access to pages/information which are not under their authorization role. Input validations (client-side and e.g. Postman usage) has been taking consideration and secured that users can't pass data through which is not formatted according to validations rules.
+As being healthcare related application - I have been focusing on the security e.g. by setting 15 minutes session expiration time, admin (doctor) role check when calling POST-methods which usage is only authorizited by this role and that the application users doesn't have access to pages/information which are not under their authorization role. 
+
+Input validations (client-side and e.g. via Postman) has been taking consideration and secured that users can't pass data through which is not formatted according to validations rules.
 
 ### Hosting
 

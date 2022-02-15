@@ -9,7 +9,7 @@ def csrf_error(error):
 
 @errors_bp.app_errorhandler(KeyError)
 def key_error(error):
-    return jsonify(error=str(error.description)), 400
+    return jsonify(error=str(error)), 400
 
 @errors_bp.app_errorhandler(401)
 def user_not_authorized(error):

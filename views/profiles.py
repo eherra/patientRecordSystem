@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from flask import request, render_template, session, Blueprint
 from services import prescriptions, users, appointments, messages
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from utils.validators.auth_validator import requires_login, requires_session_time_alive
-import sys
 
 profiles_bp = Blueprint("profiles", __name__)
 

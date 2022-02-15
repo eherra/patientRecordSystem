@@ -4,8 +4,8 @@ from flask import session, redirect, flash, abort
 from utils.constant import DANGER_CATEGORY
 from services.appointments import is_appointment_signed_to_user
 
-MUST_SIGN_IN_MESSAGE = "No access to the page! Please sign in."
-SESSION_EXPIRED_MESSAGE = "You session has expired! Please log in again."
+MUST_SIGN_IN_MESSAGE = "No access to the page! Please log in."
+SESSION_EXPIRED_MESSAGE = "Your session has expired! Please log in again."
 NOT_AUTHORIZED_CALL_MESSAGE = "Not authorized call."
 NOT_AUTHORIZED_TO_THE_APPOINTMENT_PAGE ="Got lost? Nothing there for you."
 
@@ -39,7 +39,7 @@ def requires_session_time_alive(f):
     return decorated_function
 
 def has_session_expired():
-    return session["session_end_time"] < datetime.now(timezone.utc)
+    return session.get("session_end_time") < datetime.now(timezone.utc)
 
 def requires_appointment_signed_to_user(f):
     """Validates that appointment id belonging to user and session user_id matching
