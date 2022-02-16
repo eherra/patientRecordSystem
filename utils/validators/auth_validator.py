@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from functools import wraps
 from flask import session, redirect, flash, abort
 from utils.constant import DANGER_CATEGORY
-from services.appointments import is_appointment_signed_to_user
+from services.appointments_service import is_appointment_signed_to_user
 
 MUST_SIGN_IN_MESSAGE = "No access to the page! Please log in."
 SESSION_EXPIRED_MESSAGE = "Your session has expired! Please log in again."
@@ -57,5 +57,5 @@ def requires_appointment_signed_to_user(f):
 def has_no_access(kwargs):
     appointment_id = int(kwargs["appo_id"])
     patient_id = int(kwargs["patient_id"])
-    return not (session["user_id"] == patient_id
+    return not (session["user_id"] == patient_id 
                 and is_appointment_signed_to_user(patient_id, appointment_id))

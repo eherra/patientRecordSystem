@@ -1,5 +1,5 @@
 from flask import redirect, request, flash, Blueprint
-from services import prescriptions
+from services import prescriptions_service
 from utils.constant import SUCCESS_CATEGORY
 from utils.validators.auth_validator import requires_doctor_role, requires_session_time_alive
 
@@ -13,8 +13,8 @@ prescriptions_bp = Blueprint("prescriptions", __name__)
 @requires_doctor_role
 @requires_session_time_alive
 def create_prescription():
-    prescriptions.create_new_prescription(request.form["prescription_name"],
-                                          request.form["amount_per_day"])
+    prescriptions_service.create_new_prescription(request.form["prescription_name"],
+                                                  request.form["amount_per_day"])
     flash(NEW_PRESCRIPTION_ADDED_MESSAGE, SUCCESS_CATEGORY)               
     return redirect("/profile")
 
@@ -23,7 +23,9 @@ def create_prescription():
 @requires_session_time_alive
 def update_user_prescription(appli_id, prescription_id, user_id):
     is_visible = request.form["is_visible"] == "True"
-    prescriptions.update_prescription_from_user(user_id, prescription_id, is_visible)
+    prescriptions_service.update_prescription_from_user(user_id,
+                                                        prescription_id,
+                                                        is_visible)
     if is_visible:
         flash(ADDED_PRESCRIPTION_TO_PATIENT_MESSAGE, SUCCESS_CATEGORY)                       
     else:

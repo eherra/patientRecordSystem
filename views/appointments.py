@@ -1,5 +1,5 @@
-from flask import redirect, request, render_template, flash, Blueprint, session
-from services import users, prescriptions, appointments
+from flask import redirect, request, render_template, flash, Blueprint
+from services import users_service, prescriptions_service, appointments_service
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
 from utils.validators.auth_validator import requires_login, requires_doctor_role, \
     requires_appointment_signed_to_user, requires_session_time_alive
@@ -16,14 +16,14 @@ appointments_bp = Blueprint("appointments", __name__)
 @requires_session_time_alive
 @requires_appointment_signed_to_user
 def appointment(appo_id, patient_id):
-    patient_info = users.get_user_info(patient_id)
+    patient_info = users_service.get_user_info(patient_id)
 
     # prescriptions which patient doenst have signed to
-    not_signed_prescriptions = prescriptions.get_all_not_signed_prescription(patient_id)
+    not_signed_prescriptions = prescriptions_service.get_all_not_signed_prescription(patient_id)
 
-    signed_prescriptions = prescriptions.get_user_prescriptions(patient_id)
+    signed_prescriptions = prescriptions_service.get_user_prescriptions(patient_id)
 
-    appointments_info = appointments.get_appointment_info_by(patient_id, appo_id)
+    appointments_info = appointments_service.get_appointment_info_by(patient_id, appo_id)
 
     return render_template("appointment/appointment-page.html",
                             patient_info=patient_info,
@@ -35,7 +35,7 @@ def appointment(appo_id, patient_id):
 @requires_doctor_role
 @requires_session_time_alive
 def update_symptom(appo_id, user_id):
-    appointments.update_appointment_symptom(user_id, appo_id, request.form["symptom"])
+    appointments_service.update_appointment_symptom(user_id, appo_id, request.form["symptom"])
     flash(SYMPTOM_UPDATE_MESSAGE, SUCCESS_CATEGORY)
     return redirect(f"/appointment/{appo_id}/patient/{user_id}")
 
@@ -43,7 +43,7 @@ def update_symptom(appo_id, user_id):
 @requires_doctor_role
 @requires_session_time_alive
 def book_appointment(doctor_id):
-    is_success = appointments.add_new_appointment(request.form["patient_id"],
+    is_success = appointments_service.add_new_appointment(request.form["patient_id"],
                                                   doctor_id,
                                                   request.form["appointment_type"],
                                                   request.form["appointment_date"])
@@ -57,6 +57,6 @@ def book_appointment(doctor_id):
 @requires_doctor_role
 @requires_session_time_alive
 def delete_appointment(appo_id):
-    appointments.delete_appointment(appo_id)
+    appointments_service.delete_appointment(appo_id)
     flash(DELETED_APPOINTMENT_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/profile")
