@@ -95,7 +95,7 @@
 
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
-            <h5><u>All prescriptions</u> <i class="fas fa-prescription-bottle-alt"></i></h5>
+            <h5><u>All prescriptions</u> <i class="fas fa-capsules"></i></h5>
             {% if all_prescriptions|length == 0 %}
             <span>No prescriptions to add.</span>
             {% else %}

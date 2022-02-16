@@ -14,7 +14,7 @@
 
             <!--- BOOK APPOINTMENT --->
             <div>
-                <h5><u>Book appointment</u></h5>
+                <h5><u>Book an appointment</u></h5>
                 {% if doctor_patients|length != 0 %}
                 <form action="/appointment/book/{{user_id}}" method="POST">
                     <div class="form-row">
@@ -53,7 +53,7 @@
             <br>
 
             <!--- CREATE PRESCRIPTIONS --->
-            <h5><u>Create new prescription</u></h5>
+            <h5><u>Create a new prescription</u> <i class="fas fa-prescription-bottle-alt"></i></h5>
             <form action="/create-prescription" method="POST">
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
@@ -89,7 +89,7 @@
 
             <div class="row-md-8"></div>
             <div>
-                <h5><u>Send message to your patients</u> <i class="fas fa-comments"></i></h5>
+                <h4><u>Communication with patients</u> <i class="fas fa-comments"></i></h4>
                 {% if doctor_patients|length == 0 %}
                 <span>You have no signed patients.</span>
                 {% else %}

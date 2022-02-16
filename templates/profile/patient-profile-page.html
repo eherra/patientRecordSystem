@@ -84,7 +84,7 @@
         {% if doctor_info %}
         <div>
           <form action="/send-message" method="POST">
-            <label for="messageArea"><b><u>Send message to your doctor</u></b> <i class="fas fa-comments"></i></label>
+            <label for="messageArea"><b><u>Send a message to your doctor</u></b> <i class="fas fa-comments"></i></label>
             <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
               placeholder="Enter message..." maxlength="48" required></textarea>
             <input type="hidden" name="receiver_id" value="{{doctor_info.id}}">

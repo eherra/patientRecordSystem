@@ -2,7 +2,6 @@ import unittest
 from utils.validators.models.settings_user import SettingsUser
 
 class SettingsUserTest(unittest.TestCase):
-
     def test_correct_form_given_not_raising_error(self):
         validated_user = SettingsUser(valid_test_form)
         self.assertIsNotNone(validated_user)

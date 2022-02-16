@@ -22,7 +22,7 @@ class RegistrationUser:
     @username.setter
     def username(self, value):
         if len(value) < 3 or len(value) > 40 or value.isspace():
-            raise ValueError("Username too short.")
+            raise ValueError("Username should be 3-40 characters")
 
         if users_service.is_username_taken(value):
             raise ValueError("Username not unique. Try other one!")
@@ -81,7 +81,7 @@ class RegistrationUser:
             validate_value = validate_value[1:]
 
         if len(validate_value) < 3 or len(validate_value) > 20 or not validate_value.isdecimal():
-            raise ValueError("Incorrect form of phone")
+            raise ValueError("Incorrect form of phone.")
         self._phone = value
 
     @property

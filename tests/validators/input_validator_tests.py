@@ -2,7 +2,6 @@ import unittest
 from utils.validators.input_validator import is_valid_future_date, is_valid_input
 
 class InputValidatorTest(unittest.TestCase):
-
     def test_is_input_valid_works_with_true(self):
         self.assertTrue(is_valid_input("ten_letter", 10))
         self.assertTrue(is_valid_input("h", 50))
