@@ -1,6 +1,5 @@
 from flask import abort
 from werkzeug.security import generate_password_hash
-from psycopg2 import DatabaseError
 from database.db import db
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
@@ -35,23 +34,6 @@ CREATE_NEW_USER_QUERY = "INSERT INTO users (username, password, is_doctor) \
 CREATE_USER_INFO_QUERY = "INSERT INTO user_info (user_id, key, value) \
                           VALUES (:user_id, :key, :value)"
 
-def get_user_info(user_id):
-    return {
-        "name": get_user_info_by_key(user_id, NAME_DB_KEY),
-        "phone": get_user_info_by_key(user_id, PHONE_DB_KEY),
-        "email": get_user_info_by_key(user_id, EMAIL_DB_KEY),
-        "address": get_user_info_by_key(user_id, ADDRESS_DB_KEY),
-        "country": get_user_info_by_key(user_id, COUNTRY_DB_KEY),
-        "city": get_user_info_by_key(user_id, CITY_DB_KEY)
-    }
-
-def get_user_personal_doctor_info(doctor_id):
-    return {
-        "name": get_user_info_by_key(doctor_id, NAME_DB_KEY),
-        "phone": get_user_info_by_key(doctor_id, PHONE_DB_KEY),
-        "id": doctor_id
-    }
-
 def get_user_info_by_key(user_id, key):
     try:
         value = db.session.execute(GET_USERINFO_BY_KEY_QUERY,
@@ -66,38 +48,25 @@ def get_user_info_by_key(user_id, key):
 
 def is_username_taken(username):
     try:
-        found_username = db.session.execute(CHECK_IS_USERNAME_UNIQUE_QUERY,
-                                           {"username": username}
-                                           ).fetchone()
-        return found_username
+        return db.session.execute(CHECK_IS_USERNAME_UNIQUE_QUERY,
+                                 {"username": username}
+                                 ).fetchone()
     except Exception:
         abort(500)
 
 def get_doctor_patients(doctor_id):
     try:
-        fetched_patients = db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
-                                             {"key": PERSONAL_DOCTOR_ID_DB_KEY,
-                                              "doctor_id": str(doctor_id)})
-        return format_users(fetched_patients)
+        return db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
+                                 {"key": PERSONAL_DOCTOR_ID_DB_KEY,
+                                  "doctor_id": str(doctor_id)})
     except Exception:
         abort(500)
 
 def get_all_doctors():
     try:
-        fetched_doctors = db.session.execute(GET_ALL_DOCTORS_QUERY).fetchall()
-        return format_users(fetched_doctors)
+        return db.session.execute(GET_ALL_DOCTORS_QUERY).fetchall()
     except Exception:
         abort(500)
-
-def format_users(fetched_users):
-    formatted_users = []
-    for user in fetched_users:
-        formatted_users.append({
-            "user_id": user.user_id,
-            "name": get_user_info_by_key(user.user_id, NAME_DB_KEY)
-        })
-
-    return formatted_users
 
 def update_settings_values(user_id, user):
     "Updates user_info table values if user has filled the input with the request"
@@ -134,7 +103,8 @@ def create_new_user(user):
         result = db.session.execute(CREATE_NEW_USER_QUERY,
                                    {"username": user.username,
                                     "password": generate_password_hash(user.password),
-                                    "is_doctor": user.is_doctor}).fetchone()
+                                    "is_doctor": user.is_doctor}
+                                    ).fetchone()
         db.session.commit()
         return result.id
     except Exception:
@@ -151,7 +121,7 @@ def initialize_user_info_values(user_id, user):
         create_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, None)
         db.session.commit()
         return True
-    except DatabaseError:
+    except Exception:
         return False
 
 def create_user_info_by_key(user_id, key, value):
@@ -162,4 +132,4 @@ def create_user_info_by_key(user_id, key, value):
                            "value": value})
     except Exception:
         db.session.rollback()
-        raise DatabaseError("Adding user-info value didn't succeed.")
+        raise Exception

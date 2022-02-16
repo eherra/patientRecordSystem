@@ -1,7 +1,5 @@
 from flask import abort
 from database.db import db
-from utils.constant import PRESCRIPTION_NAME_LENGTH_MAX
-from utils.validators.input_validator import is_valid_input
 
 USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
                             FROM   user_prescriptions \
@@ -31,7 +29,6 @@ CREATE_NEW_PRESCRIPTION_QUERY = "INSERT INTO prescriptions (name, amount_per_day
                                  VALUES (:name, :amount_per_day)"
 
 def get_all_not_signed_prescription(user_id):
-    """Fetching all prescriptions which User doesn't have yet signed to"""
     try:
         return db.session.execute(GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY,
                                  {"user_id": user_id}
@@ -41,27 +38,11 @@ def get_all_not_signed_prescription(user_id):
 
 def get_user_prescriptions(user_id):
     try:
-        fetched_prescriptions = db.session.execute(USER_PRESCRIPTIONS_QUERY,
-                                                  {"user_id": user_id}
-                                                  ).fetchall()
-        return format_precription_lists(fetched_prescriptions)
+        return db.session.execute(USER_PRESCRIPTIONS_QUERY,
+                                 {"user_id": user_id}
+                                 ).fetchall()
     except Exception:
         abort(500)
-
-def format_precription_lists(fetched_prescriptions):
-    current_prescriptions, history_prescriptions = [], []
-    for prescription in fetched_prescriptions:
-        prescription_info = get_prescription_info_by_id(prescription.prescription_id)
-
-        if prescription.visible:
-            current_prescriptions.append(prescription_info)
-        else:
-            history_prescriptions.append(prescription_info)
-
-    return {
-        "current_prescriptions": current_prescriptions,
-        "history_prescriptions": history_prescriptions
-        }
 
 def get_prescription_info_by_id(prescription_id):
     try:
@@ -95,13 +76,11 @@ def add_new_prescription_to(user_id, prescription_id):
         abort(500)
 
 def create_new_prescription(prescription_name, amount_per_day):
-    if is_valid_input(prescription_name, PRESCRIPTION_NAME_LENGTH_MAX):
-        try:
-            is_success = db.session.execute(CREATE_NEW_PRESCRIPTION_QUERY,
-                                           {"name": prescription_name,
-                                            "amount_per_day": amount_per_day})
-            db.session.commit()
-            return is_success
-        except Exception:
-            abort(500)
-    return False
+    try:
+        is_success = db.session.execute(CREATE_NEW_PRESCRIPTION_QUERY,
+                                       {"name": prescription_name,
+                                        "amount_per_day": amount_per_day})
+        db.session.commit()
+        return is_success
+    except Exception:
+        abort(500)

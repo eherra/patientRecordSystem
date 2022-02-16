@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from flask import session, redirect, request, render_template, flash, Blueprint
-from services import auth
+from services import auth_service
 from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY, SESSION_ALIVE_TIME_MINUTES
 from utils.validators.auth_validator import requires_login
 
@@ -20,8 +20,8 @@ def login_page():
 
 @auth_bp.route("/login", methods=["POST"])
 def process_login():
-    logged_user_info = auth.check_login_and_return_info(request.form["username"],
-                                                        request.form["password"])
+    logged_user_info = auth_service.check_login_and_return_info(request.form["username"],
+                                                                request.form["password"])
     if logged_user_info:
         session["user_id"] = logged_user_info.id
         session["is_doctor"] = logged_user_info.is_doctor

@@ -1,5 +1,5 @@
 import re
-from services import users
+from services import users_service
 
 class RegistrationUser:
     """Class validates user registration inputs from the form passed as a parameter. """
@@ -24,7 +24,7 @@ class RegistrationUser:
         if len(value) < 3 or len(value) > 40 or value.isspace():
             raise ValueError("Username too short.")
 
-        if users.is_username_taken(value):
+        if users_service.is_username_taken(value):
             raise ValueError("Username not unique. Try other one!")
 
         self._username = value
