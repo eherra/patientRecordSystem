@@ -36,13 +36,10 @@ CREATE_USER_INFO_QUERY = "INSERT INTO user_info (user_id, key, value) \
 
 def get_user_info_by_key(user_id, key):
     try:
-        value = db.session.execute(GET_USERINFO_BY_KEY_QUERY,
+        return db.session.execute(GET_USERINFO_BY_KEY_QUERY,
                                  {"user_id": user_id,
                                   "key": key}
                                  ).fetchone()
-        if value:
-            return value[0]
-        return "(user unknown)"
     except Exception:
         abort(500)
 

@@ -3,7 +3,6 @@ from flask import request, render_template, session, Blueprint
 from services import prescriptions_service, users_service, appointments_service, messages_service
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from utils.validators.auth_validator import requires_login, requires_session_time_alive
-from repositories import users_repository
 
 profiles_bp = Blueprint("profiles", __name__)
 
@@ -39,7 +38,7 @@ def render_patient_profile():
     user_id = session["user_id"]
     sent_messages = messages_service.get_sent_messages(user_id)
     received_messages = messages_service.get_received_messages(user_id)
-    doctor_id = users_repository.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
+    doctor_id = users_service.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
 
     # if doctor_id is none, personal doctor not yet signed to patient
     if doctor_id:

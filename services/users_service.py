@@ -20,7 +20,10 @@ def get_user_personal_doctor_info(doctor_id):
     }
 
 def get_user_info_by_key(user_id, key):
-    return users_repository.get_user_info_by_key(user_id, key)
+    fetched_value = users_repository.get_user_info_by_key(user_id, key)
+    if fetched_value:
+        return fetched_value[0]
+    return "(user unknown)"
 
 def is_username_taken(username):
     return users_repository.is_username_taken(username)
