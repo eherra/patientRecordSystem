@@ -3,7 +3,7 @@ from services import prescriptions_service
 from utils.constant import SUCCESS_CATEGORY
 from utils.validators.auth_validator import requires_doctor_role, requires_session_time_alive
 
-NEW_PRESCRIPTION_ADDED_MESSAGE = "New prescription added successfully!"
+NEW_PRESCRIPTION_ADDED_MESSAGE = "New prescription created successfully!"
 ADDED_PRESCRIPTION_TO_PATIENT_MESSAGE = "Prescription added to patient successfully!"
 DELETED_PRESCRIPTION_FROM_PATIENT_MESSAGE = "Prescription removed from patient successfully!"
 
