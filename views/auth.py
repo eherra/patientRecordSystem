@@ -5,20 +5,20 @@ from utils.constant import DANGER_CATEGORY, SUCCESS_CATEGORY, SESSION_ALIVE_TIME
 from utils.validators.auth_validator import requires_login
 
 LOGIN_ERROR_MESSAGE = "Wrong username or password!"
-LOGIN_SUCCESSFULLY_MESSAGE = "You have successfully logged in!"
-LOGGED_OUT_SUCCESSFULLY_MESSAGE = "You have successfully logged out!"
+LOGIN_SUCCESSFULLY_MESSAGE = "You have successfully signed in!"
+LOGGED_OUT_SUCCESSFULLY_MESSAGE = "You have successfully signed out!"
 
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/")
-@auth_bp.route("/login")
+@auth_bp.route("/sign-in")
 def login_page():
     if session.get("user_id"):
         return redirect("/profile")
 
-    return render_template("auth/login-page.html")
+    return render_template("auth/sign-in-page.html")
 
-@auth_bp.route("/login", methods=["POST"])
+@auth_bp.route("/sign-in", methods=["POST"])
 def process_login():
     logged_user_info = auth_service.check_login_and_return_info(request.form["username"],
                                                                 request.form["password"])
@@ -30,14 +30,14 @@ def process_login():
         return redirect("/profile")
 
     flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
-    return redirect("/login")
+    return redirect("/sign-in")
 
-@auth_bp.route("/logout", methods=["POST"])
+@auth_bp.route("/sign-out", methods=["POST"])
 @requires_login
 def logout():
     del session["user_id"]
     del session["is_doctor"]
     del session["session_end_time"]
     flash(LOGGED_OUT_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
-    return redirect("/login")
+    return redirect("/sign-in")
     

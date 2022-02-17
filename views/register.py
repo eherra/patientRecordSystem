@@ -25,7 +25,7 @@ def register_user():
     if created_user_id:
         users_service.initialize_user_info_values(created_user_id, user_validated)
         flash(SUCCESFULLY_USER_REGISTRATION_MESSAGE, SUCCESS_CATEGORY)
-        return redirect("/login")
+        return redirect("/sign-in")
 
     flash(FAILED_USER_REGISTRATION_MESSAGE, DANGER_CATEGORY)
     return redirect("/register")

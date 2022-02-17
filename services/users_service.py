@@ -20,10 +20,12 @@ def get_user_personal_doctor_info(doctor_id):
     }
 
 def get_user_info_by_key(user_id, key):
+    """Fetches value from user_info table which is signed to the parameter (key).
+       If fetched_value None -> key value is not set for the user_id"""
     fetched_value = users_repository.get_user_info_by_key(user_id, key)
     if fetched_value:
         return fetched_value[0]
-    return "(user unknown)"
+    return "(unknown)"
 
 def is_username_taken(username):
     return users_repository.is_username_taken(username)

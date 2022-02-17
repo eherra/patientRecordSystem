@@ -50,7 +50,7 @@
             {% endif %}
         </div>
         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5">
-            {% include 'auth/components/logout-button.html' %}
+            {% include 'auth/components/sign-out-button.html' %}
             {% include 'flash.html' %}
         </div>
 
@@ -65,7 +65,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 bottomColumn">
             <h5><u>Current prescriptions</u> <i class="fas fa-prescription-bottle"></i></i></h5>
             {% if current_prescriptions|length == 0 %}
-            <p>No current prescriptions</p>
+            <p>No current prescriptions.</p>
             {% else %}
             {% for prescription in current_prescriptions %}
             <form
@@ -96,34 +96,44 @@
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
             <h5><u>All prescriptions</u> <i class="fas fa-capsules"></i></h5>
-            {% if all_prescriptions|length == 0 %}
-            <span>No prescriptions to add.</span>
-            {% else %}
-            {% for prescription in all_prescriptions %}
-            <form
-                action="/appointment/{{appointment.id}}/prescription/{{prescription.id}}/patient/{{appointment.patient_id}}"
-                method="POST">
+            <button onclick="rotateAllPrescriptionArrow()" id="the-button" type="button" class="btn btn-dark btn-sm"
+                data-toggle="collapse" data-target="#allPrescriptions">View list
+                <i class="fas fa-angle-down allPrescriptionArrow"></i></button>
+            <div id="allPrescriptions" class="collapse">
                 <div class="list-group">
-                    <div class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-1"><u>{{ prescription.name }}</u></h6>
-                            <div>
-                                <button type="submit" class="btn btn-dark btn-sm"><i class="far fa-plus-square"></i>
-                                    add</button>
-                                <input type="hidden" name="is_visible" value="True">
-                                <small>Amount per day: <span
-                                        class="badge badge-info badge-pill">{{prescription.amount_per_day
-                                        }}</span></small>
+                    {% if all_prescriptions|length == 0 %}
+                    <span>No prescriptions here.</span>
+                    {% else %}
+                    {% for prescription in all_prescriptions %}
+                    <form
+                        action="/appointment/{{appointment.id}}/prescription/{{prescription.id}}/patient/{{appointment.patient_id}}"
+                        method="POST">
+                        <div class="list-group">
+                            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1"><u>{{ prescription.name }}</u></h6>
+                                    <div>
+                                        <button type="submit" class="btn btn-dark btn-sm">
+                                            <i class="far fa-plus-square"></i>
+                                            add</button>
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                        <input type="hidden" name="is_visible" value="True">
+                                        <small>Amount per day:
+                                            <span
+                                                class="badge badge-info badge-pill">{{prescription.amount_per_day}}</span>
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
+                    {% endfor %}
+                    {% endif %}
+                    {% endif %}
                 </div>
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            </form>
-            {% endfor %}
-            {% endif %}
-            {% endif %}
+            </div>
         </div>
     </div>
 </div>
+<script src="{{ url_for('static', filename='js/allPrescriptionArrow.js') }}"></script>
 {% endblock %}

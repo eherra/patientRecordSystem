@@ -97,13 +97,13 @@ def update_user_info_by_key(user_id, key, new_value):
 
 def create_new_user(user):
     try:
-        result = db.session.execute(CREATE_NEW_USER_QUERY,
-                                   {"username": user.username,
-                                    "password": generate_password_hash(user.password),
-                                    "is_doctor": user.is_doctor}
-                                    ).fetchone()
+        created_user = db.session.execute(CREATE_NEW_USER_QUERY,
+                                         {"username": user.username,
+                                          "password": generate_password_hash(user.password),
+                                          "is_doctor": user.is_doctor}
+                                         ).fetchone()
         db.session.commit()
-        return result.id
+        return created_user.id
     except Exception:
         return None
 
@@ -129,4 +129,4 @@ def create_user_info_by_key(user_id, key, value):
                            "value": value})
     except Exception:
         db.session.rollback()
-        raise Exception
+        raise

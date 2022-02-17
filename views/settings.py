@@ -12,7 +12,7 @@ settings_bp = Blueprint("settings", __name__)
 @requires_login
 @requires_session_time_alive
 def settings():
-    user_id = session.get("user_id")  
+    user_id = session["user_id"]
     user_info = users_service.get_user_info(user_id)
     return render_template("settings/edit-settings-page.html",
                             user_info=user_info)
@@ -21,7 +21,7 @@ def settings():
 @requires_login
 @requires_session_time_alive
 def update_settings():
-    user_id = session.get("user_id")
+    user_id = session["user_id"]
     try:
         user_validated = SettingsUser(request.form)
     except ValueError as error:

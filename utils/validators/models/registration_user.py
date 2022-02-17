@@ -2,7 +2,7 @@ import re
 from services import users_service
 
 class RegistrationUser:
-    """Class validates user registration inputs from the form passed as a parameter. """
+    """Class validates user registration inputs from the form passed as a parameter."""
     def __init__(self, form):
         self.username = form["username"]
         self.password = form["password"]
@@ -22,7 +22,7 @@ class RegistrationUser:
     @username.setter
     def username(self, value):
         if len(value) < 3 or len(value) > 40 or value.isspace():
-            raise ValueError("Username should be 3-40 characters")
+            raise ValueError("Username should be 3-40 characters!")
 
         if users_service.is_username_taken(value):
             raise ValueError("Username not unique. Try other one!")
@@ -46,7 +46,7 @@ class RegistrationUser:
     @is_doctor.setter
     def is_doctor(self, value):
         if not value:
-            raise ValueError("Role (doctor/patient) not existing.")
+            raise ValueError("Role (doctor/patient) not existing!")
         self._is_doctor = value == "doctor"
 
     @property

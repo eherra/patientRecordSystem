@@ -4,17 +4,17 @@ from flask import session, redirect, flash, abort
 from utils.constant import DANGER_CATEGORY
 from services.appointments_service import is_appointment_signed_to_user
 
-MUST_SIGN_IN_MESSAGE = "No access to the page! Please log in."
-SESSION_EXPIRED_MESSAGE = "Your session has expired! Please log in again."
-NOT_AUTHORIZED_CALL_MESSAGE = "Not authorized call."
-NOT_AUTHORIZED_TO_THE_APPOINTMENT_PAGE ="Got lost? Nothing there for you."
+MUST_SIGN_IN_MESSAGE = "No access to the page! Please sign in!"
+SESSION_EXPIRED_MESSAGE = "Your session has expired! Please sign in again!"
+NOT_AUTHORIZED_CALL_MESSAGE = "Not authorized call!"
+NOT_AUTHORIZED_TO_THE_APPOINTMENT_PAGE ="Got lost? Nothing there for you!"
 
 def requires_login(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
             flash(MUST_SIGN_IN_MESSAGE, DANGER_CATEGORY)
-            return redirect("/login")
+            return redirect("/sign-in")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -34,7 +34,7 @@ def requires_session_time_alive(f):
             del session["user_id"]
             del session["is_doctor"]
             del session["session_end_time"]
-            return redirect("/login")
+            return redirect("/sign-in")
         return f(*args, **kwargs)
     return decorated_function
 

@@ -12,11 +12,11 @@ messages_bp = Blueprint("message", __name__)
 @requires_login
 @requires_session_time_alive
 def send_message():
-    sender_id = session["user_id"]
-    receiver_id = request.form["receiver_id"]
+    sender_id = int(session["user_id"])
+    receiver_id = int(request.form["receiver_id"])
     is_success = messages_service.add_new_message(request.form["content"],
-                                                  int(sender_id),
-                                                  int(receiver_id))
+                                                  sender_id,
+                                                  receiver_id)
     if is_success:
         flash(SUCCESS_SENT_MESSAGE, SUCCESS_CATEGORY)
     else:

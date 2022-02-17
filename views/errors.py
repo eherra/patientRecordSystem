@@ -5,7 +5,7 @@ errors_bp = Blueprint("error", __name__)
 
 @errors_bp.app_errorhandler(CSRFError)
 def csrf_error(error):
-    return jsonify(error=str(error.description)), 400
+    return jsonify(error=str(error)), 400
 
 @errors_bp.app_errorhandler(KeyError)
 def key_error(error):
@@ -13,7 +13,7 @@ def key_error(error):
 
 @errors_bp.app_errorhandler(401)
 def user_not_authorized(error):
-    return jsonify(error=str(error.description)), 401
+    return jsonify(error=str(error)), 401
 
 @errors_bp.app_errorhandler(404)
 def page_not_found(error):
