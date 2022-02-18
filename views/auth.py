@@ -11,8 +11,14 @@ LOGGED_OUT_SUCCESSFULLY_MESSAGE = "You have successfully signed out!"
 auth_bp = Blueprint("auth", __name__)
 
 @auth_bp.route("/")
+def index():
+    if session.get("user_id"):
+        return redirect("/profile")
+
+    return redirect("/sign-in")
+
 @auth_bp.route("/sign-in")
-def login_page():
+def sign_in_page():
     if session.get("user_id"):
         return redirect("/profile")
 
@@ -22,19 +28,20 @@ def login_page():
 def process_login():
     logged_user_info = auth_service.check_login_and_return_info(request.form["username"],
                                                                 request.form["password"])
-    if logged_user_info:
-        session["user_id"] = logged_user_info.id
-        session["is_doctor"] = logged_user_info.is_doctor
-        session["session_end_time"] = datetime.now(timezone.utc) + timedelta(minutes=SESSION_ALIVE_TIME_MINUTES)
-        flash(LOGIN_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
-        return redirect("/profile")
+    if not logged_user_info:
+        flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
+        return redirect("/sign-in")
 
-    flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
-    return redirect("/sign-in")
+    session["user_id"] = logged_user_info.id
+    session["is_doctor"] = logged_user_info.is_doctor
+    # Initializing session ending time to current time + minutes set as SESSION_ALIVE_TIME_MINUTES
+    session["session_end_time"] = datetime.now(timezone.utc) + timedelta(minutes=SESSION_ALIVE_TIME_MINUTES)
+    flash(LOGIN_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
+    return redirect("/profile")
 
 @auth_bp.route("/sign-out", methods=["POST"])
 @requires_login
-def logout():
+def process_logout():
     del session["user_id"]
     del session["is_doctor"]
     del session["session_end_time"]

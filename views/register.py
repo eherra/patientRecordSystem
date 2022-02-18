@@ -22,10 +22,10 @@ def register_user():
         return redirect("/register")
 
     created_user_id = users_service.create_new_user(user_validated)
-    if created_user_id:
-        users_service.initialize_user_info_values(created_user_id, user_validated)
-        flash(SUCCESFULLY_USER_REGISTRATION_MESSAGE, SUCCESS_CATEGORY)
-        return redirect("/sign-in")
-
-    flash(FAILED_USER_REGISTRATION_MESSAGE, DANGER_CATEGORY)
-    return redirect("/register")
+    if not created_user_id:
+        flash(FAILED_USER_REGISTRATION_MESSAGE, DANGER_CATEGORY)
+        return redirect("/register")
+        
+    users_service.initialize_user_info_values(created_user_id, user_validated)
+    flash(SUCCESFULLY_USER_REGISTRATION_MESSAGE, SUCCESS_CATEGORY)
+    return redirect("/sign-in")

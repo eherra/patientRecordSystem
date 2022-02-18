@@ -1,8 +1,8 @@
 <h4><u>Message history</u> <i class="fas fa-envelope-open-text"></i></h4>
 <!--- Sent messages rendering --->
-<button onclick="rotateSentArrow()" id="the-button" type="button" class="btn btn-dark" data-toggle="collapse"
+<button onclick="rotateArrow(`sentMessageArrow`)" id="the-button" type="button" class="btn btn-dark" data-toggle="collapse"
     data-target="#sentMessages">Sent
-    messages <i class="fas fa-angle-down sentArrow"></i></button>
+    messages <i class="fas fa-angle-down sentMessageArrow"></i></button>
 <div id="sentMessages" class="collapse">
     <div class="list-group">
         {% if sent_messages|length == 0 %}
@@ -22,9 +22,9 @@
 </div>
 
 <!--- Received messages rendering --->
-<button onClick="rotateReceivedArrow()" class="btn btn-dark" data-toggle="collapse"
+<button onClick="rotateArrow(`receivedMessageArrow`)" class="btn btn-dark" data-toggle="collapse"
     data-target="#receivedMessages">Received
-    messages <i class="fas fa-angle-down receivedArrow"></i></button>
+    messages <i class="fas fa-angle-down receivedMessageArrow"></i></button>
 <div id="receivedMessages" class="collapse">
     <div class="list-group">
         {% if received_messages|length == 0 %}
@@ -42,4 +42,4 @@
         {% endif %}
     </div>
 </div>
-<script src="static/js/messageArrows.js"></script>
+<script src="static/js/arrowRotations.js"></script>

@@ -96,8 +96,8 @@
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
             <h5><u>All prescriptions</u> <i class="fas fa-capsules"></i></h5>
-            <button onclick="rotateAllPrescriptionArrow()" id="the-button" type="button" class="btn btn-dark btn-sm"
-                data-toggle="collapse" data-target="#allPrescriptions">View list
+            <button onclick="rotateArrow(`allPrescriptionArrow`)" id="the-button" type="button" class="btn btn-dark btn-sm"
+                data-toggle="collapse" data-target="#allPrescriptions"><span id="presListText">View</span>
                 <i class="fas fa-angle-down allPrescriptionArrow"></i></button>
             <div id="allPrescriptions" class="collapse">
                 <div class="list-group">
@@ -135,5 +135,5 @@
         </div>
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/allPrescriptionArrow.js') }}"></script>
+<script src="{{ url_for('static', filename='js/arrowRotations.js') }}"></script>
 {% endblock %}
