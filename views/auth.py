@@ -14,14 +14,12 @@ auth_bp = Blueprint("auth", __name__)
 def index():
     if session.get("user_id"):
         return redirect("/profile")
-
     return redirect("/sign-in")
 
 @auth_bp.route("/sign-in")
 def sign_in_page():
     if session.get("user_id"):
         return redirect("/profile")
-
     return render_template("auth/sign-in-page.html")
 
 @auth_bp.route("/sign-in", methods=["POST"])

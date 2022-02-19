@@ -14,7 +14,7 @@ An application for hospitals in order to keep track of their patients appointmen
 The project's main focus has been on diverse SQL queries (CRUD) usage. 
 
 As being healthcare related application and storing sensitive data of its users - I have been focusing on the security e.g.:
-- by setting 15 minutes session expiration time (event though conflicting [this](https://auth0.com/blog/balance-user-experience-and-security-to-retain-customers/#:~:text=OWASP%20recommends%20application%20builders%20to%20implement%20short%20idle%20time%20outs%20(2%2D5%20minutes)%20for%20applications%20that%20handle%20high%2Drisk%20data%2C%20like%20financial%20information.%20It%20considers%20that%20longer%20idle%20time%20outs%20(15%2D30%20minutes)%20are%20acceptable%20for%20low%2Drisk%20applications.)) 
+- by setting 15 minutes session expiration time (considering [this](https://auth0.com/blog/balance-user-experience-and-security-to-retain-customers/#:~:text=How%20long%20should,for%20most%20businesses.))
 - admin (doctor) role check when calling POST-methods which usage is only authorizited by this role
 - users don't have access to pages/information which are not their _own_ information
 
