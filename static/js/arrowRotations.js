@@ -3,13 +3,16 @@ let receivedRotationValue = 0
 let allPrescriptionValue = 0
 let prescriptionValue = 0
 
-rotateArrow = (arrowClassName) => {
+const rotateArrow = (arrowClassName) => {
     switch (arrowClassName) {
         case "sentMessageArrow":
             sentRotationValue = makeHtmlDocumentChange(arrowClassName, sentRotationValue)
             break
         case "receivedMessageArrow":
             receivedRotationValue = makeHtmlDocumentChange(arrowClassName, receivedRotationValue)
+            break
+        case "prescriptionArrow":
+            prescriptionValue = makeHtmlDocumentChange(arrowClassName, prescriptionValue)
             break
         case "allPrescriptionArrow":
             allPrescriptionValue = makeHtmlDocumentChange(arrowClassName, allPrescriptionValue)
@@ -19,21 +22,18 @@ rotateArrow = (arrowClassName) => {
                 document.getElementById("presListText").innerHTML = "View"
             }
             break
-        case "prescriptionArrow":
-            prescriptionValue = makeHtmlDocumentChange(arrowClassName, prescriptionValue)
-            break
         default:
             break
     }
 }
 
-makeHtmlDocumentChange = (arrowClassName, rotateValue) => {
-    newRotationValue = makeRotation(rotateValue)
+const makeHtmlDocumentChange = (arrowClassName, rotateValue) => {
+    const newRotationValue = makeRotation(rotateValue)
     document.querySelector(`.${arrowClassName}`).style.transform = `rotate(${newRotationValue}deg)`
     return newRotationValue
 }
 
-makeRotation = (rotationValue) => {
+const makeRotation = (rotationValue) => {
     rotationValue += 180;
     if (rotationValue === 360) {
         rotationValue = 0;

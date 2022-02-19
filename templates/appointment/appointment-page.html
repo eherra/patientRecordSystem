@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}Appointment{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/appointment-page.css') }}">
 <div class="container">
@@ -95,7 +96,7 @@
 
             <!--- ONLY ADMIN CAN SEE THIS --->
             {% if session.is_doctor %}
-            <h5><u>All prescriptions</u> <i class="fas fa-capsules"></i></h5>
+            <h5 class="allPres"><u>All prescriptions</u> <i class="fas fa-capsules"></i></h5>
             <button onclick="rotateArrow(`allPrescriptionArrow`)" id="the-button" type="button" class="btn btn-dark btn-sm"
                 data-toggle="collapse" data-target="#allPrescriptions"><span id="presListText">View</span>
                 <i class="fas fa-angle-down allPrescriptionArrow"></i></button>
@@ -135,5 +136,4 @@
         </div>
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/arrowRotations.js') }}"></script>
 {% endblock %}

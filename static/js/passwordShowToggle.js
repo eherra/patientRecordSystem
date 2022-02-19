@@ -1,4 +1,4 @@
-togglePasswordShow = () => {
+const togglePasswordShow = () => {
     const passwordInput = document.getElementById("password");
     if (passwordInput.type === "password" && passwordInput.value !== "") {
         document.getElementById("password").type = "text"

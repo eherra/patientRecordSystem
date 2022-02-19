@@ -1,6 +1,6 @@
-from flask import abort
 from database.db import db
 from utils.constant import TIME_FORMAT
+from sqlalchemy.exc import SQLAlchemyError
 
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
                                  FROM   appointments \
@@ -41,8 +41,9 @@ def get_patient_appointments_info(user_id):
                                  {"user_id": user_id,
                                   "time_format": TIME_FORMAT}
                                   ).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        # logging the specific error would be done here
+        raise
 
 def get_doctor_appointments_info(user_id):
     try:
@@ -50,8 +51,8 @@ def get_doctor_appointments_info(user_id):
                                  {"user_id": user_id,
                                   "time_format": TIME_FORMAT}
                                  ).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def get_appointment_info_by(user_id, appointment_id):
     try:
@@ -60,8 +61,8 @@ def get_appointment_info_by(user_id, appointment_id):
                                   "time_format": TIME_FORMAT,
                                   "user_id": user_id}
                                  ).fetchone()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def update_appointment_symptom(user_id, appo_id, new_symptom):
     try:
@@ -70,8 +71,9 @@ def update_appointment_symptom(user_id, appo_id, new_symptom):
                            "user_id": user_id,
                            "new_symptom": new_symptom})
         db.session.commit()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise
 
 def add_new_appointment(patient_id, doctor_id, 
                         appointment_type, formatted_time_at):
@@ -82,16 +84,18 @@ def add_new_appointment(patient_id, doctor_id,
                            "appointment_type": appointment_type,
                            "time_at": formatted_time_at})
         db.session.commit()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise
 
 def delete_appointment(appo_id):
     try:
         db.session.execute(DELETE_APPOINTMENT_QUERY,
                           {"appointment_id": appo_id})
         db.session.commit()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise
 
 def is_appointment_signed_to_user(user_id, appointment_id):
     try:
@@ -99,5 +103,5 @@ def is_appointment_signed_to_user(user_id, appointment_id):
                                  {"user_id": user_id,
                                   "appointment_id": appointment_id}
                                  ).fetchone()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise

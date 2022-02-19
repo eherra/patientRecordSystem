@@ -1,6 +1,6 @@
-from flask import abort
 from werkzeug.security import generate_password_hash
 from database.db import db
+from sqlalchemy.exc import SQLAlchemyError
 from utils.constant import NAME_DB_KEY, PHONE_DB_KEY, ADDRESS_DB_KEY, EMAIL_DB_KEY, \
      COUNTRY_DB_KEY, CITY_DB_KEY, PERSONAL_DOCTOR_ID_DB_KEY
 
@@ -40,30 +40,30 @@ def get_user_info_by_key(user_id, key):
                                  {"user_id": user_id,
                                   "key": key}
                                  ).fetchone()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def is_username_taken(username):
     try:
         return db.session.execute(CHECK_IS_USERNAME_UNIQUE_QUERY,
                                  {"username": username}
                                  ).fetchone()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def get_doctor_patients(doctor_id):
     try:
         return db.session.execute(GET_DOCTOR_PATIENTS_QUERY,
                                  {"key": PERSONAL_DOCTOR_ID_DB_KEY,
                                   "doctor_id": str(doctor_id)})
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def get_all_doctors():
     try:
         return db.session.execute(GET_ALL_DOCTORS_QUERY).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def update_settings_values(user_id, user):
     "Updates user_info table values if user has filled the input with the request"
@@ -92,8 +92,9 @@ def update_user_info_by_key(user_id, key, new_value):
                            "key": key,
                            "new_value": new_value})
         db.session.commit()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise 
 
 def create_new_user(user):
     try:
@@ -104,7 +105,8 @@ def create_new_user(user):
                                          ).fetchone()
         db.session.commit()
         return created_user.id
-    except Exception:
+    except SQLAlchemyError:
+        db.session.rollback()
         return None
 
 def initialize_user_info_values(user_id, user):
@@ -118,7 +120,8 @@ def initialize_user_info_values(user_id, user):
         create_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, None)
         db.session.commit()
         return True
-    except Exception:
+    except SQLAlchemyError:
+        db.session.rollback()
         return False
 
 def create_user_info_by_key(user_id, key, value):
@@ -127,6 +130,5 @@ def create_user_info_by_key(user_id, key, value):
                           {"user_id": user_id,
                            "key": key,
                            "value": value})
-    except Exception:
-        db.session.rollback()
+    except SQLAlchemyError:
         raise
