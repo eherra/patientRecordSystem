@@ -92,13 +92,35 @@ The validation class takes a form as a construct parameter and checks that the f
 DB schema with constraints included can be found ->
 [DB schema](https://github.com/eherra/patientRecordSystem/blob/master/database/schema.sql)
 
+#### User_info table
+
+The table having more dynamic approach for storing the user info data:\
+the "key" column stores a key for a lookup of the specific user info (column "value") which is wanted to be fetched. Keys used on the application: name, phone, email, address etc.
+
+Due to the approach no need to determine what information is allowed to be stored on the database of the users e.g. if information varies from different users. 
+
+Example usage of the table:
+
+| id  | user_id | key | value |
+| ------------- | ------------- | ------------- | ------------- |
+| 1  | 1  | name  | Dan Dataman  |
+| 2  | 1  | email  | dan@data.com  |
+| 3  | 1  | phone  | +3519324123123  |
+...
+
+To fetch *name* of the user can be done with SQL query:
+
+```sql
+SELECT value 
+FROM   user_info 
+WHERE  user_id = 1
+AND    key = 'name'
+```
+
+Cons:\
+Requires a bit more complex methods for [updating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L68) and [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L112) user info.
+
 ### Known browser issues
 On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
-### Backlog
-
-#### Frontend
-
-#### Backend
-
-#### General
+Session timer not working on Safari.
