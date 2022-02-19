@@ -95,11 +95,11 @@ DB schema with constraints included can be found ->
 #### User_info table
 
 The table having more dynamic approach for storing the user info data:\
-the "key" column stores a key for a lookup of the specific user info (column "value") which is wanted to be fetched. Keys used on the application: name, phone, email, address etc.
+<code>key</code> column stores a key for a lookup of the specific user info (column <code>value</code>) which is wanted to be fetched. Keys used on the application: <code>name</code>, <code>phone</code>, <code>email</code>, <code>address</code> etc.
 
-Due to the approach no need to determine what information is allowed to be stored on the database of the users e.g. if information varies from different users. 
+Due to the approach no need to determine what information is allowed to be stored on the database of the users if e.g. on further development is decided that more varies information is wanted to be stored.
 
-Example usage of the table:
+**Example**
 
 | id  | user_id | key | value |
 | ------------- | ------------- | ------------- | ------------- |
@@ -121,6 +121,8 @@ Cons:\
 Requires a bit more complex methods for [updating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L68) and [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L112) user info.
 
 ### Known browser issues
+All the functions are working on Google Chrome browser.
+
 On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
 Session timer not working on Safari.
