@@ -118,7 +118,7 @@ AND    key = 'name'
 ```
 
 Cons:\
-Requires a bit more complex method for [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#92) user info.
+Requires a bit more complex method for [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L92) user info.
 
 ### Known browser issues
 All the functions are working on Google Chrome browser.
