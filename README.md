@@ -97,7 +97,7 @@ DB schema with constraints included can be found ->
 The table having more dynamic approach for storing the user info data:\
 <code>key</code> column stores a key for a lookup of the specific user info (column <code>value</code>) which is wanted to be fetched. Keys used on the application: <code>name</code>, <code>phone</code>, <code>email</code>, <code>address</code> etc.
 
-Due to the approach no need to determine what information is allowed to be stored on the database of the users if e.g. on further development is decided that more varies information is wanted to be stored.
+Due to the approach no need to determine what information is allowed to be stored on the database of the users if e.g. on further development is decided that more varies information is wanted to be stored. Also amount of columns on <code>users</code> table doesn't grow too large and can be kept clean and only for authorization usage.
 
 **Example**
 
@@ -118,7 +118,7 @@ AND    key = 'name'
 ```
 
 Cons:\
-Requires a bit more complex methods for [updating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L68) and [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L112) user info.
+Requires a bit more complex method for [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#92) user info.
 
 ### Known browser issues
 All the functions are working on Google Chrome browser.

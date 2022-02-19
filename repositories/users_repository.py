@@ -65,26 +65,6 @@ def get_all_doctors():
     except SQLAlchemyError:
         raise
 
-def update_settings_values(user_id, user):
-    "Updates user_info table values if user has filled the input with the request"
-    if user.name:
-        update_user_info_by_key(user_id, NAME_DB_KEY, user.name)
-
-    if user.phone:
-        update_user_info_by_key(user_id, PHONE_DB_KEY, user.phone)
-
-    if user.email:
-        update_user_info_by_key(user_id, EMAIL_DB_KEY, user.email)
-
-    if user.address:
-        update_user_info_by_key(user_id, ADDRESS_DB_KEY, user.address)
-
-    if user.city:
-        update_user_info_by_key(user_id, CITY_DB_KEY, user.city)
-
-    if user.country:
-        update_user_info_by_key(user_id, COUNTRY_DB_KEY, user.country)
-
 def update_user_info_by_key(user_id, key, new_value):
     try:
         db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY,
