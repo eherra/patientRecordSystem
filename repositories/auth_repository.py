@@ -1,5 +1,6 @@
 from database.db import db
 from flask import abort
+from sqlalchemy.exc import SQLAlchemyError
 
 CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \
                                      FROM   users \
@@ -10,5 +11,5 @@ def check_login_and_return_info(username):
         return db.session.execute(CHECK_LOGIN_AND_RETURN_INFO_QUERY,
                                  {"username":username}
                                  ).fetchone()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise

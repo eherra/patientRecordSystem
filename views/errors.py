@@ -1,5 +1,6 @@
 from flask import render_template, jsonify, Blueprint
 from flask_wtf.csrf import CSRFError
+from sqlalchemy.exc import SQLAlchemyError
 
 errors_bp = Blueprint("error", __name__)
 
@@ -26,3 +27,8 @@ def not_allowed_method(error):
 @errors_bp.app_errorhandler(500)
 def internal_server_error(error):
     return render_template("error/500.html"), 500
+
+@errors_bp.app_errorhandler(SQLAlchemyError)
+def database_error(error):
+    # logging could be done here for
+    return jsonify(error="Something went wrong with DB operation."), 500

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+
 {% block content %}
 <section class="vh-100" style="background-color: #F5EEDC">
   <div class="container h-100">
@@ -22,4 +24,5 @@
     </div>
   </div>
 </section>
+<script src="{{ url_for('static', filename='js/passwordShowToggle.js') }}"></script>
 {% endblock %}

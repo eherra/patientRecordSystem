@@ -1,5 +1,6 @@
 from flask import abort
 from database.db import db
+from sqlalchemy.exc import SQLAlchemyError
 
 USER_PRESCRIPTIONS_QUERY = "SELECT prescription_id, visible \
                             FROM   user_prescriptions \
@@ -33,24 +34,24 @@ def get_all_not_signed_prescription(user_id):
         return db.session.execute(GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY,
                                  {"user_id": user_id}
                                  ).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def get_user_prescriptions(user_id):
     try:
         return db.session.execute(USER_PRESCRIPTIONS_QUERY,
                                  {"user_id": user_id}
                                  ).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def get_prescription_info_by_id(prescription_id):
     try:
         return db.session.execute(SINGLE_PRESCRIPTION_QUERY,
                                  {"prescription_id": prescription_id}
                                  ).fetchone()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def update_prescription_from_user(user_id, prescription_id, bool_value):
     """Changing user_prescription table "visible" value to given parameter (bool_value)"""
@@ -64,16 +65,17 @@ def update_prescription_from_user(user_id, prescription_id, bool_value):
             add_new_prescription_to(user_id, prescription_id)
 
         db.session.commit()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise
 
 def add_new_prescription_to(user_id, prescription_id):
     try:
         db.session.execute(ADD_USER_PRESCRIPTION_QUERY,
                           {"user_id": user_id,
                            "prescription_id": prescription_id})
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def create_new_prescription(prescription_name, amount_per_day):
     try:
@@ -82,5 +84,6 @@ def create_new_prescription(prescription_name, amount_per_day):
                                         "amount_per_day": amount_per_day})
         db.session.commit()
         return is_success
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise

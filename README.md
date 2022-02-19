@@ -102,5 +102,3 @@ On *Mozilla Firefox* and *Safari* the appointment booking calender not working p
 #### Backend
 
 #### General
-- refactoring
-    - catch sqlAlchemy errors instead of broad exceptions

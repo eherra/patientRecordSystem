@@ -1,6 +1,7 @@
 from flask import abort
 from database.db import db
 from utils.constant import TIME_FORMAT
+from sqlalchemy.exc import SQLAlchemyError
 
 SENT_MESSAGES_QUERY = "SELECT   user2_id AS user_id, content, TO_CHAR(sent_at, :time_format) AS time \
                        FROM     messages \
@@ -21,8 +22,8 @@ def get_sent_messages(user_id):
                                  {"user_id": user_id,
                                   "time_format": TIME_FORMAT}
                                  ).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def get_received_messages(user_id):
     try:
@@ -30,8 +31,8 @@ def get_received_messages(user_id):
                                  {"user_id": user_id,
                                   "time_format": TIME_FORMAT}
                                  ).fetchall()
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        raise
 
 def add_new_message(content, sender_user_id, receiver_user_id):
     try:
@@ -41,5 +42,6 @@ def add_new_message(content, sender_user_id, receiver_user_id):
                                         "receiver_user_id": receiver_user_id})
         db.session.commit()
         return is_success
-    except Exception:
-        abort(500)
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise
