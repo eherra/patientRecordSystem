@@ -29,7 +29,9 @@ def get_prescription_info_by_id(prescription_id):
     return prescriptions_repository.get_prescription_info_by_id(prescription_id)
 
 def update_prescription_from_user(user_id, prescription_id, bool_value):
-    prescriptions_repository.update_prescription_from_user(user_id, prescription_id, bool_value)
+    prescriptions_repository.update_prescription_from_user(user_id, 
+                                                           prescription_id, 
+                                                           bool_value)
 
 def create_new_prescription(prescription_name, amount_per_day):
     if is_valid_input(prescription_name, PRESCRIPTION_NAME_LENGTH_MAX):

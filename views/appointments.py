@@ -7,7 +7,10 @@ from utils.validators.auth_validator import requires_login, requires_doctor_role
 SYMPTOM_UPDATE_MESSAGE = "Symptom updated successfully!"
 BOOKED_APPOINTMENT_MESSAGE = "Appointment booked successfully!"
 DELETED_APPOINTMENT_MESSAGE = "Appointment deleted successfully!"
-INVALID_APPOINTMENT_MESSAGE = "Invalid appointment inputs!"
+
+INVALID_APPOINTMENT_MESSAGE = "Appointment couldn't be booked!"
+FAILED_SYMPTOM_UPDATE_MESSAGE = "Symptom couldn't be updated!"
+FAILED_DELETE_APPOINTMENT_MESSAGE = "Appointment couldn't be deleted!"
 
 appointments_bp = Blueprint("appointments", __name__)
 
@@ -33,8 +36,13 @@ def show_appointment(appo_id, patient_id):
 @requires_doctor_role
 @requires_session_time_alive
 def update_symptom(appo_id, user_id):
-    appointments_service.update_appointment_symptom(user_id, appo_id, request.form["symptom"])
-    flash(SYMPTOM_UPDATE_MESSAGE, SUCCESS_CATEGORY)
+    is_success = appointments_service.update_appointment_symptom(user_id, 
+                                                                 appo_id, 
+                                                                 request.form["symptom"])
+    if is_success:
+        flash(SYMPTOM_UPDATE_MESSAGE, SUCCESS_CATEGORY)
+    else:
+        flash(FAILED_SYMPTOM_UPDATE_MESSAGE, DANGER_CATEGORY)
     return redirect(f"/appointment/{appo_id}/patient/{user_id}")
 
 @appointments_bp.route("/appointment/book/<int:doctor_id>", methods=["POST"])
@@ -55,6 +63,9 @@ def book_appointment(doctor_id):
 @requires_doctor_role
 @requires_session_time_alive
 def delete_appointment(appo_id):
-    appointments_service.delete_appointment(appo_id)
-    flash(DELETED_APPOINTMENT_MESSAGE, SUCCESS_CATEGORY)
+    is_success = appointments_service.delete_appointment(appo_id)
+    if is_success:
+        flash(DELETED_APPOINTMENT_MESSAGE, SUCCESS_CATEGORY)
+    else:
+        flash(FAILED_DELETE_APPOINTMENT_MESSAGE, DANGER_CATEGORY)
     return redirect("/profile")

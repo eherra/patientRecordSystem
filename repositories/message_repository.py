@@ -1,4 +1,3 @@
-from flask import abort
 from database.db import db
 from utils.constant import TIME_FORMAT
 from sqlalchemy.exc import SQLAlchemyError
@@ -44,4 +43,4 @@ def add_new_message(content, sender_user_id, receiver_user_id):
         return is_success
     except SQLAlchemyError:
         db.session.rollback()
-        raise
+        return False

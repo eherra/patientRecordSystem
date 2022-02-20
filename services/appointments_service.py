@@ -46,21 +46,22 @@ def get_appointment_info_by(user_id, appointment_id):
     }
 
 def update_appointment_symptom(user_id, appo_id, new_symptom):
-    appointments_repository.update_appointment_symptom(user_id, appo_id, new_symptom)
+    return appointments_repository.update_appointment_symptom(user_id, 
+                                                              appo_id, 
+                                                              new_symptom)
 
 def add_new_appointment(patient_id, doctor_id, appointment_type, time_at):
     formatted_time_at = time_at.replace("T", " ")
     if is_valid_future_date(formatted_time_at) \
         and is_valid_input(appointment_type, APPOINTMENT_TYPE_LENGTH_MAX):
-            appointments_repository.add_new_appointment(patient_id,
-                                                        doctor_id,
-                                                        appointment_type,
-                                                        formatted_time_at)
-            return True
+            return appointments_repository.add_new_appointment(patient_id,
+                                                               doctor_id,
+                                                               appointment_type,
+                                                               formatted_time_at)
     return False
 
 def delete_appointment(appo_id):
-    appointments_repository.delete_appointment(appo_id)
+    return appointments_repository.delete_appointment(appo_id)
 
 def is_appointment_signed_to_user(user_id, appointment_id):
     is_signed = appointments_repository.is_appointment_signed_to_user(user_id, appointment_id)

@@ -108,7 +108,7 @@ Due to the approach no need to determine what information is allowed to be store
 | 3  | 1  | phone  | +3519324123123  |
 ...
 
-To fetch *name* of the user can be done with SQL query:
+To fetch *name* (Dan Dataman) of the user can be done with SQL query:
 
 ```sql
 SELECT value 
@@ -118,7 +118,7 @@ AND    key = 'name'
 ```
 
 Cons:\
-Requires a bit more complex method for [creating](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L92) user info.
+Requires a bit more complex method for [initializing](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L92) user info when registering new user to the application.
 
 ### Known browser issues
 All the functions are working on Google Chrome browser.
