@@ -1,6 +1,7 @@
 from database.db import db
 from utils.constant import TIME_FORMAT
 from sqlalchemy.exc import SQLAlchemyError
+import sys
 
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
                                  FROM   appointments \
@@ -65,13 +66,16 @@ def get_appointment_info_by(user_id, appointment_id):
         raise
 
 def update_appointment_symptom(user_id, appo_id, new_symptom):
+    """Returns:
+       int: 1 (updated rowcount) -> succeeded
+       int: 0 means no rows updated -> not succeeded"""
     try:
-        db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY,
-                          {"appointment_id": appo_id,
-                           "user_id": user_id,
-                           "new_symptom": new_symptom})
+        is_success = db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY,
+                                       {"appointment_id": appo_id,
+                                        "user_id": user_id,
+                                        "new_symptom": new_symptom})
         db.session.commit()
-        return True
+        return is_success.rowcount
     except SQLAlchemyError:
         db.session.rollback()
         return False
@@ -91,11 +95,14 @@ def add_new_appointment(patient_id, doctor_id,
         return False
 
 def delete_appointment(appo_id):
+    """Returns:
+       int: 1 (updated rowcount) -> succeeded
+       int: 0 (no rows updated) -> not succeeded"""
     try:
-        db.session.execute(DELETE_APPOINTMENT_QUERY,
-                          {"appointment_id": appo_id})
+        is_success = db.session.execute(DELETE_APPOINTMENT_QUERY,
+                                       {"appointment_id": appo_id})
         db.session.commit()
-        return True
+        return is_success.rowcount
     except SQLAlchemyError:
         db.session.rollback()
         return False

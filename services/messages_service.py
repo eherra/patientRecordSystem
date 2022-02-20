@@ -24,8 +24,7 @@ def format_messages(messages_list):
 
 def add_new_message(content, sender_user_id, receiver_user_id):
     if is_valid_input(content, MESSAGE_LENGTH_MAX):
-        is_success = message_repository.add_new_message(content, 
-                                                        sender_user_id, 
-                                                        receiver_user_id)
-        return is_success
+        return message_repository.add_new_message(content, 
+                                                  sender_user_id, 
+                                                  receiver_user_id)
     return False

@@ -78,11 +78,11 @@ def add_new_prescription_to(user_id, prescription_id):
 
 def create_new_prescription(prescription_name, amount_per_day):
     try:
-        is_success = db.session.execute(CREATE_NEW_PRESCRIPTION_QUERY,
-                                       {"name": prescription_name,
-                                        "amount_per_day": amount_per_day})
+        db.session.execute(CREATE_NEW_PRESCRIPTION_QUERY,
+                          {"name": prescription_name,
+                           "amount_per_day": amount_per_day})
         db.session.commit()
-        return is_success
+        return True
     except SQLAlchemyError:
         db.session.rollback()
         return False

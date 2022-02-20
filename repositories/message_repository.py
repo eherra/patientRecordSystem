@@ -35,12 +35,12 @@ def get_received_messages(user_id):
 
 def add_new_message(content, sender_user_id, receiver_user_id):
     try:
-        is_success = db.session.execute(ADD_NEW_MESSAGE_QUERY,
-                                       {"content": content,
-                                        "sender_user_id": sender_user_id,
-                                        "receiver_user_id": receiver_user_id})
+        db.session.execute(ADD_NEW_MESSAGE_QUERY,
+                          {"content": content,
+                           "sender_user_id": sender_user_id,
+                           "receiver_user_id": receiver_user_id})
         db.session.commit()
-        return is_success
+        return True
     except SQLAlchemyError:
         db.session.rollback()
         return False

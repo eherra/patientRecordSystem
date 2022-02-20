@@ -77,6 +77,12 @@ def update_user_info_by_key(user_id, key, new_value):
         raise 
 
 def create_new_user(user):
+    """Creates new user to user DB table
+    
+    Returns:
+    Int: recently created user ID
+    None: if DB exception occurs
+    """
     try:
         created_user = db.session.execute(CREATE_NEW_USER_QUERY,
                                          {"username": user.username,

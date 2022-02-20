@@ -3,7 +3,7 @@ from utils.constant import PRESCRIPTION_NAME_LENGTH_MAX
 from utils.validators.input_validator import is_valid_input
 
 def get_all_not_signed_prescription(user_id):
-    """Fetching all prescriptions which User doesn't have yet signed to"""
+    """Fetching all prescriptions which user doesn't have yet signed to"""
     return prescriptions_repository.get_all_not_signed_prescription(user_id)
 
 def get_user_prescriptions(user_id):
