@@ -1,7 +1,6 @@
 from database.db import db
 from utils.constant import TIME_FORMAT
 from sqlalchemy.exc import SQLAlchemyError
-import sys
 
 APPOINTMENTS_INFO_BY_ID_QUERY = "SELECT appointment_type, symptom, TO_CHAR(time_at, :time_format) AS time_at \
                                  FROM   appointments \
@@ -43,7 +42,6 @@ def get_patient_appointments_info(user_id):
                                   "time_format": TIME_FORMAT}
                                   ).fetchall()
     except SQLAlchemyError:
-        # logging the specific error would be done here
         raise
 
 def get_doctor_appointments_info(user_id):
@@ -68,7 +66,8 @@ def get_appointment_info_by(user_id, appointment_id):
 def update_appointment_symptom(user_id, appo_id, new_symptom):
     """Returns:
        int: 1 (updated rowcount) -> succeeded
-       int: 0 means no rows updated -> not succeeded"""
+       int: 0 means no rows updated -> not succeeded
+       On exception occurring returning False"""
     try:
         is_success = db.session.execute(UPDATE_USERINFO_BY_KEY_QUERY,
                                        {"appointment_id": appo_id,
@@ -97,7 +96,8 @@ def add_new_appointment(patient_id, doctor_id,
 def delete_appointment(appo_id):
     """Returns:
        int: 1 (updated rowcount) -> succeeded
-       int: 0 (no rows updated) -> not succeeded"""
+       int: 0 (no rows updated) -> not succeeded
+       On exception occurring returning False"""
     try:
         is_success = db.session.execute(DELETE_APPOINTMENT_QUERY,
                                        {"appointment_id": appo_id})
