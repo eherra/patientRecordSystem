@@ -1,5 +1,4 @@
 from database.db import db
-from flask import abort
 from sqlalchemy.exc import SQLAlchemyError
 
 CHECK_LOGIN_AND_RETURN_INFO_QUERY = "SELECT id, password, is_doctor \

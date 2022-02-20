@@ -70,6 +70,8 @@ def render_patient_profile():
 def sign_personal_doctor():
     user_id = session["user_id"]
     doctor_signed_id = request.form["signed_doctor_id"]
-    users_service.update_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY, doctor_signed_id)
+    users_service.update_user_info_by_key(user_id, 
+                                          PERSONAL_DOCTOR_ID_DB_KEY, 
+                                          doctor_signed_id)
     return render_patient_profile()
     

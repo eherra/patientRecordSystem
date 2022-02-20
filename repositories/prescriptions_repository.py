@@ -1,4 +1,3 @@
-from flask import abort
 from database.db import db
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -86,4 +85,4 @@ def create_new_prescription(prescription_name, amount_per_day):
         return is_success
     except SQLAlchemyError:
         db.session.rollback()
-        raise
+        return False

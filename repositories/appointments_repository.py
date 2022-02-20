@@ -71,9 +71,10 @@ def update_appointment_symptom(user_id, appo_id, new_symptom):
                            "user_id": user_id,
                            "new_symptom": new_symptom})
         db.session.commit()
+        return True
     except SQLAlchemyError:
         db.session.rollback()
-        raise
+        return False
 
 def add_new_appointment(patient_id, doctor_id, 
                         appointment_type, formatted_time_at):
@@ -84,18 +85,20 @@ def add_new_appointment(patient_id, doctor_id,
                            "appointment_type": appointment_type,
                            "time_at": formatted_time_at})
         db.session.commit()
+        return True
     except SQLAlchemyError:
         db.session.rollback()
-        raise
+        return False
 
 def delete_appointment(appo_id):
     try:
         db.session.execute(DELETE_APPOINTMENT_QUERY,
                           {"appointment_id": appo_id})
         db.session.commit()
+        return True
     except SQLAlchemyError:
         db.session.rollback()
-        raise
+        return False
 
 def is_appointment_signed_to_user(user_id, appointment_id):
     try:
