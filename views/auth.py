@@ -38,9 +38,9 @@ def process_login():
 @auth_bp.route("/sign-out", methods=["POST"])
 @requires_login
 def process_logout():
-    del session["user_id"]
-    del session["is_doctor"]
-    del session["session_end_time"]
+    session.pop("user_id", None)
+    session.pop("is_doctor", None)
+    session.pop("session_end_time", None)
     flash(LOGGED_OUT_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/sign-in")
     
@@ -50,4 +50,4 @@ def initialize_session(user_id, is_doctor):
     # Initializing session ending time to current time + minutes set as SESSION_ALIVE_TIME_MINUTES
     session["session_end_time"] = datetime.now(timezone.utc) + timedelta(minutes=SESSION_ALIVE_TIME_MINUTES)
     # if there was failed attempts to login, filled username deletion from the session
-    del session["filled_username"]
+    session.pop("filled_username", None)
