@@ -28,12 +28,10 @@ def process_login():
                                                                 request.form["password"])
     if not logged_user_info:
         flash(LOGIN_ERROR_MESSAGE, DANGER_CATEGORY)
+        session["filled_username"] = request.form["username"]
         return redirect("/sign-in")
 
-    session["user_id"] = logged_user_info.id
-    session["is_doctor"] = logged_user_info.is_doctor
-    # Initializing session ending time to current time + minutes set as SESSION_ALIVE_TIME_MINUTES
-    session["session_end_time"] = datetime.now(timezone.utc) + timedelta(minutes=SESSION_ALIVE_TIME_MINUTES)
+    initialize_session(logged_user_info.id, logged_user_info.is_doctor)
     flash(LOGIN_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/profile")
 
@@ -46,3 +44,10 @@ def process_logout():
     flash(LOGGED_OUT_SUCCESSFULLY_MESSAGE, SUCCESS_CATEGORY)
     return redirect("/sign-in")
     
+def initialize_session(user_id, is_doctor):
+    session["user_id"] = user_id
+    session["is_doctor"] = is_doctor
+    # Initializing session ending time to current time + minutes set as SESSION_ALIVE_TIME_MINUTES
+    session["session_end_time"] = datetime.now(timezone.utc) + timedelta(minutes=SESSION_ALIVE_TIME_MINUTES)
+    # if there was failed attempts to login, filled username deletion from the session
+    del session["filled_username"]
