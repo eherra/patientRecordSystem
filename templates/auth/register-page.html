@@ -14,22 +14,15 @@
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" name="username" class="form-control" value="{{session.register_username}}"
-                                placeholder="Enter username (3-40 characters)" minlength="3" maxlength="40"
-                                pattern=".*\S+.*" title="3-40 characters, not allowed only whitespaces." required>
+                            <input type="text" name="username" class="form-control"
+                                value="{{session.register_username}}" placeholder="Enter username (3-40 characters)"
+                                minlength="3" maxlength="40" pattern=".*\S+.*"
+                                title="3-40 characters, not allowed only whitespaces." required>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" name="password" class="form-control"
-                                placeholder="Enter password (minium 5 characters)" minlength="5" pattern=".*\S+.*"
-                                title="5 or more characters, not allowed only whitespaces." required>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <span>Choose either: </span>
+                            <label>Role</label><br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-outline-dark active">
                                     <input type="radio" name="options" value="patient" checked>Patient
@@ -38,6 +31,23 @@
                                     <input type="radio" name="options" value="doctor">Doctor
                                 </label>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input id="password" type="password" name="password" class="form-control"
+                                placeholder="Enter password (minium 5 characters)" minlength="5" pattern=".*\S+.*"
+                                title="5 or more characters, not allowed only whitespaces."
+                                value="{{session.register_password}}" required>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm password <i id="match" class=""></i></label>
+                            <input id="confirmPassword" type="password" name="confirmPassword" class="form-control"
+                                placeholder="Retype password" minlength="5" pattern=".*\S+.*"
+                                title="Must match to password!" value="{{session.register_password}}" required>
                         </div>
                     </div>
                 </div>
@@ -102,10 +112,14 @@
                 <div class="row gutters">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="text-left">
-                            <button type="submit" name="submit" class="btn btn-primary">Register!</button>
+                            <button onclick="return checkPasswordMatching()" type="submit" name="submit"
+                                class="btn btn-primary">Register!</button>
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <a href="/sign-in"><button type="button" class="btn btn-secondary">
-                                    <i class="fas fa-angle-left"></i> Back to sign in</button></a>
+                            <a href="/sign-in">
+                                <button type="button" class="btn btn-secondary">
+                                    <i class="fas fa-angle-left"></i> Back to sign in
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -113,4 +127,5 @@
         </div>
     </div>
 </form>
+<script src="{{ url_for('static', filename='js/registerPasswordConfirm.js') }}"></script>
 {% endblock %}

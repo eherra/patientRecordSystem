@@ -35,8 +35,9 @@ def register_user():
     return redirect("/profile")
 
 def initialize_failed_registering_attempt_data(form):
-    """If registration fails, filled input fields saved to session"""
+    """If registration has failed with incorrect data, filled input fields saved to session"""
     session["register_username"] = form["username"]
+    session["register_password"] = form["password"]
     session["register_name"] = form["name"]
     session["register_email"] = form["email"]
     session["register_phone"] = form["phone"]
@@ -46,10 +47,12 @@ def initialize_failed_registering_attempt_data(form):
 
 def delete_failed_registration_attempt_data():
     """Deleting information saved from failed registration attempts after registration succeeded"""
-    del session["register_username"]
-    del session["register_name"]
-    del session["register_email"]
-    del session["register_phone"]
-    del session["register_address"]
-    del session["register_city"]
-    del session["register_country"]
+    session.pop("register_username", None)
+    session.pop("register_password")
+    session.pop("register_name", None)
+    session.pop("register_email", None)
+    session.pop("register_phone", None)
+    session.pop("register_address", None)
+    session.pop("register_city", None)
+    session.pop("register_country", None)
+    
