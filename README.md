@@ -126,3 +126,7 @@ All the functions are working on Google Chrome browser.
 On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
 Session timer not working on Safari.
+
+### backlog
+
+- more length to messages

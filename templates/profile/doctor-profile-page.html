@@ -80,6 +80,27 @@
                     </div>
                 </div>
             </form>
+            <button onClick="rotateArrow(`overviewArrow`)" class="btn btn-dark" data-toggle="collapse"
+                data-target="#overview">Prescriptions overview
+                <i class="fas fa-angle-down overviewArrow"></i></button>
+            <div id="overview" class="collapse col-md-8 mb-8">
+                <table class="table table-hover">
+                    <thead>
+                        <tr bgcolor="#d4c2b1">
+                            <th>Patient Name</th>
+                            <th>Total prescriptions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for overview in prescriptions_overview %}
+                        <tr bgcolor="#f2ebd9">
+                            <td>{{ overview.user_name }}</td>
+                            <td style="text-align: center;">{{overview.total_prescriptions}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!--- RIGHT PART --->

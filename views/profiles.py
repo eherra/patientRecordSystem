@@ -24,6 +24,7 @@ def render_doctor_profile():
     appointments_info = appointments_service.get_doctor_appointments_info(user_id)
     doctor_patients = users_service.get_doctor_patients(user_id)
     time_now = datetime.now().strftime("%Y-%m-%dT%H:%M")
+    prescriptions_overview = prescriptions_service.get_prescriptions_overview(user_id)
 
     return render_template("profile/doctor-profile-page.html",
                             user_id=user_id,
@@ -32,6 +33,7 @@ def render_doctor_profile():
                             doctor_patients=doctor_patients,
                             user_info=user_info,
                             appointments_list=appointments_info,
+                            prescriptions_overview=prescriptions_overview,
                             time_now=time_now,
                             avatar_url=DOCTOR_AVATAR_URL)
 

@@ -37,3 +37,6 @@ def create_new_prescription(prescription_name, amount_per_day):
     if is_valid_input(prescription_name, PRESCRIPTION_NAME_LENGTH_MAX):
         return prescriptions_repository.create_new_prescription(prescription_name, amount_per_day)
     return False
+
+def get_prescriptions_overview(doctor_id):
+    return prescriptions_repository.get_prescriptions_overview(str(doctor_id))

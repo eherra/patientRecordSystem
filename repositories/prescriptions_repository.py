@@ -9,6 +9,24 @@ SINGLE_PRESCRIPTION_QUERY = "SELECT id, name, amount_per_day \
                              FROM   prescriptions \
                              WHERE  id = :prescription_id"
 
+GET_PRESCRIPTIONS_OVERVIEW_QUERY = "SELECT \
+                                        (SELECT value \
+                                         FROM   user_info \
+                                         WHERE  key = 'name' \
+                                         AND    user_id = U.id) \
+                                    AS user_name, \
+                                    COUNT(Up.user_id) AS total_prescriptions \
+                                    FROM users U \
+                                        LEFT JOIN user_prescriptions Up \
+                                        ON        U.id = Up.user_id \
+                                        WHERE     U.id IN \
+                                                    (SELECT user_id \
+                                                     FROM   user_info \
+                                                     WHERE  key = 'personal_doctor_id' \
+                                                     AND    value = :doctor_id) \
+                                    GROUP BY U.id \
+                                    ORDER BY total_prescriptions DESC"
+                                    
 GET_ALL_NOT_SIGNED_PRESCRIPTIONS_QUERY = "SELECT id, name, amount_per_day \
                                           FROM   prescriptions \
                                           WHERE  id NOT IN \
@@ -86,3 +104,11 @@ def create_new_prescription(prescription_name, amount_per_day):
     except SQLAlchemyError:
         db.session.rollback()
         return False
+
+def get_prescriptions_overview(doctor_id):
+    try:
+        return db.session.execute(GET_PRESCRIPTIONS_OVERVIEW_QUERY,
+                                 {"doctor_id": doctor_id}
+                                 ).fetchall()
+    except SQLAlchemyError:
+        raise

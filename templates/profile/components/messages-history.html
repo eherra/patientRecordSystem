@@ -1,7 +1,8 @@
 <h4><u>Message history</u> <i class="fas fa-envelope-open-text"></i></h4>
 <!--- Sent messages rendering --->
-<button onclick="rotateArrow(`sentMessageArrow`)" id="the-button" type="button" class="btn btn-dark" data-toggle="collapse"
-    data-target="#sentMessages">Sent
+<button onclick="rotateArrow(`sentMessageArrow`)" id="the-button" type="button" class="btn btn-dark"
+    data-toggle="collapse" data-target="#sentMessages"><span class="badge"
+        style="background-color: #707070;">{{sent_messages|length}}</span> Sent
     messages <i class="fas fa-angle-down sentMessageArrow"></i></button>
 <div id="sentMessages" class="collapse">
     <div class="list-group">
@@ -23,7 +24,8 @@
 
 <!--- Received messages rendering --->
 <button onClick="rotateArrow(`receivedMessageArrow`)" class="btn btn-dark" data-toggle="collapse"
-    data-target="#receivedMessages">Received
+    data-target="#receivedMessages"><span class="badge"
+        style="background-color: #707070;">{{received_messages|length}}</span> Received
     messages <i class="fas fa-angle-down receivedMessageArrow"></i></button>
 <div id="receivedMessages" class="collapse">
     <div class="list-group">

@@ -2,6 +2,7 @@ let sentRotationValue = 0
 let receivedRotationValue = 0
 let allPrescriptionValue = 0
 let prescriptionValue = 0
+let overviewValue = 0
 
 const rotateArrow = (arrowClassName) => {
     switch (arrowClassName) {
@@ -13,6 +14,9 @@ const rotateArrow = (arrowClassName) => {
             break
         case "prescriptionArrow":
             prescriptionValue = makeHtmlDocumentChange(arrowClassName, prescriptionValue)
+            break
+        case "overviewArrow":
+            overviewValue = makeHtmlDocumentChange(arrowClassName, overviewValue)
             break
         case "allPrescriptionArrow":
             allPrescriptionValue = makeHtmlDocumentChange(arrowClassName, allPrescriptionValue)
