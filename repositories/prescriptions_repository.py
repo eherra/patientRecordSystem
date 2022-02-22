@@ -24,6 +24,7 @@ GET_PRESCRIPTIONS_OVERVIEW_QUERY = "SELECT \
                                                      FROM   user_info \
                                                      WHERE  key = 'personal_doctor_id' \
                                                      AND    value = :doctor_id) \
+                                        AND       Up.visible = TRUE \
                                     GROUP BY U.id \
                                     ORDER BY total_prescriptions DESC"
                                     

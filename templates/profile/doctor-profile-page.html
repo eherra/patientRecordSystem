@@ -21,13 +21,13 @@
                 <form action="/appointment/book/{{user_id}}" method="POST">
                     <div class="form-row">
                         <div class="col-md-7 mb-3">
-                            <label for="appointment_type">Appointment type:</label>
+                            <label for="appointment_type">Appointment type</label>
                             <input type="text" name="appointment_type" class="form-control"
                                 placeholder="Enter appointment type" pattern=".*\S+.*" minlength="1" maxlength="30"
                                 title="1-30 characters, not allowed only whitespaces." required>
                         </div>
                         <div class="col-md-5 mb-3">
-                            <label for="patient">For patient:</label>
+                            <label for="patient">For patient</label>
                             <select class="custom-select" id="patient" name="patient_id">
                                 {% for patient in doctor_patients %}
                                 <option value="{{patient.user_id}}">{{patient.name}}</option>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-5 mb-3">
-                            <label for="dateTime">Appointment date:</label>
+                            <label for="dateTime">Appointment date</label>
                             <input class="form-control" type="datetime-local" min="{{time_now}}" name="appointment_date"
                                 id="dateTime" required>
                         </div>
@@ -87,8 +87,8 @@
                 <table class="table table-hover">
                     <thead>
                         <tr bgcolor="#d4c2b1">
-                            <th>Patient Name</th>
-                            <th>Total prescriptions</th>
+                            <th>Patient name</th>
+                            <th>Current prescriptions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,7 +116,7 @@
                 {% if doctor_patients|length == 0 %}
                 <span>You have no signed patients.</span>
                 {% else %}
-                <label>Choose patient:</label>
+                <label>Choose patient</label>
                 <form action="/send-message" method="POST">
                     <select class="custom-select" name="receiver_id">
                         {% for patient in doctor_patients %}
