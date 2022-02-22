@@ -1,5 +1,5 @@
-from flask import redirect, request, session, flash, Blueprint
-from services import messages_service
+from flask import redirect, request, flash, Blueprint
+from services import messages_service, session_service
 from utils.constant import SUCCESS_CATEGORY, DANGER_CATEGORY
 from utils.validators.auth_validator import requires_login, requires_session_time_alive
 
@@ -12,7 +12,7 @@ messages_bp = Blueprint("message", __name__)
 @requires_login
 @requires_session_time_alive
 def send_message():
-    sender_id = int(session["user_id"])
+    sender_id = int(session_service.get_user_id())
     receiver_id = int(request.form["receiver_id"])
     is_success = messages_service.add_new_message(request.form["content"],
                                                   sender_id,

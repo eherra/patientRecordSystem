@@ -1,6 +1,7 @@
 from datetime import datetime
-from flask import request, render_template, session, Blueprint
-from services import prescriptions_service, users_service, appointments_service, messages_service
+from flask import request, render_template, Blueprint
+from services import prescriptions_service, users_service, appointments_service, \
+    messages_service, session_service
 from utils.constant import PERSONAL_DOCTOR_ID_DB_KEY, DOCTOR_AVATAR_URL, PATIENT_AVATAR_URL
 from utils.validators.auth_validator import requires_login, requires_session_time_alive
 
@@ -11,12 +12,12 @@ profiles_bp = Blueprint("profiles", __name__)
 @requires_session_time_alive
 def profile():
     # checks if is_doctor value is boolean True in session
-    if session.get("is_doctor"):
+    if session_service.is_doctor():
         return render_doctor_profile()
     return render_patient_profile()
 
 def render_doctor_profile():
-    user_id = session["user_id"]
+    user_id = session_service.get_user_id()
     sent_messages = messages_service.get_sent_messages(user_id)
     received_messages = messages_service.get_received_messages(user_id)
     user_info = users_service.get_user_info(user_id)
@@ -35,7 +36,7 @@ def render_doctor_profile():
                             avatar_url=DOCTOR_AVATAR_URL)
 
 def render_patient_profile():
-    user_id = session["user_id"]
+    user_id = session_service.get_user_id()
     sent_messages = messages_service.get_sent_messages(user_id)
     received_messages = messages_service.get_received_messages(user_id)
     doctor_id = users_service.get_user_info_by_key(user_id, PERSONAL_DOCTOR_ID_DB_KEY)
@@ -68,7 +69,7 @@ def render_patient_profile():
 @requires_login
 @requires_session_time_alive
 def sign_personal_doctor():
-    user_id = session["user_id"]
+    user_id = session_service.get_user_id()
     doctor_signed_id = request.form["signed_doctor_id"]
     users_service.update_user_info_by_key(user_id, 
                                           PERSONAL_DOCTOR_ID_DB_KEY, 
