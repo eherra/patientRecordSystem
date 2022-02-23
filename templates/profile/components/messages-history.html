@@ -2,7 +2,7 @@
 <h4><u>Message history</u> <i class="fas fa-envelope-open-text"></i></h4>
 <!--- Sent messages rendering --->
 <button onclick="rotateArrow(`sentMessageArrow`)" id="the-button" type="button" class="btn btn-dark"
-    data-toggle="collapse" data-target="#sentMessages"><span class="badge">{{sent_messages|length}}</span> Sent
+    data-toggle="collapse" data-target="#sentMessages"><span class="badge badge-message">{{sent_messages|length}}</span> Sent
     messages <i class="fas fa-angle-down sentMessageArrow"></i></button>
 <div id="sentMessages" class="collapse">
     <div class="list-group">
@@ -10,9 +10,9 @@
         <span>You have no sent messages.</span>
         {% else %}
         {% for message in sent_messages %}
-        <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="list-group-item list-group-item-action flex-column align-items-start message-background">
             <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">To: <u>{{ message.toOrfrom }}</u></h6>
+                <h6 class="mb-1">To: <span class="toOrFrom">{{ message.toOrfrom }}</span></h6>
                 <small>{{ message.sent_at }}</small>
             </div>
             <div class="card card-body">
@@ -26,7 +26,7 @@
 
 <!--- Received messages rendering --->
 <button onClick="rotateArrow(`receivedMessageArrow`)" class="btn btn-dark" data-toggle="collapse"
-    data-target="#receivedMessages"><span class="badge">{{received_messages|length}}</span> Received
+    data-target="#receivedMessages"><span class="badge badge-message"">{{received_messages|length}}</span> Received
     messages <i class="fas fa-angle-down receivedMessageArrow"></i></button>
 <div id="receivedMessages" class="collapse">
     <div class="list-group">
@@ -34,9 +34,9 @@
         <span>You have no received messages.</span>
         {% else %}
         {% for message in received_messages %}
-        <div class="list-group-item list-group-item-action flex-column align-items-start" ">
+        <div class="list-group-item list-group-item-action flex-column align-items-start message-background">
             <div class=" d-flex w-100 justify-content-between">
-            <h6 class="mb-1">From: <u>{{ message.toOrfrom }}</u></h6>
+            <h6 class="mb-1">From: <span class="toOrFrom">{{ message.toOrfrom }}</span></h6>
             <small>{{ message.sent_at }}</small>
         </div>
         <div class="card card-body">
