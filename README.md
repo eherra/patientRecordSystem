@@ -118,7 +118,7 @@ AND    key = 'name'
 ```
 
 Cons:\
-Requires a bit more complex method for [initializing](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L98) user info when registering new user to the application.
+Requires a bit more complex method for [initializing](https://github.com/eherra/patientRecordSystem/blob/master/repositories/users_repository.py#L98) user info when registering new user to the application. Also SQL [queries](https://github.com/eherra/patientRecordSystem/blob/master/repositories/prescriptions_repository.py#L12) might not be as straightforward depending on though what kind of data is wanted to be fetched and how formatted.
 
 ### Known browser issues
 All the functions are working on Google Chrome browser.
