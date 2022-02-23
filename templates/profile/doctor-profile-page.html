@@ -80,32 +80,34 @@
                     </div>
                 </div>
             </form>
-            <button onClick="rotateArrow(`overviewArrow`)" class="btn btn-dark" data-toggle="collapse"
-                data-target="#overview">Prescriptions overview
-                <i class="fas fa-angle-down overviewArrow"></i></button>
-            <div id="overview" class="collapse col-md-9 mb-9">
-                {% if doctor_patients|length != 0 %}
-                <table class="table table-hover">
-                    <thead>
-                        <tr bgcolor="#d4c2b1">
-                            <th>Patient name <i class="fas fa-user-circle"></i></th>
-                            <th>Current <i class="fas fa-prescription-bottle"></i></th>
-                            <th>Past <i class="fas fa-prescription-bottle"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for overview in prescriptions_overview %}
-                        <tr bgcolor="#f2ebd9">
-                            <td>{{ overview.user_name }}</td>
-                            <td style="text-align: center;">{{overview.current_prescriptions}}</td>
-                            <td style="text-align: center;">{{overview.past_prescriptions}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>You have no signed patients.</p>
-                {% endif %}
+            <div style="margin-bottom: 2em;">
+                <button onClick="rotateArrow(`overviewArrow`)" class="btn btn-dark" data-toggle="collapse"
+                    data-target="#overview">Prescriptions overview
+                    <i class="fas fa-angle-down overviewArrow"></i></button>
+                <div id="overview" class="collapse col-md-9 mb-9">
+                    {% if doctor_patients|length != 0 %}
+                    <table class="table table-hover">
+                        <thead>
+                            <tr bgcolor="#d4c2b1">
+                                <th>Patient name <i class="fas fa-user-circle"></i></th>
+                                <th>Current <i class="fas fa-prescription-bottle"></i></th>
+                                <th>Past <i class="fas fa-prescription-bottle"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for overview in prescriptions_overview %}
+                            <tr bgcolor="#f2ebd9">
+                                <td>{{ overview.user_name }}</td>
+                                <td style="text-align: center;">{{overview.current_prescriptions}}</td>
+                                <td style="text-align: center;">{{overview.past_prescriptions}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>You have no signed patients.</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
@@ -130,8 +132,7 @@
                         {% endfor %}
                     </select>
                     <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
-                        placeholder="Enter message..." minlength="1" maxlength="50" title="1-50 characters"
-                        required></textarea>
+                        placeholder="Enter message..." maxlength="300" title="1-300 characters" required></textarea>
                     <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                             class="far fa-paper-plane"></i></button>
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

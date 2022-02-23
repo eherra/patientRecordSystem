@@ -13,8 +13,8 @@ An application for hospitals in order to keep track of their patients appointmen
 
 The project's main focus has been on diverse SQL queries (CRUD) usage. 
 
-As being healthcare related application and storing sensitive data of its users - I have been focusing on the security e.g.:
-- by setting 15 minutes session expiration time (considering [this](https://auth0.com/blog/balance-user-experience-and-security-to-retain-customers/#:~:text=How%20long%20should,for%20most%20businesses.))
+As being healthcare related application and storing sensitive data of its users - I have been focusing on the security e.g. by
+- setting 15 minutes session expiration time (considering [this](https://auth0.com/blog/balance-user-experience-and-security-to-retain-customers/#:~:text=How%20long%20should,for%20most%20businesses.))
 - admin (doctor) role check when calling POST-methods which usage is only authorizited by this role
 - users don't have access to pages/information which are not their _own_ information
 
@@ -44,6 +44,7 @@ https://patientlify.herokuapp.com/register
 - [x] write symptom stories to their patients
     - [x] edit/delete symptom stories 
 - [x] create new prescriptions
+- [x] see a overview table of prescription usage (current/past) from their signed patients
 - [x] determine prescription for patients
     - [x] add prescriptions to patient
     - [x] delete prescriptions from patient
@@ -126,7 +127,3 @@ All the functions are working on Google Chrome browser.
 On *Mozilla Firefox* and *Safari* the appointment booking calender not working properly -> booking appointment for patient not possible while using these browsers.
 
 Session timer not working on Safari.
-
-### backlog
-
-- more length to messages

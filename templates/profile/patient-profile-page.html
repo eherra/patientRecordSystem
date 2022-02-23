@@ -88,7 +88,7 @@
           <form action="/send-message" method="POST">
             <label for="messageArea"><b><u>Send a message to your doctor</u></b> <i class="fas fa-comments"></i></label>
             <textarea class="form-control" id="messageArea" name="content" rows="4" cols="40"
-              placeholder="Enter message..." maxlength="50" required></textarea>
+              placeholder="Enter message..." maxlength="300" title="1-300 characters" required></textarea>
             <input type="hidden" name="receiver_id" value="{{doctor_info.id}}">
             <button class="form-control btn btn-dark btn-sm" type="submit">Send message <i
                 class="far fa-paper-plane"></i></button>

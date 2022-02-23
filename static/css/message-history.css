@@ -1,0 +1,15 @@
+.badge {
+    background-color: #707070;
+}
+
+.list-group-item {
+    background-color: #f2ebd9;
+}
+
+.list-group-item:hover {
+    background-color: #e8dcbc;
+  }
+
+.card-body {
+    background-color: #f7f3e8;
+}
