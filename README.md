@@ -20,6 +20,9 @@ As being healthcare related application and storing sensitive data of its users 
 
 Input validations (client-side and e.g. via Postman) has been taking consideration and secured that users can't pass data through which is not formatted according to validations rules.
 
+### Overview with photos
+See it from [here](https://github.com/eherra/patientRecordSystem/blob/master/docs/demo.md)
+
 ### Hosting
 
 Application is hosted on:\
