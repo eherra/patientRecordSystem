@@ -14,9 +14,6 @@
 ### Appointment
 <img src="https://github.com/eherra/patientRecordSystem/blob/master/docs/demoPics/doctorAppointment.png"> 
 
-### Settings
-<img src="https://github.com/eherra/patientRecordSystem/blob/master/docs/demoPics/settings.png"> 
-
 ## Patient pages
 
 ### Profile
@@ -24,3 +21,6 @@
 
 ### Appointment
 <img src="https://github.com/eherra/patientRecordSystem/blob/master/docs/demoPics/patientAppointment.png"> 
+
+### Edit profile
+<img src="https://github.com/eherra/patientRecordSystem/blob/master/docs/demoPics/settings.png"> 
